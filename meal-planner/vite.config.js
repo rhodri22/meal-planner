@@ -9,8 +9,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.svg', 'icons/*.png'],
       manifest: {
-        name: 'Meal Planner',
-        short_name: 'Meals',
+        name: "Rhodri & Becky's Loveshack Meal Planner",
+        short_name: 'Loveshack',
         description: 'Weekly meal planner, shopping list & pantry tracker',
         theme_color: '#2B231D',
         background_color: '#F2E9D8',

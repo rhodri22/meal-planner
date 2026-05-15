@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import {
   Plus, Star, X, Minus, ChefHat, Calendar, ShoppingBasket, Package,
-  Edit3, Trash2, Search, Check, ChevronLeft, ChevronRight, Trash,
-  RotateCcw, Filter, RefreshCw, Shuffle, Play, Link, ClipboardList,
-  UtensilsCrossed, Repeat2
+  Edit3, Trash2, Search, Check, ChevronLeft, ChevronRight, ChevronUp, ChevronDown,
+  Trash, RotateCcw, Filter, RefreshCw, Shuffle, Play, Link, ClipboardList,
+  UtensilsCrossed, Repeat2, Camera, Timer, GripVertical
 } from 'lucide-react';
 import './App.css';
 import { supabase, HOUSEHOLD_ID } from './supabase.js';
@@ -536,6 +536,7 @@ const DEFAULT_STATE = {
   favourites: [],
   shoppingChecked: [],
   seedSeen: SEED_RECIPES.map(r => r.id),
+  aisleOrder: AISLES.map(a => a.id),
 };
 
 // ============================================================
@@ -602,9 +603,43 @@ function allIngredientNames(recipes) {
   return [...set].sort();
 }
 
+// Detect time mentions in a step and return timer objects
+function findTimers(text) {
+  const timers = [];
+  const seen = new Set();
+  const patterns = [
+    { re: /(\d+)\s*h(?:our)?s?\s*(?:and\s*)?(\d+)\s*m(?:in(?:ute)?s?)/gi, fn: m => parseInt(m[1]) * 3600 + parseInt(m[2]) * 60 },
+    { re: /(\d+(?:\.\d+)?)\s*h(?:our)?s?(?!\s*(?:and\s*)?\d)/gi, fn: m => Math.round(parseFloat(m[1]) * 3600) },
+    { re: /(\d+)\s*m(?:in(?:ute)?s?)(?!\s*\d)/gi, fn: m => parseInt(m[1]) * 60 },
+    { re: /(\d+)\s*s(?:ec(?:ond)?s?)/gi, fn: m => parseInt(m[1]) },
+  ];
+  for (const { re, fn } of patterns) {
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      if (!seen.has(m.index)) {
+        const secs = fn(m);
+        if (secs >= 10) { timers.push({ label: m[0].trim(), seconds: secs }); seen.add(m.index); }
+      }
+    }
+  }
+  return timers;
+}
+
+// Split step text into plain-text and tappable ingredient spans
+function parseStepIngredients(text, ingredients) {
+  if (!ingredients?.length || !text) return [{ text, ing: null }];
+  const sorted = [...ingredients].sort((a, b) => b.name.length - a.name.length);
+  const pattern = sorted.map(i => i.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  const regex = new RegExp(`(${pattern})`, 'gi');
+  return text.split(regex).filter(Boolean).map(part => {
+    const ing = ingredients.find(i => i.name.toLowerCase() === part.toLowerCase());
+    return { text: part, ing: ing || null };
+  });
+}
+
 // Ensure every recipe has all current fields (handles old stored data gracefully)
 function applyRecipeDefaults(r) {
-  return { photo: null, mealType: 'dinner', makesLeftovers: false, steps: [], ...r };
+  return { photo: null, mealType: 'dinner', makesLeftovers: false, steps: [], cookLog: [], ...r };
 }
 
 // Merge any new seed recipes into stored data without overwriting edits or resurrecting deletions
@@ -764,6 +799,16 @@ export default function App() {
   const clearChecks = () => setData(d => ({ ...d, shoppingChecked: [] }));
   const clearWeek = () => setData(d => ({ ...d, week: Object.fromEntries(DAYS.map(day => [day, null])) }));
 
+  const logCook = (recipeId, entry) => setData(d => ({
+    ...d,
+    recipes: d.recipes.map(r => r.id === recipeId
+      ? { ...r, cookLog: [entry, ...(r.cookLog || [])].slice(0, 20) }
+      : r
+    ),
+  }));
+
+  const reorderAisles = (newOrder) => setData(d => ({ ...d, aisleOrder: newOrder }));
+
   const fillWeekRandom = () => {
     if (!data.recipes.length) return;
     const shuffled = [...data.recipes].sort(() => Math.random() - 0.5);
@@ -812,7 +857,11 @@ export default function App() {
 
   // If cook mode is active, render it full screen
   if (cookModeRecipe) {
-    return <CookModeView recipe={cookModeRecipe} onClose={() => setCookModeRecipe(null)} />;
+    return <CookModeView
+      recipe={cookModeRecipe}
+      onClose={() => setCookModeRecipe(null)}
+      onLogCook={(entry) => logCook(cookModeRecipe.id, entry)}
+    />;
   }
 
   return (
@@ -854,7 +903,7 @@ export default function App() {
       <main className="mp-main">
         {tab === 'recipes' && <RecipesTab recipes={filteredRecipes} favourites={data.favourites} onOpen={setOpenRecipeId} onToggleFav={toggleFav} isEmpty={data.recipes.length === 0} />}
         {tab === 'week' && <WeekTab week={data.week} recipes={data.recipes} onOpen={setOpenRecipeId} onUnassign={(day) => setDaySlot(day, null)} onMarkLeftover={markLeftover} />}
-        {tab === 'shopping' && <ShoppingTab data={data} onToggleCheck={toggleCheck} />}
+        {tab === 'shopping' && <ShoppingTab data={data} onToggleCheck={toggleCheck} onReorderAisles={reorderAisles} />}
         {tab === 'pantry' && <PantryTab recipes={data.recipes} pantry={data.pantry} onToggle={togglePantry} />}
       </main>
 
@@ -1033,14 +1082,71 @@ function WeekTab({ week, recipes, onOpen, onUnassign, onMarkLeftover }) {
   );
 }
 
-function ShoppingTab({ data, onToggleCheck }) {
-  const byAisle = useMemo(() => aggregateShoppingList(data.week, data.recipes, data.pantry), [data.week, data.recipes, data.pantry]);
+function ShoppingTab({ data, onToggleCheck, onReorderAisles }) {
+  const [reordering, setReordering] = useState(false);
+  const aisleOrder = data.aisleOrder || AISLES.map(a => a.id);
+
+  const byAisle = useMemo(
+    () => aggregateShoppingList(data.week, data.recipes, data.pantry),
+    [data.week, data.recipes, data.pantry]
+  );
   const totalItems = Object.values(byAisle).reduce((s, arr) => s + arr.length, 0);
-  if (totalItems === 0) return <div className="mp-empty"><div className="mp-display mp-empty-title">Empty basket.</div><p className="mp-empty-text">Plan some meals for the week to fill this list.</p></div>;
+
+  const moveAisle = (i, dir) => {
+    const j = i + dir;
+    if (j < 0 || j >= aisleOrder.length) return;
+    const next = [...aisleOrder];
+    [next[i], next[j]] = [next[j], next[i]];
+    onReorderAisles(next);
+  };
+
+  if (reordering) {
+    return (
+      <div className="mp-shopping">
+        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1rem'}}>
+          <div className="mp-shopping-meta">Drag to match your store</div>
+          <button className="mp-btn mp-btn-primary mp-btn-small" style={{flex:0}} onClick={() => setReordering(false)}>Done</button>
+        </div>
+        <div className="mp-aisle-order-list">
+          {aisleOrder.map((id, i) => {
+            const aisle = AISLES.find(a => a.id === id);
+            const count = byAisle[id]?.length || 0;
+            return (
+              <div key={id} className="mp-aisle-order-row">
+                <GripVertical size={16} style={{color:'var(--ink-3)', flexShrink:0}} />
+                <span className="mp-aisle-order-label">
+                  {aisle?.label}
+                  {count > 0 && <span className="mp-aisle-order-count">{count}</span>}
+                </span>
+                <div className="mp-aisle-order-btns">
+                  <button onClick={() => moveAisle(i, -1)} disabled={i === 0}><ChevronUp size={16} /></button>
+                  <button onClick={() => moveAisle(i, 1)} disabled={i === aisleOrder.length - 1}><ChevronDown size={16} /></button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  if (totalItems === 0) {
+    return <div className="mp-empty"><div className="mp-display mp-empty-title">Empty basket.</div><p className="mp-empty-text">Plan some meals for the week to fill this list.</p></div>;
+  }
+
+  const orderedAisles = aisleOrder
+    .map(id => AISLES.find(a => a.id === id))
+    .filter(a => a && byAisle[a.id]?.length);
+
   return (
     <div className="mp-shopping">
-      <div className="mp-shopping-meta">{totalItems} {totalItems === 1 ? 'item' : 'items'} · {data.shoppingChecked.length} ticked</div>
-      {AISLES.filter(a => byAisle[a.id]?.length).map(aisle => (
+      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1rem'}}>
+        <div className="mp-shopping-meta">{totalItems} {totalItems === 1 ? 'item' : 'items'} · {data.shoppingChecked.length} ticked</div>
+        <button className="mp-icon-btn" style={{width:32, height:32}} onClick={() => setReordering(true)} title="Arrange aisles">
+          <GripVertical size={16} />
+        </button>
+      </div>
+      {orderedAisles.map(aisle => (
         <section key={aisle.id} className="mp-aisle">
           <h3 className="mp-aisle-label">{aisle.label}</h3>
           <ul className="mp-aisle-list">
@@ -1174,6 +1280,30 @@ function RecipeDetailSheet({ recipe, week, isFav, onClose, onToggleFav, onEdit, 
 
           {recipe.notes && <section className="mp-sheet-section"><h3 className="mp-aisle-label">Notes</h3><p className="mp-notes">{recipe.notes}</p></section>}
 
+          {recipe.cookLog?.length > 0 && (
+            <section className="mp-sheet-section">
+              <h3 className="mp-aisle-label">Cook history</h3>
+              <div className="mp-cook-log">
+                {recipe.cookLog.slice(0, 5).map((entry, i) => (
+                  <div key={i} className="mp-log-entry">
+                    <div className="mp-log-header">
+                      <div className="mp-log-stars">
+                        {[1,2,3,4,5].map(n => (
+                          <Star key={n} size={13} fill={n <= entry.rating ? 'currentColor' : 'none'}
+                            style={{color: n <= entry.rating ? 'var(--accent)' : 'var(--line)'}} />
+                        ))}
+                      </div>
+                      <div className="mp-log-date">
+                        {new Date(entry.date).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})}
+                      </div>
+                    </div>
+                    {entry.note && <div className="mp-log-note">{entry.note}</div>}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
           <div className="mp-sheet-actions">
             <button className="mp-btn mp-btn-ghost" onClick={onEdit}><Edit3 size={16} /> Edit</button>
             <button className="mp-btn mp-btn-danger" onClick={onDelete}><Trash2 size={16} /> Delete</button>
@@ -1189,17 +1319,84 @@ function RecipeDetailSheet({ recipe, week, isFav, onClose, onToggleFav, onEdit, 
   );
 }
 
-function CookModeView({ recipe, onClose }) {
+function CookModeView({ recipe, onClose, onLogCook }) {
   const [step, setStep] = useState(0);
   const [showIngredients, setShowIngredients] = useState(false);
+  const [activeIng, setActiveIng] = useState(null);
+  const [timer, setTimer] = useState(null);
+  const [showLog, setShowLog] = useState(false);
+  const [logRating, setLogRating] = useState(5);
+  const [logNote, setLogNote] = useState('');
   const steps = recipe.steps || [];
 
-  // Keep screen awake while cooking
+  // Keep screen awake
   useEffect(() => {
     let lock = null;
     navigator.wakeLock?.request('screen').then(l => { lock = l; }).catch(() => {});
     return () => { lock?.release(); };
   }, []);
+
+  // Timer countdown
+  useEffect(() => {
+    if (!timer?.running) return;
+    const interval = setInterval(() => {
+      setTimer(t => {
+        if (!t?.running) return t;
+        if (t.remaining <= 1) {
+          if (navigator.vibrate) navigator.vibrate([300, 100, 300]);
+          return { ...t, remaining: 0, running: false, done: true };
+        }
+        return { ...t, remaining: t.remaining - 1 };
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timer?.running]);
+
+  const currentTimers = steps[step] ? findTimers(steps[step]) : [];
+  const currentParts = steps[step] ? parseStepIngredients(steps[step], recipe.ingredients) : [];
+
+  const handleDone = () => setShowLog(true);
+
+  const handleSaveLog = () => {
+    onLogCook({ date: new Date().toISOString(), rating: logRating, note: logNote.trim() });
+    onClose();
+  };
+
+  function formatSecs(s) {
+    const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+    if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+    return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  }
+
+  // Log sheet overlay
+  if (showLog) {
+    return (
+      <div className="mp-cookmode">
+        <div className="mp-cookmode-log-sheet">
+          <div className="mp-cookmode-log-emoji">🍽️</div>
+          <h2 className="mp-display" style={{color:'white', fontSize:28, marginBottom:6}}>How did it go?</h2>
+          <div className="mp-cookmode-stars">
+            {[1,2,3,4,5].map(n => (
+              <button key={n} className="mp-cookmode-star-btn" onClick={() => setLogRating(n)}>
+                <Star size={32} fill={n <= logRating ? 'currentColor' : 'none'} style={{color: n <= logRating ? '#F59E0B' : 'rgba(255,255,255,0.3)'}} />
+              </button>
+            ))}
+          </div>
+          <textarea
+            className="mp-cookmode-log-note"
+            placeholder="Any notes for next time? (optional)"
+            value={logNote}
+            onChange={e => setLogNote(e.target.value)}
+            rows={3}
+          />
+          <button className="mp-cookmode-nav-btn mp-cookmode-nav-done" style={{width:'100%', margin:'8px 0 0'}} onClick={handleSaveLog}>
+            <Check size={18} /> Save & finish
+          </button>
+          <button className="mp-cookmode-skip-btn" onClick={onClose}>Skip</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mp-cookmode">
@@ -1213,62 +1410,102 @@ function CookModeView({ recipe, onClose }) {
         <button className="mp-cookmode-close" onClick={onClose}><X size={22} /></button>
       </div>
 
-      {/* Progress bar */}
       {steps.length > 0 && (
         <div className="mp-cookmode-bar">
           <div className="mp-cookmode-bar-fill" style={{ width: `${((step + 1) / steps.length) * 100}%` }} />
         </div>
       )}
 
-      <div className="mp-cookmode-body">
+      <div className="mp-cookmode-body" onClick={() => setActiveIng(null)}>
         {steps.length === 0 ? (
           <div className="mp-cookmode-empty">
             <UtensilsCrossed size={48} style={{opacity:0.3, marginBottom:16}} />
             <div style={{fontSize:22, fontWeight:500, marginBottom:8}}>No steps yet</div>
-            <p style={{color:'rgba(255,255,255,0.6)', fontSize:15, lineHeight:1.6}}>
-              Add cooking steps to this recipe in the editor to use Cook Mode.
-            </p>
+            <p style={{color:'rgba(255,255,255,0.6)', fontSize:15, lineHeight:1.6}}>Add cooking steps to this recipe in the editor.</p>
           </div>
         ) : (
           <>
             <div className="mp-cookmode-step-num">Step {step + 1}</div>
-            <div className="mp-cookmode-step-text">{steps[step]}</div>
+            {/* Inline ingredient taps */}
+            <div className="mp-cookmode-step-text">
+              {currentParts.map((part, i) =>
+                part.ing ? (
+                  <button
+                    key={i}
+                    className={`mp-ing-tap ${activeIng === i ? 'active' : ''}`}
+                    onClick={(e) => { e.stopPropagation(); setActiveIng(activeIng === i ? null : i); }}
+                  >
+                    {part.text}
+                    {activeIng === i && (
+                      <span className="mp-ing-popup">
+                        {formatAmount(part.ing.amount, part.ing.unit)}
+                      </span>
+                    )}
+                  </button>
+                ) : (
+                  <span key={i}>{part.text}</span>
+                )
+              )}
+            </div>
+            {/* Auto-detected timers */}
+            {currentTimers.length > 0 && (
+              <div className="mp-cookmode-timers">
+                {currentTimers.map((t, i) => (
+                  <button
+                    key={i}
+                    className="mp-cookmode-timer-btn"
+                    onClick={() => setTimer({ label: t.label, total: t.seconds, remaining: t.seconds, running: true, done: false })}
+                  >
+                    <Timer size={14} /> {t.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </>
         )}
       </div>
+
+      {/* Active timer display */}
+      {timer && (
+        <div className={`mp-cookmode-timer-display ${timer.done ? 'done' : ''}`}>
+          <div className="mp-cookmode-timer-label">{timer.label}</div>
+          <div className="mp-cookmode-timer-time">{formatSecs(timer.remaining)}</div>
+          <div style={{display:'flex', gap:8}}>
+            <button className="mp-cookmode-timer-ctrl" onClick={() => setTimer(t => ({ ...t, running: !t.running }))}>
+              {timer.running ? '⏸' : '▶'}
+            </button>
+            <button className="mp-cookmode-timer-ctrl" onClick={() => setTimer(null)}>✕</button>
+          </div>
+        </div>
+      )}
 
       {/* Ingredient drawer */}
       <div className={`mp-cookmode-ingredients ${showIngredients ? 'open' : ''}`}>
         <button className="mp-cookmode-ing-toggle" onClick={() => setShowIngredients(s => !s)}>
           <ClipboardList size={16} />
-          {showIngredients ? 'Hide ingredients' : 'Show ingredients'}
-          <ChevronRight size={14} style={{ transform: showIngredients ? 'rotate(90deg)' : 'rotate(-90deg)', transition: 'transform 0.2s' }} />
+          {showIngredients ? 'Hide ingredients' : 'All ingredients'}
+          <ChevronRight size={14} style={{ transform: showIngredients ? 'rotate(90deg)' : 'rotate(-90deg)', transition: 'transform 0.2s', marginLeft: 'auto' }} />
         </button>
         {showIngredients && (
           <ul className="mp-cookmode-ing-list">
             {recipe.ingredients.map((ing, i) => (
-              <li key={i}><span style={{color:'rgba(255,255,255,0.5)', minWidth:80, display:'inline-block'}}>{formatAmount(ing.amount, ing.unit)}</span>{ing.name}</li>
+              <li key={i}><span style={{color:'rgba(255,255,255,0.45)', minWidth:80, display:'inline-block'}}>{formatAmount(ing.amount, ing.unit)}</span>{ing.name}</li>
             ))}
           </ul>
         )}
       </div>
 
-      {/* Navigation */}
       {steps.length > 0 && (
         <div className="mp-cookmode-nav">
-          <button
-            className={`mp-cookmode-nav-btn ${step === 0 ? 'disabled' : ''}`}
-            onClick={() => setStep(s => Math.max(0, s - 1))}
-            disabled={step === 0}
-          >
+          <button className={`mp-cookmode-nav-btn ${step === 0 ? 'disabled' : ''}`} onClick={() => setStep(s => Math.max(0, s - 1))} disabled={step === 0}>
             <ChevronLeft size={22} /> Prev
           </button>
           {step < steps.length - 1 ? (
-            <button className="mp-cookmode-nav-btn mp-cookmode-nav-next" onClick={() => setStep(s => s + 1)}>
+            <button className="mp-cookmode-nav-btn mp-cookmode-nav-next" onClick={() => { setStep(s => s + 1); setActiveIng(null); }}>
               Next <ChevronRight size={22} />
             </button>
           ) : (
-            <button className="mp-cookmode-nav-btn mp-cookmode-nav-done" onClick={onClose}>
+            <button className="mp-cookmode-nav-btn mp-cookmode-nav-done" onClick={handleDone}>
               <Check size={20} /> Done
             </button>
           )}
@@ -1480,14 +1717,22 @@ function ImportSheet({ onClose, onSave }) {
   const [loading, setLoading] = useState(false);
   const [extracted, setExtracted] = useState(null);
   const [error, setError] = useState('');
+  const photoInputRef = useRef(null);
 
-  const extract = async () => {
+  const EXTRACTION_PROMPT = `Return ONLY this JSON — no markdown, no explanation:
+{"name":"","cuisine":"","time":"","servings":2,"mealType":"dinner","makesLeftovers":false,"photo":null,"tags":[],"notes":"","steps":[],"ingredients":[{"name":"","amount":1,"unit":"","aisle":"pantry"}]}
+For aisle: produce|meat|fish|dairy|pantry|spices|bakery|frozen|other
+For tags: quick|veggie|high-iron|high-protein|comfort|freezer-friendly|one-tray|weeknight|weekend|meal-prep`;
+
+  const extract = async (content, isImage = false) => {
     setLoading(true);
     setError('');
     try {
-      const prompt = mode === 'url'
-        ? `Fetch and extract the recipe from this URL: ${url}`
-        : `Extract and structure this recipe:\n\n${pasteText}`;
+      const userContent = isImage
+        ? [content, { type: 'text', text: `Extract the recipe from this image.\n\n${EXTRACTION_PROMPT}` }]
+        : (mode === 'url'
+            ? `Fetch and extract the recipe from this URL: ${url}\n\n${EXTRACTION_PROMPT}`
+            : `Extract and structure this recipe:\n\n${pasteText}\n\n${EXTRACTION_PROMPT}`);
 
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -1495,32 +1740,34 @@ function ImportSheet({ onClose, onSave }) {
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 2000,
-          ...(mode === 'url' ? { tools: [{ type: 'web_search_20250305', name: 'web_search' }] } : {}),
-          system: 'You extract recipes and return ONLY a valid JSON object — no markdown, no explanation, no backticks.',
-          messages: [{ role: 'user', content: `${prompt}
-
-Return ONLY this JSON:
-{"name":"","cuisine":"","time":"","servings":2,"mealType":"dinner","makesLeftovers":false,"photo":null,"tags":[],"notes":"","steps":[],"ingredients":[{"name":"","amount":1,"unit":"","aisle":"pantry"}]}
-
-For aisle use: produce|meat|fish|dairy|pantry|spices|bakery|frozen|other
-For tags choose from: quick|veggie|high-iron|high-protein|comfort|freezer-friendly|one-tray|weeknight|weekend|meal-prep` }],
+          ...(!isImage && mode === 'url' ? { tools: [{ type: 'web_search_20250305', name: 'web_search' }] } : {}),
+          system: 'You extract recipes and return ONLY a valid JSON object — no markdown, no backticks.',
+          messages: [{ role: 'user', content: userContent }],
         }),
       });
 
       const data = await res.json();
       if (data.error) throw new Error(data.error.message);
-
       const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
       const match = text.match(/\{[\s\S]*\}/);
-      if (!match) throw new Error('No recipe data found in response');
-
-      const recipe = JSON.parse(match[0]);
-      setExtracted(recipe);
+      if (!match) throw new Error('No recipe data found');
+      setExtracted(JSON.parse(match[0]));
     } catch (e) {
-      setError(`Could not extract: ${e.message}. Try the "Paste text" tab instead.`);
+      setError(`Could not extract: ${e.message}`);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePhoto = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64 = reader.result.split(',')[1];
+      await extract({ type: 'image', source: { type: 'base64', media_type: file.type || 'image/jpeg', data: base64 } }, true);
+    };
+    reader.readAsDataURL(file);
   };
 
   if (extracted) {
@@ -1551,7 +1798,7 @@ For tags choose from: quick|veggie|high-iron|high-protein|comfort|freezer-friend
                   </li>
                 ))}
                 {(extracted.ingredients?.length || 0) > 6 && (
-                  <li className="mp-ing-row" style={{color:'var(--ink-3)', fontSize:13}}>+{extracted.ingredients.length - 6} more…</li>
+                  <li className="mp-ing-row" style={{color:'var(--ink-3)',fontSize:13}}>+{extracted.ingredients.length - 6} more…</li>
                 )}
               </ul>
             </section>
@@ -1570,37 +1817,54 @@ For tags choose from: quick|veggie|high-iron|high-protein|comfort|freezer-friend
         </header>
         <div className="mp-sheet-body">
           <div className="mp-tag-row" style={{marginBottom:'1.25rem'}}>
-            <button className={`mp-tag mp-tag-btn ${mode==='url'?'mp-tag-on':''}`} onClick={() => setMode('url')}><Link size={12} style={{marginRight:4, verticalAlign:'-2px'}} />From URL</button>
-            <button className={`mp-tag mp-tag-btn ${mode==='paste'?'mp-tag-on':''}`} onClick={() => setMode('paste')}><ClipboardList size={12} style={{marginRight:4, verticalAlign:'-2px'}} />Paste text</button>
+            <button className={`mp-tag mp-tag-btn ${mode==='url'?'mp-tag-on':''}`} onClick={() => setMode('url')}><Link size={12} style={{marginRight:4,verticalAlign:'-2px'}} />URL</button>
+            <button className={`mp-tag mp-tag-btn ${mode==='paste'?'mp-tag-on':''}`} onClick={() => setMode('paste')}><ClipboardList size={12} style={{marginRight:4,verticalAlign:'-2px'}} />Paste</button>
+            <button className={`mp-tag mp-tag-btn ${mode==='photo'?'mp-tag-on':''}`} onClick={() => setMode('photo')}><Camera size={12} style={{marginRight:4,verticalAlign:'-2px'}} />Photo</button>
           </div>
 
-          {mode === 'url' ? (
+          {mode === 'url' && (
             <>
               <label className="mp-label">Recipe URL</label>
               <input className="mp-input" type="url" placeholder="https://..." value={url} onChange={e => setUrl(e.target.value)} autoFocus />
-              <p style={{fontSize:13, color:'var(--ink-2)', margin:'8px 0 0', lineHeight:1.6}}>Paste any recipe URL. Claude fetches and extracts the ingredients and steps automatically.</p>
+              <p style={{fontSize:13,color:'var(--ink-2)',margin:'8px 0 0',lineHeight:1.6}}>Paste any recipe URL. Claude fetches and extracts everything automatically.</p>
             </>
-          ) : (
+          )}
+          {mode === 'paste' && (
             <>
               <label className="mp-label">Recipe text</label>
               <textarea className="mp-input mp-textarea" rows={7} placeholder="Paste the full recipe here — title, ingredients, steps, everything…" value={pasteText} onChange={e => setPasteText(e.target.value)} autoFocus />
             </>
           )}
-
-          {error && (
-            <div style={{background:'#FEE2E2', borderRadius:8, padding:'10px 12px', fontSize:13, color:'#B91C1C', marginTop:10, lineHeight:1.5}}>{error}</div>
+          {mode === 'photo' && (
+            <div className="mp-photo-import">
+              <div className="mp-photo-import-area" onClick={() => photoInputRef.current?.click()}>
+                <Camera size={36} style={{opacity:0.35,marginBottom:12}} />
+                <div style={{fontSize:15,fontWeight:500,marginBottom:6}}>Take a photo or choose from library</div>
+                <div style={{fontSize:13,color:'var(--ink-3)'}}>Aim at a cookbook page, recipe card, or printed recipe</div>
+              </div>
+              <input ref={photoInputRef} type="file" accept="image/*" capture="environment" style={{display:'none'}} onChange={handlePhoto} />
+            </div>
           )}
 
-          <button
-            className={`mp-btn mp-btn-primary ${(!loading && (mode==='url' ? url : pasteText)) ? '' : 'mp-btn-disabled'}`}
-            style={{width:'100%', marginTop:'1rem'}}
-            disabled={loading || !(mode === 'url' ? url : pasteText)}
-            onClick={extract}
-          >
-            {loading ? (
-              <><RefreshCw size={16} style={{animation:'mp-spin 1s linear infinite'}} /> Extracting…</>
-            ) : 'Extract Recipe'}
-          </button>
+          {error && (
+            <div style={{background:'#FEE2E2',borderRadius:8,padding:'10px 12px',fontSize:13,color:'#B91C1C',marginTop:10,lineHeight:1.5}}>{error}</div>
+          )}
+
+          {mode !== 'photo' && (
+            <button
+              className={`mp-btn mp-btn-primary ${(!loading && (mode==='url' ? url : pasteText)) ? '' : 'mp-btn-disabled'}`}
+              style={{width:'100%',marginTop:'1rem'}}
+              disabled={loading || !(mode === 'url' ? url : pasteText)}
+              onClick={() => extract(null, false)}
+            >
+              {loading ? <><RefreshCw size={16} style={{animation:'mp-spin 1s linear infinite'}} /> Extracting…</> : 'Extract Recipe'}
+            </button>
+          )}
+          {mode === 'photo' && loading && (
+            <div style={{textAlign:'center',padding:'1rem',color:'var(--ink-2)',display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
+              <RefreshCw size={16} style={{animation:'mp-spin 1s linear infinite'}} /> Reading photo…
+            </div>
+          )}
         </div>
       </div>
     </div>

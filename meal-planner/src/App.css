@@ -706,3 +706,251 @@ body {
   flex-shrink: 0;
 }
 .mp-leftover-btn:hover { background: var(--sage); color: var(--bg); }
+
+/* ============================================================
+   Cook log, inline ingredient taps, timers,
+   aisle reordering, photo import
+   ============================================================ */
+
+/* Inline ingredient taps in cook mode */
+.mp-ing-tap {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: rgba(255,255,255,0.4);
+  text-underline-offset: 3px;
+}
+.mp-ing-tap.active {
+  color: #F59E0B;
+  text-decoration-color: #F59E0B;
+}
+.mp-ing-popup {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(245,158,11,0.95);
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.mp-ing-popup::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(245,158,11,0.95);
+}
+
+/* Cook mode step text with inline taps */
+.mp-cookmode-step-text {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(20px, 5vw, 28px);
+  line-height: 1.6;
+  color: rgba(255,255,255,0.92);
+  font-weight: 400;
+}
+
+/* Step timers */
+.mp-cookmode-timers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.mp-cookmode-timer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.mp-cookmode-timer-btn:hover { background: rgba(255,255,255,0.2); }
+
+/* Active timer display */
+.mp-cookmode-timer-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.08);
+  border-top: 0.5px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+.mp-cookmode-timer-display.done { background: rgba(34,197,94,0.15); }
+.mp-cookmode-timer-label { font-size: 13px; color: rgba(255,255,255,0.6); flex: 1; }
+.mp-cookmode-timer-time { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 500; color: white; min-width: 80px; }
+.mp-cookmode-timer-display.done .mp-cookmode-timer-time { color: #4ade80; }
+.mp-cookmode-timer-ctrl {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 34px; height: 34px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.mp-cookmode-timer-ctrl:hover { background: rgba(255,255,255,0.2); }
+
+/* Cook log sheet (shown at end of cook mode) */
+.mp-cookmode-log-sheet {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 28px;
+  text-align: center;
+}
+.mp-cookmode-log-emoji { font-size: 56px; margin-bottom: 16px; }
+.mp-cookmode-stars {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
+}
+.mp-cookmode-star-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.15s;
+}
+.mp-cookmode-star-btn:hover { transform: scale(1.2); }
+.mp-cookmode-log-note {
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  color: white;
+  resize: none;
+  margin-bottom: 4px;
+}
+.mp-cookmode-log-note::placeholder { color: rgba(255,255,255,0.35); }
+.mp-cookmode-skip-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.45);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 10px;
+  margin-top: 4px;
+}
+
+/* Cook history in recipe detail */
+.mp-cook-log { display: flex; flex-direction: column; gap: 10px; }
+.mp-log-entry {
+  padding: 10px 12px;
+  background: var(--card);
+  border: 0.5px solid var(--line);
+  border-radius: 12px;
+}
+.mp-log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.mp-log-stars { display: flex; gap: 2px; }
+.mp-log-date {
+  font-size: 11px;
+  color: var(--ink-3);
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+}
+.mp-log-note {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* Aisle reordering */
+.mp-aisle-order-list { display: flex; flex-direction: column; gap: 6px; }
+.mp-aisle-order-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card);
+  border: 0.5px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.mp-aisle-order-label {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mp-aisle-order-count {
+  font-size: 11px;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.mp-aisle-order-btns { display: flex; flex-direction: column; gap: 2px; }
+.mp-aisle-order-btns button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-2);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+}
+.mp-aisle-order-btns button:hover { background: var(--bg-2); }
+.mp-aisle-order-btns button:disabled { opacity: 0.25; cursor: not-allowed; }
+
+/* Photo import */
+.mp-photo-import { margin: 4px 0; }
+.mp-photo-import-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px 20px;
+  background: var(--card);
+  border: 1.5px dashed var(--line);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  color: var(--ink-2);
+}
+.mp-photo-import-area:hover { border-color: var(--accent); background: var(--bg-2); }
