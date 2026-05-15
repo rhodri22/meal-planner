@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import {
   Plus, Star, X, Minus, ChefHat, Calendar, ShoppingBasket, Package,
-  Edit3, Trash2, Search, Check, ChevronLeft, Trash, RotateCcw, Filter,
-  RefreshCw
+  Edit3, Trash2, Search, Check, ChevronLeft, ChevronRight, Trash,
+  RotateCcw, Filter, RefreshCw, Shuffle, Play, Link, ClipboardList,
+  UtensilsCrossed, Repeat2
 } from 'lucide-react';
 import './App.css';
 import { supabase, HOUSEHOLD_ID } from './supabase.js';
@@ -31,6 +32,37 @@ const AISLES = [
 const TAGS = ['quick', 'veggie', 'high-iron', 'high-protein', 'comfort', 'freezer-friendly', 'one-tray', 'weeknight', 'weekend', 'meal-prep'];
 
 const COMMON_PANTRY = ['salt', 'black pepper', 'olive oil', 'butter', 'garlic', 'onion'];
+
+const MEAL_TYPES = [
+  { id: 'breakfast', label: 'Breakfast', emoji: '🌅' },
+  { id: 'lunch',     label: 'Lunch',     emoji: '☀️'  },
+  { id: 'dinner',    label: 'Dinner',    emoji: '🌙' },
+  { id: 'snack',     label: 'Snack',     emoji: '🫐' },
+];
+
+const CARD_COLORS = ['#B83F2A','#5F6B4E','#8B2635','#C8780A','#2E5E74','#6B4226','#1F5F5B','#7B3F6B'];
+
+function getCardColor(id) {
+  if (!id) return CARD_COLORS[0];
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = id.charCodeAt(i) + ((h << 5) - h);
+  return CARD_COLORS[Math.abs(h) % CARD_COLORS.length];
+}
+
+function getCuisineEmoji(cuisine) {
+  const c = (cuisine || '').toLowerCase();
+  if (c.includes('mexican')) return '🌮';
+  if (c.includes('thai')) return '🍜';
+  if (c.includes('indian')) return '🍛';
+  if (c.includes('italian')) return '🍝';
+  if (c.includes('chinese')) return '🥡';
+  if (c.includes('vietnamese')) return '🍱';
+  if (c.includes('korean')) return '🥘';
+  if (c.includes('greek') || c.includes('mediterranean')) return '🫒';
+  if (c.includes('middle eastern')) return '🧆';
+  if (c.includes('modern')) return '🍽️';
+  return '🍴';
+}
 
 // ============================================================
 // SEED RECIPES
@@ -537,7 +569,7 @@ function getDateLabel() {
 function aggregateShoppingList(week, recipes, pantry) {
   const map = new Map();
   Object.values(week).forEach(slot => {
-    if (!slot) return;
+    if (!slot || slot.isLeftover) return; // skip empty and leftover days
     const recipe = recipes.find(r => r.id === slot.recipeId);
     if (!recipe) return;
     const factor = (slot.servings || recipe.servings) / recipe.servings;
@@ -570,6 +602,11 @@ function allIngredientNames(recipes) {
   return [...set].sort();
 }
 
+// Ensure every recipe has all current fields (handles old stored data gracefully)
+function applyRecipeDefaults(r) {
+  return { photo: null, mealType: 'dinner', makesLeftovers: false, steps: [], ...r };
+}
+
 // Merge any new seed recipes into stored data without overwriting edits or resurrecting deletions
 function mergeSeedRecipes(stored) {
   const seedSeen = new Set(stored.seedSeen || []);
@@ -578,7 +615,7 @@ function mergeSeedRecipes(stored) {
   return {
     ...DEFAULT_STATE,
     ...stored,
-    recipes: [...(stored.recipes || []), ...newSeeds],
+    recipes: [...(stored.recipes || []), ...newSeeds].map(applyRecipeDefaults),
     seedSeen: [...new Set([...(stored.seedSeen || []), ...SEED_RECIPES.map(s => s.id)])],
   };
 }
@@ -592,10 +629,12 @@ export default function App() {
   const [tab, setTab] = useState('recipes');
   const [openRecipeId, setOpenRecipeId] = useState(null);
   const [editing, setEditing] = useState(null);
+  const [importing, setImporting] = useState(false);
+  const [cookModeRecipe, setCookModeRecipe] = useState(null);
   const [search, setSearch] = useState('');
-  const [activeFilters, setActiveFilters] = useState({ tags: [], favs: false });
+  const [activeFilters, setActiveFilters] = useState({ tags: [], favs: false, mealType: 'all' });
   const [filterOpen, setFilterOpen] = useState(false);
-  const [syncStatus, setSyncStatus] = useState('idle'); // 'idle' | 'syncing' | 'synced' | 'offline'
+  const [syncStatus, setSyncStatus] = useState('idle');
   const lastSavedAt = useRef(null);
   const isSyncing = useRef(false);
 
@@ -725,6 +764,33 @@ export default function App() {
   const clearChecks = () => setData(d => ({ ...d, shoppingChecked: [] }));
   const clearWeek = () => setData(d => ({ ...d, week: Object.fromEntries(DAYS.map(day => [day, null])) }));
 
+  const fillWeekRandom = () => {
+    if (!data.recipes.length) return;
+    const shuffled = [...data.recipes].sort(() => Math.random() - 0.5);
+    let ri = 0;
+    const newWeek = { ...data.week };
+    DAYS.forEach(day => {
+      if (!newWeek[day]) {
+        newWeek[day] = { recipeId: shuffled[ri % shuffled.length].id, servings: shuffled[ri % shuffled.length].servings };
+        ri++;
+      }
+    });
+    setData(d => ({ ...d, week: newWeek }));
+  };
+
+  const markLeftover = (sourceDay) => {
+    const idx = DAYS.indexOf(sourceDay);
+    const nextDay = DAYS[idx + 1];
+    if (!nextDay) return;
+    const slot = data.week[sourceDay];
+    if (!slot || slot.isLeftover) return;
+    const recipe = data.recipes.find(r => r.id === slot.recipeId);
+    setData(d => ({
+      ...d,
+      week: { ...d.week, [nextDay]: { isLeftover: true, fromDay: sourceDay, recipeName: recipe?.name || '' } }
+    }));
+  };
+
   if (loading || !data) return <Loader />;
 
   const openRecipe = openRecipeId ? data.recipes.find(r => r.id === openRecipeId) : null;
@@ -732,6 +798,7 @@ export default function App() {
   const filteredRecipes = data.recipes.filter(r => {
     if (activeFilters.favs && !data.favourites.includes(r.id)) return false;
     if (activeFilters.tags.length && !activeFilters.tags.every(t => r.tags?.includes(t))) return false;
+    if (activeFilters.mealType !== 'all' && r.mealType !== activeFilters.mealType) return false;
     if (search) {
       const s = search.toLowerCase();
       if (!r.name.toLowerCase().includes(s) &&
@@ -741,7 +808,12 @@ export default function App() {
     return true;
   });
 
-  const weekCount = Object.values(data.week).filter(Boolean).length;
+  const weekCount = Object.values(data.week).filter(s => s && !s.isLeftover).length;
+
+  // If cook mode is active, render it full screen
+  if (cookModeRecipe) {
+    return <CookModeView recipe={cookModeRecipe} onClose={() => setCookModeRecipe(null)} />;
+  }
 
   return (
     <div className="mp-root">
@@ -757,10 +829,14 @@ export default function App() {
         <div className="mp-header-actions">
           <SyncDot status={syncStatus} hasSupabase={!!supabase} />
           {tab === 'recipes' && <>
-            <button className={`mp-icon-btn ${(activeFilters.tags.length || activeFilters.favs) ? 'mp-icon-btn-active' : ''}`} onClick={() => setFilterOpen(true)}><Filter size={18} /></button>
+            <button className="mp-icon-btn" onClick={() => setImporting(true)} title="Import from URL"><Link size={18} /></button>
+            <button className={`mp-icon-btn ${(activeFilters.tags.length || activeFilters.favs || activeFilters.mealType !== 'all') ? 'mp-icon-btn-active' : ''}`} onClick={() => setFilterOpen(true)}><Filter size={18} /></button>
             <button className="mp-icon-btn mp-icon-btn-primary" onClick={() => setEditing({})}><Plus size={20} /></button>
           </>}
-          {tab === 'week' && weekCount > 0 && <button className="mp-icon-btn" onClick={() => { if (window.confirm('Clear the whole week?')) clearWeek(); }}><RotateCcw size={18} /></button>}
+          {tab === 'week' && <>
+            <button className="mp-icon-btn" onClick={fillWeekRandom} title="Fill empty days randomly"><Shuffle size={18} /></button>
+            {weekCount > 0 && <button className="mp-icon-btn" onClick={() => { if (window.confirm('Clear the whole week?')) clearWeek(); }}><RotateCcw size={18} /></button>}
+          </>}
           {tab === 'shopping' && data.shoppingChecked.length > 0 && <button className="mp-icon-btn" onClick={clearChecks}><RotateCcw size={18} /></button>}
         </div>
       </header>
@@ -777,7 +853,7 @@ export default function App() {
 
       <main className="mp-main">
         {tab === 'recipes' && <RecipesTab recipes={filteredRecipes} favourites={data.favourites} onOpen={setOpenRecipeId} onToggleFav={toggleFav} isEmpty={data.recipes.length === 0} />}
-        {tab === 'week' && <WeekTab week={data.week} recipes={data.recipes} onOpen={setOpenRecipeId} onUnassign={(day) => setDaySlot(day, null)} />}
+        {tab === 'week' && <WeekTab week={data.week} recipes={data.recipes} onOpen={setOpenRecipeId} onUnassign={(day) => setDaySlot(day, null)} onMarkLeftover={markLeftover} />}
         {tab === 'shopping' && <ShoppingTab data={data} onToggleCheck={toggleCheck} />}
         {tab === 'pantry' && <PantryTab recipes={data.recipes} pantry={data.pantry} onToggle={togglePantry} />}
       </main>
@@ -797,6 +873,7 @@ export default function App() {
           onDelete={() => { if (window.confirm(`Delete "${openRecipe.name}"?`)) { deleteRecipe(openRecipe.id); setOpenRecipeId(null); } }}
           onAssignDay={(day, servings) => setDaySlot(day, { recipeId: openRecipe.id, servings })}
           onUnassignDay={(day) => setDaySlot(day, null)}
+          onStartCook={() => { setOpenRecipeId(null); setCookModeRecipe(openRecipe); }}
         />
       )}
 
@@ -806,6 +883,13 @@ export default function App() {
 
       {filterOpen && (
         <FilterSheet filters={activeFilters} setFilters={setActiveFilters} favourites={data.favourites} onClose={() => setFilterOpen(false)} />
+      )}
+
+      {importing && (
+        <ImportSheet
+          onClose={() => setImporting(false)}
+          onSave={(r) => { upsertRecipe({ ...applyRecipeDefaults(r), id: uid() }); setImporting(false); }}
+        />
       )}
     </div>
   );
@@ -861,14 +945,31 @@ function RecipesTab({ recipes, favourites, onOpen, onToggleFav, isEmpty }) {
 }
 
 function RecipeCard({ recipe, isFav, onOpen, onToggleFav }) {
+  const mealTypeLabel = MEAL_TYPES.find(m => m.id === recipe.mealType);
   return (
     <article className="mp-card" onClick={onOpen} role="button">
+      <div
+        className="mp-card-photo"
+        style={recipe.photo
+          ? { backgroundImage: `url(${recipe.photo})` }
+          : { background: getCardColor(recipe.id) }
+        }
+      >
+        {!recipe.photo && <span className="mp-card-emoji">{getCuisineEmoji(recipe.cuisine)}</span>}
+        <button
+          className={`mp-fav-btn mp-fav-photo ${isFav ? 'mp-fav-on' : ''}`}
+          onClick={(e) => { e.stopPropagation(); onToggleFav(); }}
+          aria-label={isFav ? 'Unfavourite' : 'Favourite'}
+        >
+          <Star size={16} fill={isFav ? 'currentColor' : 'none'} />
+        </button>
+      </div>
       <div className="mp-card-body">
         <div className="mp-card-top">
           <div className="mp-card-meta">{recipe.cuisine || 'Recipe'} · {recipe.time || `serves ${recipe.servings}`}</div>
-          <button className={`mp-fav-btn ${isFav ? 'mp-fav-on' : ''}`} onClick={(e) => { e.stopPropagation(); onToggleFav(); }} aria-label={isFav ? 'Unfavourite' : 'Favourite'}>
-            <Star size={18} fill={isFav ? 'currentColor' : 'none'} />
-          </button>
+          {mealTypeLabel && mealTypeLabel.id !== 'dinner' && (
+            <span className="mp-meal-badge">{mealTypeLabel.emoji} {mealTypeLabel.label}</span>
+          )}
         </div>
         <h2 className="mp-display mp-card-title">{recipe.name}</h2>
         {recipe.tags?.length > 0 && (
@@ -882,23 +983,44 @@ function RecipeCard({ recipe, isFav, onOpen, onToggleFav }) {
   );
 }
 
-function WeekTab({ week, recipes, onOpen, onUnassign }) {
+function WeekTab({ week, recipes, onOpen, onUnassign, onMarkLeftover }) {
   return (
     <div className="mp-week">
       {DAYS.map(day => {
         const slot = week[day];
-        const recipe = slot ? recipes.find(r => r.id === slot.recipeId) : null;
+        const recipe = (slot && !slot.isLeftover) ? recipes.find(r => r.id === slot.recipeId) : null;
+        const isLeftover = slot?.isLeftover;
         return (
           <div key={day} className="mp-week-row">
             <div className="mp-week-day"><div className="mp-display mp-week-daylabel">{DAY_LONG[day]}</div></div>
             {recipe ? (
               <div className="mp-week-card" onClick={() => onOpen(recipe.id)}>
-                <div>
+                <div style={{flex:1, minWidth:0}}>
                   <div className="mp-week-recipe-meta">{recipe.cuisine || ''} {recipe.time ? `· ${recipe.time}` : ''}</div>
                   <div className="mp-display mp-week-recipe-name">{recipe.name}</div>
-                  <div className="mp-week-servings">serves {slot.servings}</div>
+                  <div style={{display:'flex', alignItems:'center', gap:8, marginTop:2}}>
+                    <div className="mp-week-servings">serves {slot.servings}</div>
+                    {recipe.makesLeftovers && DAYS.indexOf(day) < 6 && !week[DAYS[DAYS.indexOf(day)+1]] && (
+                      <button
+                        className="mp-leftover-btn"
+                        onClick={(e) => { e.stopPropagation(); onMarkLeftover(day); }}
+                        title="Mark tomorrow as leftovers"
+                      >
+                        <Repeat2 size={12} /> leftovers tomorrow?
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <button className="mp-week-remove" onClick={(e) => { e.stopPropagation(); onUnassign(day); }}><X size={16} /></button>
+              </div>
+            ) : isLeftover ? (
+              <div className="mp-week-leftover">
+                <Repeat2 size={14} />
+                <div>
+                  <div className="mp-week-leftover-title">Leftovers</div>
+                  <div className="mp-week-leftover-from">from {DAY_LONG[slot.fromDay]}: {slot.recipeName}</div>
+                </div>
+                <button className="mp-week-remove" onClick={() => onUnassign(day)}><X size={16} /></button>
               </div>
             ) : (
               <div className="mp-week-empty"><span>Nothing planned</span></div>
@@ -906,7 +1028,7 @@ function WeekTab({ week, recipes, onOpen, onUnassign }) {
           </div>
         );
       })}
-      <div className="mp-hint">Tap a recipe and assign it to a day to fill this in.</div>
+      <div className="mp-hint">Tap a recipe → assign it to a day. Tap <Shuffle size={12} style={{verticalAlign:'-2px'}} /> to fill the week randomly.</div>
     </div>
   );
 }
@@ -976,21 +1098,39 @@ function PantryTab({ recipes, pantry, onToggle }) {
   );
 }
 
-function RecipeDetailSheet({ recipe, week, isFav, onClose, onToggleFav, onEdit, onDelete, onAssignDay, onUnassignDay }) {
+function RecipeDetailSheet({ recipe, week, isFav, onClose, onToggleFav, onEdit, onDelete, onAssignDay, onUnassignDay, onStartCook }) {
   const [servings, setServings] = useState(recipe.servings);
   const factor = servings / recipe.servings;
   const assignedDays = Object.entries(week).filter(([, s]) => s?.recipeId === recipe.id).map(([d]) => d);
+  const hasSteps = recipe.steps?.length > 0;
+
   return (
     <div className="mp-sheet" onClick={onClose}>
       <div className="mp-sheet-content" onClick={e => e.stopPropagation()}>
-        <header className="mp-sheet-header">
-          <button className="mp-back" onClick={onClose}><ChevronLeft size={22} /></button>
-          <button className={`mp-fav-btn mp-fav-big ${isFav ? 'mp-fav-on' : ''}`} onClick={onToggleFav}><Star size={20} fill={isFav ? 'currentColor' : 'none'} /></button>
+        {/* Safe-area-aware sticky header */}
+        <header className="mp-sheet-header mp-sheet-header-safe">
+          <button className="mp-back" onClick={onClose} aria-label="Close"><ChevronLeft size={22} /></button>
+          <button className={`mp-fav-btn mp-fav-big ${isFav ? 'mp-fav-on' : ''}`} onClick={onToggleFav}>
+            <Star size={20} fill={isFav ? 'currentColor' : 'none'} />
+          </button>
         </header>
+
         <div className="mp-sheet-body">
           <div className="mp-meta">{recipe.cuisine || 'Recipe'} · {recipe.time || `serves ${recipe.servings}`}</div>
           <h2 className="mp-display mp-sheet-title">{recipe.name}</h2>
+
           {recipe.tags?.length > 0 && <div className="mp-tag-row mp-tag-row-spacious">{recipe.tags.map(t => <span key={t} className="mp-tag">{t}</span>)}</div>}
+
+          {/* Cook Mode entry */}
+          <button
+            className={`mp-cook-btn ${!hasSteps ? 'mp-cook-btn-dim' : ''}`}
+            onClick={hasSteps ? onStartCook : undefined}
+            title={hasSteps ? 'Start cook mode' : 'Add steps to use cook mode'}
+          >
+            <UtensilsCrossed size={18} />
+            <span>{hasSteps ? `Cook Mode · ${recipe.steps.length} steps` : 'Cook Mode — add steps to enable'}</span>
+            {hasSteps && <ChevronRight size={16} style={{marginLeft:'auto'}} />}
+          </button>
 
           <section className="mp-sheet-section">
             <h3 className="mp-aisle-label">Servings</h3>
@@ -1039,7 +1179,101 @@ function RecipeDetailSheet({ recipe, week, isFav, onClose, onToggleFav, onEdit, 
             <button className="mp-btn mp-btn-danger" onClick={onDelete}><Trash2 size={16} /> Delete</button>
           </div>
         </div>
+
+        {/* Accessible close button anchored to bottom — always thumb-reachable */}
+        <div className="mp-sheet-close-footer">
+          <button className="mp-sheet-close-btn" onClick={onClose}>Close</button>
+        </div>
       </div>
+    </div>
+  );
+}
+
+function CookModeView({ recipe, onClose }) {
+  const [step, setStep] = useState(0);
+  const [showIngredients, setShowIngredients] = useState(false);
+  const steps = recipe.steps || [];
+
+  // Keep screen awake while cooking
+  useEffect(() => {
+    let lock = null;
+    navigator.wakeLock?.request('screen').then(l => { lock = l; }).catch(() => {});
+    return () => { lock?.release(); };
+  }, []);
+
+  return (
+    <div className="mp-cookmode">
+      <div className="mp-cookmode-header">
+        <div>
+          <div className="mp-cookmode-recipe-name">{recipe.name}</div>
+          <div className="mp-cookmode-progress">
+            {steps.length > 0 ? `Step ${step + 1} of ${steps.length}` : 'No steps'}
+          </div>
+        </div>
+        <button className="mp-cookmode-close" onClick={onClose}><X size={22} /></button>
+      </div>
+
+      {/* Progress bar */}
+      {steps.length > 0 && (
+        <div className="mp-cookmode-bar">
+          <div className="mp-cookmode-bar-fill" style={{ width: `${((step + 1) / steps.length) * 100}%` }} />
+        </div>
+      )}
+
+      <div className="mp-cookmode-body">
+        {steps.length === 0 ? (
+          <div className="mp-cookmode-empty">
+            <UtensilsCrossed size={48} style={{opacity:0.3, marginBottom:16}} />
+            <div style={{fontSize:22, fontWeight:500, marginBottom:8}}>No steps yet</div>
+            <p style={{color:'rgba(255,255,255,0.6)', fontSize:15, lineHeight:1.6}}>
+              Add cooking steps to this recipe in the editor to use Cook Mode.
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="mp-cookmode-step-num">Step {step + 1}</div>
+            <div className="mp-cookmode-step-text">{steps[step]}</div>
+          </>
+        )}
+      </div>
+
+      {/* Ingredient drawer */}
+      <div className={`mp-cookmode-ingredients ${showIngredients ? 'open' : ''}`}>
+        <button className="mp-cookmode-ing-toggle" onClick={() => setShowIngredients(s => !s)}>
+          <ClipboardList size={16} />
+          {showIngredients ? 'Hide ingredients' : 'Show ingredients'}
+          <ChevronRight size={14} style={{ transform: showIngredients ? 'rotate(90deg)' : 'rotate(-90deg)', transition: 'transform 0.2s' }} />
+        </button>
+        {showIngredients && (
+          <ul className="mp-cookmode-ing-list">
+            {recipe.ingredients.map((ing, i) => (
+              <li key={i}><span style={{color:'rgba(255,255,255,0.5)', minWidth:80, display:'inline-block'}}>{formatAmount(ing.amount, ing.unit)}</span>{ing.name}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {/* Navigation */}
+      {steps.length > 0 && (
+        <div className="mp-cookmode-nav">
+          <button
+            className={`mp-cookmode-nav-btn ${step === 0 ? 'disabled' : ''}`}
+            onClick={() => setStep(s => Math.max(0, s - 1))}
+            disabled={step === 0}
+          >
+            <ChevronLeft size={22} /> Prev
+          </button>
+          {step < steps.length - 1 ? (
+            <button className="mp-cookmode-nav-btn mp-cookmode-nav-next" onClick={() => setStep(s => s + 1)}>
+              Next <ChevronRight size={22} />
+            </button>
+          ) : (
+            <button className="mp-cookmode-nav-btn mp-cookmode-nav-done" onClick={onClose}>
+              <Check size={20} /> Done
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -1057,42 +1291,93 @@ function ServingsStepper({ value, onChange, min = 1 }) {
 function EditRecipeSheet({ recipe, onClose, onSave }) {
   const isNew = !recipe.id;
   const [form, setForm] = useState({
-    id: recipe.id, name: recipe.name || '', cuisine: recipe.cuisine || '',
-    time: recipe.time || '', servings: recipe.servings || 2, tags: recipe.tags || [],
+    id: recipe.id,
+    name: recipe.name || '',
+    cuisine: recipe.cuisine || '',
+    time: recipe.time || '',
+    servings: recipe.servings || 2,
+    mealType: recipe.mealType || 'dinner',
+    makesLeftovers: recipe.makesLeftovers || false,
+    photo: recipe.photo || '',
+    tags: recipe.tags || [],
     notes: recipe.notes || '',
+    steps: recipe.steps || [],
     ingredients: recipe.ingredients?.length ? [...recipe.ingredients] : [{ name: '', amount: 1, unit: '', aisle: 'pantry' }],
   });
   const setField = (k, v) => setForm(f => ({ ...f, [k]: v }));
   const setIng = (i, k, v) => setForm(f => ({ ...f, ingredients: f.ingredients.map((x, idx) => idx === i ? { ...x, [k]: v } : x) }));
   const addIng = () => setForm(f => ({ ...f, ingredients: [...f.ingredients, { name: '', amount: 1, unit: '', aisle: 'pantry' }] }));
   const removeIng = (i) => setForm(f => ({ ...f, ingredients: f.ingredients.filter((_, idx) => idx !== i) }));
+  const setStep = (i, v) => setForm(f => ({ ...f, steps: f.steps.map((s, idx) => idx === i ? v : s) }));
+  const addStep = () => setForm(f => ({ ...f, steps: [...f.steps, ''] }));
+  const removeStep = (i) => setForm(f => ({ ...f, steps: f.steps.filter((_, idx) => idx !== i) }));
   const toggleTag = (t) => setField('tags', form.tags.includes(t) ? form.tags.filter(x => x !== t) : [...form.tags, t]);
   const canSave = form.name.trim() && form.ingredients.some(i => i.name.trim());
-  const handleSave = () => onSave({ ...form, name: form.name.trim(), servings: Number(form.servings) || 1, ingredients: form.ingredients.filter(i => i.name.trim()).map(i => ({ ...i, name: i.name.trim(), amount: Number(i.amount) || 0 })) });
+  const handleSave = () => onSave({
+    ...form,
+    name: form.name.trim(),
+    servings: Number(form.servings) || 1,
+    photo: form.photo || null,
+    steps: form.steps.filter(s => s.trim()),
+    ingredients: form.ingredients.filter(i => i.name.trim()).map(i => ({ ...i, name: i.name.trim(), amount: Number(i.amount) || 0 })),
+  });
 
   return (
     <div className="mp-sheet" onClick={onClose}>
       <div className="mp-sheet-content" onClick={e => e.stopPropagation()}>
-        <header className="mp-sheet-header">
+        <header className="mp-sheet-header mp-sheet-header-safe">
           <button className="mp-back" onClick={onClose}><X size={22} /></button>
           <button className={`mp-btn mp-btn-primary mp-btn-small ${canSave ? '' : 'mp-btn-disabled'}`} disabled={!canSave} onClick={handleSave}>Save</button>
         </header>
         <div className="mp-sheet-body">
           <div className="mp-meta">{isNew ? 'New recipe' : 'Editing'}</div>
           <h2 className="mp-display mp-sheet-title">{isNew ? 'Add a recipe' : form.name || 'Untitled'}</h2>
+
           <section className="mp-sheet-section">
             <label className="mp-label">Name</label>
             <input className="mp-input" value={form.name} onChange={e => setField('name', e.target.value)} placeholder="e.g. Chickpea curry" />
           </section>
+
           <section className="mp-sheet-section mp-form-grid">
             <div><label className="mp-label">Cuisine</label><input className="mp-input" value={form.cuisine} onChange={e => setField('cuisine', e.target.value)} placeholder="Indian" /></div>
             <div><label className="mp-label">Time</label><input className="mp-input" value={form.time} onChange={e => setField('time', e.target.value)} placeholder="30 min" /></div>
             <div><label className="mp-label">Servings</label><input className="mp-input" type="number" min="1" value={form.servings} onChange={e => setField('servings', e.target.value)} /></div>
           </section>
+
+          <section className="mp-sheet-section">
+            <label className="mp-label">Meal type</label>
+            <div className="mp-tag-row">
+              {MEAL_TYPES.map(mt => (
+                <button key={mt.id} className={`mp-tag mp-tag-btn ${form.mealType === mt.id ? 'mp-tag-on' : ''}`} onClick={() => setField('mealType', mt.id)}>
+                  {mt.emoji} {mt.label}
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section className="mp-sheet-section">
+            <div className="mp-toggle-row" onClick={() => setField('makesLeftovers', !form.makesLeftovers)}>
+              <div>
+                <div style={{fontWeight:500, fontSize:14}}>Makes leftovers</div>
+                <div style={{fontSize:12, color:'var(--ink-2)', marginTop:2}}>Shows a "leftovers tomorrow?" prompt in the week view</div>
+              </div>
+              <div className={`mp-toggle ${form.makesLeftovers ? 'mp-toggle-on' : ''}`} />
+            </div>
+          </section>
+
           <section className="mp-sheet-section">
             <label className="mp-label">Tags</label>
             <div className="mp-tag-row">{TAGS.map(t => <button key={t} className={`mp-tag mp-tag-btn ${form.tags.includes(t) ? 'mp-tag-on' : ''}`} onClick={() => toggleTag(t)}>{t}</button>)}</div>
           </section>
+
+          <section className="mp-sheet-section">
+            <label className="mp-label">Photo URL (optional)</label>
+            <input className="mp-input" type="url" placeholder="https://example.com/photo.jpg" value={form.photo || ''} onChange={e => setField('photo', e.target.value)} />
+            {form.photo && (
+              <div style={{marginTop:8, height:80, borderRadius:8, backgroundImage:`url(${form.photo})`, backgroundSize:'cover', backgroundPosition:'center', border:'0.5px solid var(--line)'}} />
+            )}
+          </section>
+
           <section className="mp-sheet-section">
             <div className="mp-pantry-section-head">
               <label className="mp-label">Ingredients</label>
@@ -1112,10 +1397,34 @@ function EditRecipeSheet({ recipe, onClose, onSave }) {
               ))}
             </div>
           </section>
+
+          <section className="mp-sheet-section">
+            <div className="mp-pantry-section-head">
+              <label className="mp-label">Cooking steps</label>
+              <button className="mp-link" onClick={addStep}>+ add step</button>
+            </div>
+            {form.steps.length === 0 && (
+              <p style={{fontSize:13, color:'var(--ink-3)', fontStyle:'italic', margin:'4px 0'}}>No steps added yet. Steps power Cook Mode.</p>
+            )}
+            <div className="mp-steps-list">
+              {form.steps.map((s, i) => (
+                <div key={i} className="mp-step-edit">
+                  <div className="mp-step-num">{i + 1}</div>
+                  <textarea className="mp-input mp-textarea" rows={2} placeholder={`Step ${i + 1}…`} value={s} onChange={e => setStep(i, e.target.value)} />
+                  <button className="mp-ing-del" onClick={() => removeStep(i)}><Trash size={14} /></button>
+                </div>
+              ))}
+            </div>
+          </section>
+
           <section className="mp-sheet-section">
             <label className="mp-label">Notes</label>
-            <textarea className="mp-input mp-textarea" rows="4" value={form.notes} onChange={e => setField('notes', e.target.value)} placeholder="Tips, substitutions, side dish ideas…" />
+            <textarea className="mp-input mp-textarea" rows="3" value={form.notes} onChange={e => setField('notes', e.target.value)} placeholder="Tips, substitutions, side dish ideas…" />
           </section>
+        </div>
+
+        <div className="mp-sheet-close-footer">
+          <button className="mp-sheet-close-btn" onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>
@@ -1139,13 +1448,159 @@ function FilterSheet({ filters, setFilters, favourites, onClose }) {
             </button>
           </section>
           <section className="mp-sheet-section">
+            <label className="mp-label">Meal type</label>
+            <div className="mp-tag-row">
+              <button className={`mp-tag mp-tag-btn ${filters.mealType === 'all' ? 'mp-tag-on' : ''}`} onClick={() => setFilters(f => ({ ...f, mealType: 'all' }))}>All</button>
+              {MEAL_TYPES.map(mt => (
+                <button key={mt.id} className={`mp-tag mp-tag-btn ${filters.mealType === mt.id ? 'mp-tag-on' : ''}`} onClick={() => setFilters(f => ({ ...f, mealType: mt.id }))}>
+                  {mt.emoji} {mt.label}
+                </button>
+              ))}
+            </div>
+          </section>
+          <section className="mp-sheet-section">
             <label className="mp-label">Tags</label>
             <div className="mp-tag-row">{TAGS.map(t => <button key={t} className={`mp-tag mp-tag-btn ${filters.tags.includes(t) ? 'mp-tag-on' : ''}`} onClick={() => toggleTag(t)}>{t}</button>)}</div>
           </section>
           <div className="mp-sheet-actions">
-            <button className="mp-btn mp-btn-ghost" onClick={() => setFilters({ tags: [], favs: false })}>clear all</button>
+            <button className="mp-btn mp-btn-ghost" onClick={() => setFilters({ tags: [], favs: false, mealType: 'all' })}>clear all</button>
             <button className="mp-btn mp-btn-primary" onClick={onClose}>done</button>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── AI Recipe Import ──────────────────────────────────────────
+function ImportSheet({ onClose, onSave }) {
+  const [mode, setMode] = useState('url');
+  const [url, setUrl] = useState('');
+  const [pasteText, setPasteText] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [extracted, setExtracted] = useState(null);
+  const [error, setError] = useState('');
+
+  const extract = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const prompt = mode === 'url'
+        ? `Fetch and extract the recipe from this URL: ${url}`
+        : `Extract and structure this recipe:\n\n${pasteText}`;
+
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 2000,
+          ...(mode === 'url' ? { tools: [{ type: 'web_search_20250305', name: 'web_search' }] } : {}),
+          system: 'You extract recipes and return ONLY a valid JSON object — no markdown, no explanation, no backticks.',
+          messages: [{ role: 'user', content: `${prompt}
+
+Return ONLY this JSON:
+{"name":"","cuisine":"","time":"","servings":2,"mealType":"dinner","makesLeftovers":false,"photo":null,"tags":[],"notes":"","steps":[],"ingredients":[{"name":"","amount":1,"unit":"","aisle":"pantry"}]}
+
+For aisle use: produce|meat|fish|dairy|pantry|spices|bakery|frozen|other
+For tags choose from: quick|veggie|high-iron|high-protein|comfort|freezer-friendly|one-tray|weeknight|weekend|meal-prep` }],
+        }),
+      });
+
+      const data = await res.json();
+      if (data.error) throw new Error(data.error.message);
+
+      const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      const match = text.match(/\{[\s\S]*\}/);
+      if (!match) throw new Error('No recipe data found in response');
+
+      const recipe = JSON.parse(match[0]);
+      setExtracted(recipe);
+    } catch (e) {
+      setError(`Could not extract: ${e.message}. Try the "Paste text" tab instead.`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (extracted) {
+    return (
+      <div className="mp-sheet" onClick={onClose}>
+        <div className="mp-sheet-content" onClick={e => e.stopPropagation()}>
+          <header className="mp-sheet-header mp-sheet-header-safe">
+            <button className="mp-back" onClick={() => setExtracted(null)}><ChevronLeft size={22} /></button>
+            <button className="mp-btn mp-btn-primary mp-btn-small" onClick={() => onSave(extracted)}>Save recipe</button>
+          </header>
+          <div className="mp-sheet-body">
+            <div className="mp-meta">Looks right? Tap Save to add it.</div>
+            <h2 className="mp-display mp-sheet-title">{extracted.name || 'Unnamed recipe'}</h2>
+            <div className="mp-meta" style={{marginTop:4}}>{extracted.cuisine} · {extracted.time} · serves {extracted.servings}</div>
+            {extracted.steps?.length > 0 && (
+              <section className="mp-sheet-section">
+                <h3 className="mp-aisle-label">{extracted.steps.length} cooking steps</h3>
+                <p className="mp-notes">{extracted.steps[0]}{extracted.steps.length > 1 ? '…' : ''}</p>
+              </section>
+            )}
+            <section className="mp-sheet-section">
+              <h3 className="mp-aisle-label">{extracted.ingredients?.length || 0} ingredients</h3>
+              <ul className="mp-ing-list">
+                {(extracted.ingredients || []).slice(0, 6).map((ing, i) => (
+                  <li key={i} className="mp-ing-row">
+                    <span className="mp-ing-amount">{formatAmount(ing.amount, ing.unit)}</span>
+                    <span className="mp-ing-name">{ing.name}</span>
+                  </li>
+                ))}
+                {(extracted.ingredients?.length || 0) > 6 && (
+                  <li className="mp-ing-row" style={{color:'var(--ink-3)', fontSize:13}}>+{extracted.ingredients.length - 6} more…</li>
+                )}
+              </ul>
+            </section>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mp-sheet mp-sheet-bottom" onClick={onClose}>
+      <div className="mp-sheet-content mp-sheet-content-bottom" onClick={e => e.stopPropagation()}>
+        <header className="mp-sheet-header">
+          <h3 className="mp-display mp-filter-title">Import Recipe</h3>
+          <button className="mp-back" onClick={onClose}><X size={20} /></button>
+        </header>
+        <div className="mp-sheet-body">
+          <div className="mp-tag-row" style={{marginBottom:'1.25rem'}}>
+            <button className={`mp-tag mp-tag-btn ${mode==='url'?'mp-tag-on':''}`} onClick={() => setMode('url')}><Link size={12} style={{marginRight:4, verticalAlign:'-2px'}} />From URL</button>
+            <button className={`mp-tag mp-tag-btn ${mode==='paste'?'mp-tag-on':''}`} onClick={() => setMode('paste')}><ClipboardList size={12} style={{marginRight:4, verticalAlign:'-2px'}} />Paste text</button>
+          </div>
+
+          {mode === 'url' ? (
+            <>
+              <label className="mp-label">Recipe URL</label>
+              <input className="mp-input" type="url" placeholder="https://..." value={url} onChange={e => setUrl(e.target.value)} autoFocus />
+              <p style={{fontSize:13, color:'var(--ink-2)', margin:'8px 0 0', lineHeight:1.6}}>Paste any recipe URL. Claude fetches and extracts the ingredients and steps automatically.</p>
+            </>
+          ) : (
+            <>
+              <label className="mp-label">Recipe text</label>
+              <textarea className="mp-input mp-textarea" rows={7} placeholder="Paste the full recipe here — title, ingredients, steps, everything…" value={pasteText} onChange={e => setPasteText(e.target.value)} autoFocus />
+            </>
+          )}
+
+          {error && (
+            <div style={{background:'#FEE2E2', borderRadius:8, padding:'10px 12px', fontSize:13, color:'#B91C1C', marginTop:10, lineHeight:1.5}}>{error}</div>
+          )}
+
+          <button
+            className={`mp-btn mp-btn-primary ${(!loading && (mode==='url' ? url : pasteText)) ? '' : 'mp-btn-disabled'}`}
+            style={{width:'100%', marginTop:'1rem'}}
+            disabled={loading || !(mode === 'url' ? url : pasteText)}
+            onClick={extract}
+          >
+            {loading ? (
+              <><RefreshCw size={16} style={{animation:'mp-spin 1s linear infinite'}} /> Extracting…</>
+            ) : 'Extract Recipe'}
+          </button>
         </div>
       </div>
     </div>

@@ -358,3 +358,351 @@ body {
   .mp-ing-edit .mp-input-aisle { grid-column: 1 / 2; }
   .mp-ing-edit .mp-ing-del { grid-column: 2 / 3; justify-self: end; }
 }
+
+/* ============================================================
+   NEW FEATURES — recipe cards with photos, cook mode,
+   import sheet, leftovers, meal type, safe area fix
+   ============================================================ */
+
+/* Safe-area-aware sheet header (fixes back button behind notch on iPhone) */
+.mp-sheet-header-safe {
+  padding-top: max(12px, env(safe-area-inset-top));
+}
+
+/* Accessible close footer — always thumb-reachable */
+.mp-sheet-close-footer {
+  position: sticky;
+  bottom: 0;
+  background: var(--bg);
+  padding: 10px 20px max(16px, env(safe-area-inset-bottom));
+  border-top: 0.5px solid var(--line-soft);
+}
+.mp-sheet-close-btn {
+  width: 100%;
+  padding: 13px;
+  background: var(--bg-2);
+  border: none;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.mp-sheet-close-btn:hover { background: var(--line); }
+
+/* Recipe card photo */
+.mp-card {
+  padding: 0;
+  overflow: hidden;
+}
+.mp-card-photo {
+  height: 110px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mp-card-emoji {
+  font-size: 40px;
+  opacity: 0.85;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+.mp-fav-photo {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(4px);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mp-fav-photo.mp-fav-on { background: rgba(184,63,42,0.85); color: white; }
+.mp-fav-photo:hover { background: rgba(184,63,42,0.75); color: white; transform: scale(1.1); }
+
+.mp-card-body { padding: 14px 16px 14px; }
+
+.mp-meal-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  background: var(--bg-2);
+  border-radius: 999px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* Cook Mode button in recipe detail */
+.mp-cook-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 16px 0;
+  transition: background 0.15s;
+}
+.mp-cook-btn:hover { background: var(--accent); }
+.mp-cook-btn-dim {
+  background: var(--bg-2);
+  color: var(--ink-3);
+  cursor: default;
+}
+.mp-cook-btn-dim:hover { background: var(--bg-2); }
+
+/* Toggle switch */
+.mp-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  cursor: pointer;
+}
+.mp-toggle {
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--line);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.mp-toggle::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.mp-toggle-on { background: var(--sage); }
+.mp-toggle-on::after { transform: translateX(18px); }
+
+/* Cook Mode full-screen view */
+.mp-cookmode {
+  position: fixed;
+  inset: 0;
+  background: #1A1612;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.mp-cookmode-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  flex-shrink: 0;
+}
+.mp-cookmode-recipe-name {
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: -0.01em;
+}
+.mp-cookmode-progress {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.mp-cookmode-close {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.mp-cookmode-close:hover { background: rgba(255,255,255,0.2); }
+.mp-cookmode-bar {
+  height: 2px;
+  background: rgba(255,255,255,0.12);
+  flex-shrink: 0;
+}
+.mp-cookmode-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+.mp-cookmode-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 28px;
+  overflow-y: auto;
+}
+.mp-cookmode-empty {
+  text-align: center;
+  color: rgba(255,255,255,0.7);
+}
+.mp-cookmode-step-num {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.mp-cookmode-step-text {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(20px, 5vw, 28px);
+  line-height: 1.5;
+  color: rgba(255,255,255,0.92);
+  font-weight: 400;
+}
+.mp-cookmode-ingredients {
+  border-top: 0.5px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+.mp-cookmode-ing-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.55);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+.mp-cookmode-ing-list {
+  list-style: none;
+  padding: 0 20px 12px;
+  margin: 0;
+  max-height: 180px;
+  overflow-y: auto;
+}
+.mp-cookmode-ing-list li {
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+  padding: 5px 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
+}
+.mp-cookmode-nav {
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px;
+  border-top: 0.5px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+.mp-cookmode-nav-btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: white;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+.mp-cookmode-nav-btn:hover { background: rgba(255,255,255,0.12); }
+.mp-cookmode-nav-btn.disabled { opacity: 0.3; cursor: not-allowed; }
+.mp-cookmode-nav-next { background: var(--accent); border-color: var(--accent); }
+.mp-cookmode-nav-next:hover { background: var(--accent-dark); }
+.mp-cookmode-nav-done { background: var(--sage); border-color: var(--sage); }
+
+/* Steps edit list */
+.mp-steps-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.mp-step-edit {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  gap: 8px;
+  align-items: flex-start;
+}
+.mp-step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  color: var(--ink-2);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+/* Leftover display in week view */
+.mp-week-leftover {
+  flex: 1;
+  padding: 10px 14px;
+  color: var(--ink-3);
+  background: var(--bg-2);
+  border: 0.5px dashed var(--line);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mp-week-leftover-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+  font-family: 'Fraunces', serif;
+}
+.mp-week-leftover-from {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 1px;
+}
+.mp-leftover-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--sage);
+  background: transparent;
+  border: 0.5px solid var(--sage);
+  border-radius: 999px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.mp-leftover-btn:hover { background: var(--sage); color: var(--bg); }
