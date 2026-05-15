@@ -524,6 +524,613 @@ const SEED_RECIPES = [
       { name: 'black pepper', amount: 0.5, unit: 'tsp', aisle: 'spices' },
     ],
   },
+  // ────────────────────────────────────────────────────────────
+  // New recipes added by request
+  // ────────────────────────────────────────────────────────────
+  {
+    id: 'cacio-e-pere',
+    name: 'Cacio e Pere',
+    cuisine: 'Italian',
+    time: '20 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['quick', 'veggie', 'comfort'],
+    makesLeftovers: false,
+    notes: 'Roman pasta with pears, pecorino and lots of black pepper. The pear melts into the cheese sauce — surprising and delicious.',
+    steps: [
+      'Bring a large pot of salted water to a boil.',
+      'Peel one of the pears, cut into small dice. Finely grate the second pear (skin on).',
+      'Toast cracked black pepper in a wide dry pan for 30 seconds until fragrant.',
+      'Cook the pasta until 2 minutes shy of al dente. Reserve 1 cup of pasta water.',
+      'Add the diced pear and a ladle of pasta water to the pan with pepper. Simmer 1 minute.',
+      'Drain pasta, add to pan with a knob of butter. Toss off the heat.',
+      'Add the grated pear and pecorino in handfuls, tossing rapidly with a splash of pasta water to make a creamy sauce. Finish with parmesan and more pepper.',
+    ],
+    ingredients: [
+      { name: 'tonnarelli or spaghetti', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'pecorino romano', amount: 80, unit: 'g', aisle: 'dairy' },
+      { name: 'parmigiano reggiano', amount: 20, unit: 'g', aisle: 'dairy' },
+      { name: 'ripe williams pears', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'butter', amount: 20, unit: 'g', aisle: 'dairy' },
+      { name: 'black pepper, freshly cracked', amount: 2, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'slow-chicken-peas-carrots-gravy',
+    name: 'Slow-cooked Chicken with Peas, Carrots and Gravy',
+    cuisine: 'Comfort',
+    time: '1 hr 5 min',
+    servings: 4,
+    mealType: 'dinner',
+    tags: ['comfort', 'meal-prep', 'freezer-friendly', 'weekend'],
+    makesLeftovers: true,
+    notes: 'Recipe from Simple Home Edit (Nicole Maguire). Tender chicken in a rich gravy. Serve over mashed potato.',
+    steps: [
+      'Combine the chicken with paprika, oregano, thyme, onion powder, salt, pepper, sugar and olive oil. Toss to coat.',
+      'Heat a large heavy pan over medium-high. Brown the chicken 4–5 minutes per side until golden. Remove and set aside.',
+      'Reduce heat to medium. Add onion, cook 5–6 minutes, then add carrots and cook 3–4 minutes more.',
+      'Add butter and garlic, cook 1 minute until fragrant. Sprinkle in flour, stir 1–2 minutes. Add tomato paste, cook 1 minute.',
+      'Pour in half the stock, stir smooth, then add remaining stock and water. Add thyme, Worcestershire and dark soy.',
+      'Return chicken to pan. Simmer partially covered on low for 35–40 minutes.',
+      'Uncover, simmer 10–15 minutes more until gravy is glossy and thick.',
+      'Stir in peas, cook 5 minutes until vibrant. Season to taste. Serve over mashed potato.',
+    ],
+    ingredients: [
+      { name: 'boneless skinless chicken thighs', amount: 800, unit: 'g', aisle: 'meat' },
+      { name: 'sweet paprika', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'dried oregano', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'dried thyme', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'onion powder', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'white sugar', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'olive oil', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'brown onion, finely diced', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'carrots, thickly sliced', amount: 4, unit: '', aisle: 'produce' },
+      { name: 'unsalted butter', amount: 30, unit: 'g', aisle: 'dairy' },
+      { name: 'garlic, minced', amount: 1, unit: 'tsp', aisle: 'produce' },
+      { name: 'plain flour', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'tomato paste', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'beef stock', amount: 500, unit: 'ml', aisle: 'pantry' },
+      { name: 'water', amount: 60, unit: 'ml', aisle: 'pantry' },
+      { name: 'fresh thyme sprigs', amount: 4, unit: '', aisle: 'produce' },
+      { name: 'worcestershire sauce', amount: 2, unit: 'tsp', aisle: 'pantry' },
+      { name: 'dark soy sauce', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'frozen peas', amount: 155, unit: 'g', aisle: 'frozen' },
+    ],
+  },
+  {
+    id: 'bean-carbonara',
+    name: 'Bean Carbonara',
+    cuisine: 'Italian-inspired',
+    time: '25 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['quick', 'high-protein', 'high-iron', 'weeknight', 'comfort'],
+    makesLeftovers: false,
+    notes: 'Bold Bean Co\'s riff on carbonara — butter beans for extra protein and fibre alongside the pancetta. Surprisingly close to the original.',
+    steps: [
+      'Bring a large pot of salted water to a boil. Cook the spaghetti.',
+      'While the pasta cooks, fry pancetta in a wide pan over medium heat until crisp and golden, 5 minutes.',
+      'Drain the butter beans, add to the pan with the pancetta. Mash about half lightly with a fork. Cook 2 minutes.',
+      'In a bowl, whisk egg yolks, whole egg, pecorino, parmesan and lots of black pepper.',
+      'Reserve a cup of pasta water. Drain pasta and add to pan off the heat with a splash of pasta water.',
+      'Toss in the egg mix, tossing vigorously — add more pasta water to loosen to a glossy creamy sauce. Never put back on heat or the eggs scramble.',
+      'Serve immediately with extra cheese and pepper.',
+    ],
+    ingredients: [
+      { name: 'spaghetti', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'pancetta or smoked bacon, diced', amount: 100, unit: 'g', aisle: 'meat' },
+      { name: 'butter beans (jar or tin)', amount: 400, unit: 'g', aisle: 'pantry' },
+      { name: 'egg yolks', amount: 3, unit: '', aisle: 'dairy' },
+      { name: 'whole egg', amount: 1, unit: '', aisle: 'dairy' },
+      { name: 'pecorino romano, finely grated', amount: 60, unit: 'g', aisle: 'dairy' },
+      { name: 'parmesan, finely grated', amount: 20, unit: 'g', aisle: 'dairy' },
+      { name: 'black pepper, lots, freshly cracked', amount: 1, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'savoury-crepes-ham-gruyere',
+    name: 'Savoury Crepes with Ham, Gruyere & Eggs',
+    cuisine: 'French',
+    time: '40 min',
+    servings: 2,
+    mealType: 'breakfast',
+    tags: ['comfort', 'weekend'],
+    makesLeftovers: false,
+    notes: 'Brunch showstopper. Make the crepe batter ahead and rest in the fridge.',
+    steps: [
+      'Whisk flour, eggs, milk and a pinch of salt to a smooth batter. Stir in melted butter and chives. Rest 20 minutes.',
+      'Make a quick hollandaise: melt butter. Whisk egg yolks with lemon and a splash of warm water over a bain marie until pale. Slowly drizzle in melted butter, whisking constantly. Season.',
+      'Heat a non-stick pan over medium heat, lightly buttered. Pour in a thin layer of batter, swirl. Cook 1 minute per side. Repeat for 4 crepes total.',
+      'Spread each crepe with dijon, layer with gruyere and ham. Fold into quarters and warm gently in the pan to melt the cheese.',
+      'Fry the eggs in butter, sunny-side up.',
+      'Plate two folded crepes per person, top with a fried egg, spoon hollandaise over and finish with extra chives.',
+    ],
+    ingredients: [
+      { name: 'plain flour', amount: 120, unit: 'g', aisle: 'pantry' },
+      { name: 'milk', amount: 250, unit: 'ml', aisle: 'dairy' },
+      { name: 'eggs', amount: 6, unit: '', aisle: 'dairy' },
+      { name: 'melted butter', amount: 30, unit: 'g', aisle: 'dairy' },
+      { name: 'chives, finely chopped', amount: 3, unit: 'tbsp', aisle: 'produce' },
+      { name: 'dijon mustard', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'smoked ham slices', amount: 120, unit: 'g', aisle: 'meat' },
+      { name: 'gruyere, grated', amount: 100, unit: 'g', aisle: 'dairy' },
+      { name: 'butter for cooking', amount: 30, unit: 'g', aisle: 'dairy' },
+      { name: 'butter for hollandaise', amount: 100, unit: 'g', aisle: 'dairy' },
+      { name: 'lemon, juiced', amount: 0.5, unit: '', aisle: 'produce' },
+    ],
+  },
+  {
+    id: 'korean-fried-chicken-tenders',
+    name: 'Korean Fried Chicken Tenders',
+    cuisine: 'Korean',
+    time: '40 min',
+    servings: 3,
+    mealType: 'dinner',
+    tags: ['high-protein', 'weekend', 'comfort'],
+    makesLeftovers: false,
+    notes: 'Double-fried for that signature shatter-crisp coating. The gochujang glaze is the star.',
+    steps: [
+      'Cut chicken into strips. Toss with salt and a splash of milk to tenderise (15 min).',
+      'Whisk cornstarch and flour. Coat each tender thoroughly, shaking off excess.',
+      'Heat oil to 160°C. Fry chicken in batches for 6 minutes — pale and just cooked. Drain.',
+      'For the glaze: in a small pan, simmer gochujang, soy, honey, rice vinegar, garlic and ginger for 2 minutes until glossy. Stir in sesame oil.',
+      'Heat oil to 190°C. Fry the chicken a second time for 2–3 minutes until deep golden and crisp. Drain briefly.',
+      'Toss hot chicken in the warm glaze. Plate, sprinkle generously with sesame seeds and scallions.',
+    ],
+    ingredients: [
+      { name: 'chicken tenders or breast', amount: 600, unit: 'g', aisle: 'meat' },
+      { name: 'milk', amount: 100, unit: 'ml', aisle: 'dairy' },
+      { name: 'cornstarch', amount: 100, unit: 'g', aisle: 'pantry' },
+      { name: 'plain flour', amount: 50, unit: 'g', aisle: 'pantry' },
+      { name: 'neutral oil for frying', amount: 1, unit: 'l', aisle: 'pantry' },
+      { name: 'gochujang', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'soy sauce', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'honey', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'rice vinegar', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'garlic, minced', amount: 3, unit: '', aisle: 'produce' },
+      { name: 'fresh ginger, grated', amount: 1, unit: 'tbsp', aisle: 'produce' },
+      { name: 'sesame oil', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'sesame seeds', amount: 1, unit: 'tbsp', aisle: 'spices' },
+      { name: 'scallions, sliced', amount: 3, unit: '', aisle: 'produce' },
+    ],
+  },
+  {
+    id: 'lagomchef-quinoa-bowl',
+    name: 'Lagomchef\'s Quinoa, Asparagus & Pea Bowl',
+    cuisine: 'Modern',
+    time: '25 min',
+    servings: 2,
+    mealType: 'lunch',
+    tags: ['quick', 'veggie', 'high-protein', 'meal-prep', 'high-iron'],
+    makesLeftovers: true,
+    notes: 'Bright, punchy and very meal-preppable. Add chicken thighs and crushed peanuts for protein.',
+    steps: [
+      'Cook the quinoa in salted water for 12 minutes until tender. Drain.',
+      'Bring a pot of salted water to a boil. Blanch asparagus and green beans for 2 minutes, then drop in peas for 30 seconds. Drain and shock in cold water.',
+      'Whisk the dressing: soy, olive oil, vinegar, honey, sriracha, ginger and garlic.',
+      'If using chicken: season thighs, pan fry for 6 minutes per side until golden and cooked through. Slice.',
+      'Toss quinoa and veg with most of the dressing. Top with chicken (if using), tear mint over, scatter peanuts, drizzle remaining dressing.',
+    ],
+    ingredients: [
+      { name: 'quinoa', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'asparagus, trimmed', amount: 200, unit: 'g', aisle: 'produce' },
+      { name: 'green beans, trimmed', amount: 150, unit: 'g', aisle: 'produce' },
+      { name: 'peas', amount: 100, unit: 'g', aisle: 'frozen' },
+      { name: 'soy sauce', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'olive oil', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'rice vinegar', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'honey', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sriracha', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'fresh ginger, grated', amount: 1, unit: 'tbsp', aisle: 'produce' },
+      { name: 'garlic, minced', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'mint leaves', amount: 0.5, unit: 'cup', aisle: 'produce' },
+      { name: 'chicken thighs (optional)', amount: 300, unit: 'g', aisle: 'meat' },
+      { name: 'roasted peanuts, crushed (optional)', amount: 40, unit: 'g', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'asparagus-wild-garlic-couscous',
+    name: 'Asparagus & Wild Garlic Couscous',
+    cuisine: 'Mediterranean',
+    time: '20 min',
+    servings: 2,
+    mealType: 'lunch',
+    tags: ['quick', 'veggie', 'weeknight'],
+    makesLeftovers: false,
+    notes: 'Inspired by Tish Wonders. If you can\'t find wild garlic, use baby spinach plus an extra garlic clove.',
+    steps: [
+      'Bring stock to a boil, pour over the couscous in a bowl. Cover and rest for 5 minutes.',
+      'Roast or pan-fry asparagus in olive oil until charred, 5 minutes.',
+      'Blitz wild garlic with olive oil, parmesan, pine nuts, lemon juice and salt to a rough pesto.',
+      'Fluff the couscous with a fork. Fold through most of the pesto.',
+      'Top with the asparagus, dollops of remaining pesto, and a squeeze of lemon. Shave extra parmesan over.',
+    ],
+    ingredients: [
+      { name: 'couscous', amount: 150, unit: 'g', aisle: 'pantry' },
+      { name: 'vegetable stock', amount: 200, unit: 'ml', aisle: 'pantry' },
+      { name: 'asparagus, trimmed', amount: 250, unit: 'g', aisle: 'produce' },
+      { name: 'olive oil', amount: 4, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'wild garlic leaves (or baby spinach)', amount: 60, unit: 'g', aisle: 'produce' },
+      { name: 'parmesan, grated', amount: 30, unit: 'g', aisle: 'dairy' },
+      { name: 'pine nuts, toasted', amount: 30, unit: 'g', aisle: 'pantry' },
+      { name: 'lemon', amount: 1, unit: '', aisle: 'produce' },
+    ],
+  },
+  {
+    id: 'pan-seared-steak-classic-side',
+    name: 'Pan-Seared Steak with Buttery Greens',
+    cuisine: 'Modern',
+    time: '20 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['quick', 'high-protein', 'high-iron', 'weekend'],
+    makesLeftovers: false,
+    notes: 'Simple, no fuss. The two keys: dry the steak hard before searing, and rest properly.',
+    steps: [
+      'Take steaks out of the fridge 30 minutes before cooking. Pat very dry with paper towels and season generously with salt.',
+      'Heat a heavy pan (cast iron is best) until smoking hot.',
+      'Add neutral oil. Sear steaks for 2–3 minutes per side undisturbed.',
+      'Add butter, garlic and thyme. Tilt the pan and spoon the foaming butter over the steaks for 1 minute.',
+      'Rest steaks on a board for 5 minutes — non-negotiable.',
+      'Meanwhile, blanch the greens for 2 minutes. Drain, toss in the steak pan with butter, lemon and salt.',
+      'Slice steak against the grain. Plate with greens and spoon over any resting juices.',
+    ],
+    ingredients: [
+      { name: 'ribeye or sirloin steaks (2cm thick)', amount: 2, unit: '', aisle: 'meat' },
+      { name: 'neutral oil', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'butter', amount: 40, unit: 'g', aisle: 'dairy' },
+      { name: 'garlic cloves, smashed', amount: 3, unit: '', aisle: 'produce' },
+      { name: 'fresh thyme sprigs', amount: 4, unit: '', aisle: 'produce' },
+      { name: 'tenderstem broccoli or green beans', amount: 300, unit: 'g', aisle: 'produce' },
+      { name: 'lemon', amount: 0.5, unit: '', aisle: 'produce' },
+      { name: 'flaky salt', amount: 1, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'silken-tofu-ginger-soy',
+    name: 'Cold Silken Tofu with Soy & Ginger',
+    cuisine: 'Chinese-inspired',
+    time: '10 min',
+    servings: 2,
+    mealType: 'lunch',
+    tags: ['quick', 'veggie', 'high-protein'],
+    makesLeftovers: false,
+    notes: 'Five minutes of work. Cooling, savoury, and the texture is glorious. Eat with rice or as a starter.',
+    steps: [
+      'Carefully turn the silken tofu out onto a serving plate. Pat the top dry with paper towel.',
+      'Whisk soy sauce, black vinegar, sesame oil, sugar and a tablespoon of water.',
+      'Pour the dressing around (not over) the tofu.',
+      'Top with grated ginger, finely sliced scallions and a generous drizzle of chili crisp.',
+      'Scatter with sesame seeds. Spoon into bowls at the table.',
+    ],
+    ingredients: [
+      { name: 'silken tofu', amount: 350, unit: 'g', aisle: 'dairy' },
+      { name: 'soy sauce', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'chinese black vinegar (or rice vinegar)', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sesame oil', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'sugar', amount: 0.5, unit: 'tsp', aisle: 'pantry' },
+      { name: 'fresh ginger, finely grated', amount: 1, unit: 'tbsp', aisle: 'produce' },
+      { name: 'scallions, finely sliced', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'chili crisp (Lao Gan Ma or similar)', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sesame seeds', amount: 1, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'smoothie-choc-pb-banana',
+    name: 'Chocolate Peanut Butter Banana Smoothie',
+    cuisine: 'Smoothie',
+    time: '5 min',
+    servings: 1,
+    mealType: 'breakfast',
+    tags: ['quick', 'high-protein'],
+    makesLeftovers: false,
+    notes: '~35g protein. Tastes like a milkshake but somehow good for you.',
+    steps: [
+      'Add all ingredients to a blender.',
+      'Blend until smooth and creamy. Pour and drink.',
+    ],
+    ingredients: [
+      { name: 'frozen banana', amount: 1, unit: '', aisle: 'frozen' },
+      { name: 'natural peanut butter', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'unsweetened cocoa powder', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'chocolate whey or plant protein', amount: 30, unit: 'g', aisle: 'pantry' },
+      { name: 'unsweetened almond milk', amount: 300, unit: 'ml', aisle: 'dairy' },
+      { name: 'rolled oats', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'ice cubes', amount: 4, unit: '', aisle: 'frozen' },
+    ],
+  },
+  {
+    id: 'smoothie-berry-greek',
+    name: 'Berry Greek Yogurt Smoothie',
+    cuisine: 'Smoothie',
+    time: '5 min',
+    servings: 1,
+    mealType: 'breakfast',
+    tags: ['quick', 'high-protein'],
+    makesLeftovers: false,
+    notes: '~30g protein. Thick, creamy, properly filling.',
+    steps: [
+      'Add all ingredients to a blender. Blend until smooth.',
+    ],
+    ingredients: [
+      { name: 'frozen mixed berries', amount: 150, unit: 'g', aisle: 'frozen' },
+      { name: 'greek yogurt 0% or 2%', amount: 200, unit: 'g', aisle: 'dairy' },
+      { name: 'vanilla protein powder', amount: 25, unit: 'g', aisle: 'pantry' },
+      { name: 'milk', amount: 200, unit: 'ml', aisle: 'dairy' },
+      { name: 'honey', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'chia seeds', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'smoothie-green-pineapple',
+    name: 'Green Spinach Pineapple Smoothie',
+    cuisine: 'Smoothie',
+    time: '5 min',
+    servings: 1,
+    mealType: 'breakfast',
+    tags: ['quick', 'veggie', 'high-protein', 'high-iron'],
+    makesLeftovers: false,
+    notes: '~28g protein with a clean tropical flavour. The pineapple completely overpowers the spinach.',
+    steps: [
+      'Add all ingredients to a blender. Blend until very smooth.',
+    ],
+    ingredients: [
+      { name: 'baby spinach', amount: 50, unit: 'g', aisle: 'produce' },
+      { name: 'frozen pineapple chunks', amount: 150, unit: 'g', aisle: 'frozen' },
+      { name: 'frozen banana', amount: 0.5, unit: '', aisle: 'frozen' },
+      { name: 'vanilla protein powder', amount: 30, unit: 'g', aisle: 'pantry' },
+      { name: 'coconut water', amount: 250, unit: 'ml', aisle: 'pantry' },
+      { name: 'fresh ginger', amount: 1, unit: 'tsp', aisle: 'produce' },
+      { name: 'lime juice', amount: 1, unit: 'tsp', aisle: 'produce' },
+    ],
+  },
+  {
+    id: 'smoothie-vanilla-almond-oat',
+    name: 'Vanilla Almond Oat Smoothie',
+    cuisine: 'Smoothie',
+    time: '5 min',
+    servings: 1,
+    mealType: 'breakfast',
+    tags: ['quick', 'high-protein', 'high-iron'],
+    makesLeftovers: false,
+    notes: '~32g protein. Pre-workout fuel that tastes like a vanilla shake.',
+    steps: [
+      'Add all ingredients to a blender. Blend until creamy.',
+    ],
+    ingredients: [
+      { name: 'almond butter', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'rolled oats', amount: 40, unit: 'g', aisle: 'pantry' },
+      { name: 'vanilla protein powder', amount: 30, unit: 'g', aisle: 'pantry' },
+      { name: 'frozen banana', amount: 1, unit: '', aisle: 'frozen' },
+      { name: 'unsweetened almond milk', amount: 300, unit: 'ml', aisle: 'dairy' },
+      { name: 'cinnamon', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'maple syrup', amount: 1, unit: 'tsp', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'smoothie-strawberry-tropical',
+    name: 'Strawberry Tropical Protein Smoothie',
+    cuisine: 'Smoothie',
+    time: '5 min',
+    servings: 1,
+    mealType: 'breakfast',
+    tags: ['quick', 'high-protein'],
+    makesLeftovers: false,
+    notes: '~30g protein. Bright, summery, sunshine in a glass.',
+    steps: [
+      'Add all ingredients to a blender. Blend until smooth.',
+    ],
+    ingredients: [
+      { name: 'frozen strawberries', amount: 150, unit: 'g', aisle: 'frozen' },
+      { name: 'frozen mango chunks', amount: 80, unit: 'g', aisle: 'frozen' },
+      { name: 'greek yogurt 0%', amount: 150, unit: 'g', aisle: 'dairy' },
+      { name: 'vanilla protein powder', amount: 25, unit: 'g', aisle: 'pantry' },
+      { name: 'orange juice', amount: 150, unit: 'ml', aisle: 'pantry' },
+      { name: 'flax seeds', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'spaghetti-carbonara-italian',
+    name: 'Spaghetti Carbonara (Italian)',
+    cuisine: 'Italian',
+    time: '20 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['quick', 'comfort', 'weeknight'],
+    makesLeftovers: false,
+    notes: 'No cream, no garlic, no peas. Just eggs, cheese, guanciale and pepper — like in Rome.',
+    steps: [
+      'Bring a large pot of salted water to a boil.',
+      'Cut guanciale into thin lardons. Fry in a dry cold pan over medium heat — the fat will render. Cook 6 minutes until crisp and golden. Turn off heat.',
+      'Whisk egg yolks, whole egg, pecorino and lots of fresh black pepper in a bowl.',
+      'Cook spaghetti until al dente. Reserve a cup of pasta water.',
+      'Drain pasta and add immediately to the pan with the guanciale (off the heat). Toss to coat in the fat.',
+      'Add a splash of pasta water to the egg mix to temper it, then pour over the pasta. Toss vigorously, adding more pasta water as needed, until the sauce is glossy and creamy. The residual heat cooks the eggs.',
+      'Serve immediately with extra pecorino and pepper.',
+    ],
+    ingredients: [
+      { name: 'spaghetti or tonnarelli', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'guanciale (or pancetta)', amount: 120, unit: 'g', aisle: 'meat' },
+      { name: 'egg yolks', amount: 4, unit: '', aisle: 'dairy' },
+      { name: 'whole egg', amount: 1, unit: '', aisle: 'dairy' },
+      { name: 'pecorino romano, finely grated', amount: 70, unit: 'g', aisle: 'dairy' },
+      { name: 'black pepper, freshly cracked', amount: 1, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'thai-spicy-turkey-noodles',
+    name: 'Thai Spicy Turkey Noodles with Holy Basil',
+    cuisine: 'Thai',
+    time: '20 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['quick', 'high-protein', 'weeknight'],
+    makesLeftovers: true,
+    notes: 'Pad Krapow-inspired noodles. Properly spicy. Top with a crispy fried egg if you want the full hit.',
+    steps: [
+      'Soak the rice noodles in just-boiled water for 5 minutes until pliable. Drain.',
+      'Pound garlic and bird\'s eye chilies in a mortar (or finely chop).',
+      'Heat a wok or large pan with oil until smoking. Add the garlic-chili paste, fry 30 seconds.',
+      'Add turkey mince and break up, frying hard for 3 minutes until starting to crisp at the edges.',
+      'Add soy sauces, fish sauce, oyster sauce and sugar. Toss for 1 minute.',
+      'Add noodles and a splash of water. Toss to coat for 1 minute.',
+      'Off the heat, fold through huge handfuls of thai basil and sliced shallot. Serve with lime.',
+    ],
+    ingredients: [
+      { name: 'flat rice noodles', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'turkey mince', amount: 400, unit: 'g', aisle: 'meat' },
+      { name: 'garlic cloves', amount: 5, unit: '', aisle: 'produce' },
+      { name: 'bird\'s eye chilies', amount: 3, unit: '', aisle: 'produce' },
+      { name: 'neutral oil', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'light soy sauce', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'dark soy sauce', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'fish sauce', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'oyster sauce', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sugar', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'thai basil leaves', amount: 1, unit: 'cup', aisle: 'produce' },
+      { name: 'shallot, sliced', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'lime wedges', amount: 2, unit: '', aisle: 'produce' },
+    ],
+  },
+  {
+    id: 'duck-blueberry-confit-potatoes',
+    name: 'Duck Breast with Blueberry Sauce & Confit Potatoes',
+    cuisine: 'French',
+    time: '1 hr',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['weekend', 'high-protein', 'high-iron'],
+    makesLeftovers: false,
+    notes: 'Special occasion territory. Score the duck fat properly — that\'s what gives you the crisp skin.',
+    steps: [
+      'Heat the oven to 160°C. Halve baby potatoes. Submerge in duck fat (or olive oil) with garlic and thyme. Bake uncovered for 50 minutes until tender and golden.',
+      'Score the duck breast skin in a cross-hatch, cutting through the fat but not the meat. Season heavily with salt.',
+      'Place duck breasts skin-side down in a cold pan. Turn heat to medium. Render for 8–10 minutes until the skin is deep golden and crisp.',
+      'Pour off most of the fat (save it). Flip duck breasts and cook 3–4 minutes for medium-rare. Rest on a board for 5 minutes.',
+      'In the same pan, add blueberries, port (or red wine), sugar and a splash of water. Reduce for 4 minutes until syrupy. Whisk in cold butter off the heat. Season.',
+      'Slice duck against the grain. Plate with confit potatoes. Spoon blueberry sauce around.',
+    ],
+    ingredients: [
+      { name: 'duck breasts', amount: 2, unit: '', aisle: 'meat' },
+      { name: 'baby potatoes', amount: 500, unit: 'g', aisle: 'produce' },
+      { name: 'duck fat (or olive oil)', amount: 200, unit: 'ml', aisle: 'pantry' },
+      { name: 'garlic cloves, smashed', amount: 4, unit: '', aisle: 'produce' },
+      { name: 'fresh thyme sprigs', amount: 6, unit: '', aisle: 'produce' },
+      { name: 'fresh or frozen blueberries', amount: 150, unit: 'g', aisle: 'produce' },
+      { name: 'port (or red wine)', amount: 80, unit: 'ml', aisle: 'pantry' },
+      { name: 'sugar', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'cold butter', amount: 30, unit: 'g', aisle: 'dairy' },
+    ],
+  },
+  {
+    id: 'lentil-chickpea-curry',
+    name: 'Quick Lentil & Chickpea Curry',
+    cuisine: 'Indian',
+    time: '30 min',
+    servings: 4,
+    mealType: 'dinner',
+    tags: ['veggie', 'high-protein', 'high-iron', 'freezer-friendly', 'meal-prep', 'weeknight'],
+    makesLeftovers: true,
+    notes: 'Honestly easy. Big batch, freezes brilliantly. Brilliant for next-day lunches with rice.',
+    steps: [
+      'Heat oil in a large pot. Add onion, cook 5 minutes. Add garlic and ginger, cook 1 minute.',
+      'Add curry powder, cumin, turmeric and tomato paste. Cook 2 minutes until fragrant.',
+      'Add tinned tomatoes, coconut milk, stock, lentils and chickpeas. Bring to a simmer.',
+      'Cook 20 minutes, stirring occasionally, until lentils are tender and sauce thickens.',
+      'Stir in baby spinach until wilted. Squeeze in lime, season with salt.',
+      'Serve over rice with a dollop of yogurt and fresh coriander.',
+    ],
+    ingredients: [
+      { name: 'olive oil', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'large onion, diced', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'garlic cloves, minced', amount: 4, unit: '', aisle: 'produce' },
+      { name: 'fresh ginger, grated', amount: 1, unit: 'tbsp', aisle: 'produce' },
+      { name: 'curry powder', amount: 2, unit: 'tbsp', aisle: 'spices' },
+      { name: 'ground cumin', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'ground turmeric', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'tomato paste', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'tinned chopped tomatoes', amount: 400, unit: 'g', aisle: 'pantry' },
+      { name: 'coconut milk', amount: 400, unit: 'ml', aisle: 'pantry' },
+      { name: 'vegetable stock', amount: 300, unit: 'ml', aisle: 'pantry' },
+      { name: 'red lentils, rinsed', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'chickpeas, drained', amount: 400, unit: 'g', aisle: 'pantry' },
+      { name: 'baby spinach', amount: 150, unit: 'g', aisle: 'produce' },
+      { name: 'lime', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'fresh coriander', amount: 0.5, unit: 'cup', aisle: 'produce' },
+      { name: 'greek yogurt to serve', amount: 200, unit: 'g', aisle: 'dairy' },
+      { name: 'basmati rice', amount: 300, unit: 'g', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'mediterranean-tuna-grain-bowl',
+    name: 'Mediterranean Tuna Grain Bowl',
+    cuisine: 'Mediterranean',
+    time: '20 min',
+    servings: 4,
+    mealType: 'lunch',
+    tags: ['quick', 'high-protein', 'meal-prep', 'high-iron'],
+    makesLeftovers: true,
+    notes: 'Make a big batch on Sunday. Holds for 4 days in the fridge. Add dressing only just before eating.',
+    steps: [
+      'Cook the farro in salted water for 25 minutes until tender with a bite. Drain and cool.',
+      'In a large bowl, combine farro, tuna, cherry tomatoes, cucumber, olives, red onion, chickpeas and parsley.',
+      'Whisk dressing: olive oil, lemon juice, dijon, garlic, oregano, salt and pepper.',
+      'For meal prep: keep dressing separate. Portion into containers.',
+      'When eating: dress, crumble feta over the top, finish with extra olive oil and lemon.',
+    ],
+    ingredients: [
+      { name: 'pearl farro (or barley)', amount: 250, unit: 'g', aisle: 'pantry' },
+      { name: 'tinned tuna in olive oil, drained', amount: 320, unit: 'g', aisle: 'pantry' },
+      { name: 'cherry tomatoes, halved', amount: 300, unit: 'g', aisle: 'produce' },
+      { name: 'cucumber, diced', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'kalamata olives', amount: 100, unit: 'g', aisle: 'pantry' },
+      { name: 'red onion, thinly sliced', amount: 0.5, unit: '', aisle: 'produce' },
+      { name: 'chickpeas, drained', amount: 400, unit: 'g', aisle: 'pantry' },
+      { name: 'fresh parsley', amount: 1, unit: 'cup', aisle: 'produce' },
+      { name: 'feta', amount: 150, unit: 'g', aisle: 'dairy' },
+      { name: 'olive oil', amount: 5, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'lemon juice', amount: 3, unit: 'tbsp', aisle: 'produce' },
+      { name: 'dijon mustard', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'garlic clove, minced', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'dried oregano', amount: 1, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'black-bean-quinoa-burrito-bowl',
+    name: 'Black Bean & Quinoa Burrito Bowls',
+    cuisine: 'Mexican',
+    time: '30 min',
+    servings: 4,
+    mealType: 'lunch',
+    tags: ['veggie', 'high-protein', 'high-iron', 'meal-prep', 'freezer-friendly'],
+    makesLeftovers: true,
+    notes: 'Smoky, satisfying, batch-cook champion. Build bowls fresh each day with toppings of choice.',
+    steps: [
+      'Cook quinoa in stock for 12 minutes until tender. Drain if needed.',
+      'In a pan, heat oil. Add onion and pepper, cook 5 minutes.',
+      'Add garlic, smoked paprika, cumin and chili powder. Cook 1 minute.',
+      'Add black beans, sweetcorn and a splash of water. Simmer 5 minutes. Squeeze in lime, season.',
+      'For meal prep: portion the quinoa and beans into 4 containers. Top with avocado, salsa, jalapeño and coriander only when eating.',
+    ],
+    ingredients: [
+      { name: 'quinoa', amount: 250, unit: 'g', aisle: 'pantry' },
+      { name: 'vegetable stock', amount: 500, unit: 'ml', aisle: 'pantry' },
+      { name: 'olive oil', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'red onion, diced', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'red bell pepper, diced', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'garlic cloves, minced', amount: 3, unit: '', aisle: 'produce' },
+      { name: 'smoked paprika', amount: 2, unit: 'tsp', aisle: 'spices' },
+      { name: 'ground cumin', amount: 2, unit: 'tsp', aisle: 'spices' },
+      { name: 'chili powder', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'black beans, drained', amount: 400, unit: 'g', aisle: 'pantry' },
+      { name: 'tinned sweetcorn, drained', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'limes', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'avocado', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'tomato salsa', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'fresh coriander', amount: 0.5, unit: 'cup', aisle: 'produce' },
+      { name: 'pickled jalapeños', amount: 50, unit: 'g', aisle: 'pantry' },
+    ],
+  },
 ];
 
 // ============================================================
@@ -537,6 +1144,7 @@ const DEFAULT_STATE = {
   shoppingChecked: [],
   seedSeen: SEED_RECIPES.map(r => r.id),
   aisleOrder: AISLES.map(a => a.id),
+  customShoppingItems: [],
 };
 
 // ============================================================
@@ -662,6 +1270,7 @@ export default function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('recipes');
+  const [recipeTab, setRecipeTab] = useState('all'); // all | breakfast | lunch-dinner | snack
   const [openRecipeId, setOpenRecipeId] = useState(null);
   const [editing, setEditing] = useState(null);
   const [importing, setImporting] = useState(false);
@@ -809,6 +1418,17 @@ export default function App() {
 
   const reorderAisles = (newOrder) => setData(d => ({ ...d, aisleOrder: newOrder }));
 
+  const addCustomItem = (item) => setData(d => ({
+    ...d,
+    customShoppingItems: [...(d.customShoppingItems || []), { id: `custom-${uid()}`, ...item }],
+  }));
+
+  const deleteCustomItem = (id) => setData(d => ({
+    ...d,
+    customShoppingItems: (d.customShoppingItems || []).filter(i => i.id !== id),
+    shoppingChecked: d.shoppingChecked.filter(k => k !== id),
+  }));
+
   const fillWeekRandom = () => {
     if (!data.recipes.length) return;
     const shuffled = [...data.recipes].sort(() => Math.random() - 0.5);
@@ -841,6 +1461,10 @@ export default function App() {
   const openRecipe = openRecipeId ? data.recipes.find(r => r.id === openRecipeId) : null;
 
   const filteredRecipes = data.recipes.filter(r => {
+    // Sub-tab filter (Breakfast / Lunch+Dinner / Snacks)
+    if (recipeTab === 'breakfast' && r.mealType !== 'breakfast') return false;
+    if (recipeTab === 'lunch-dinner' && r.mealType !== 'lunch' && r.mealType !== 'dinner') return false;
+    if (recipeTab === 'snack' && r.mealType !== 'snack') return false;
     if (activeFilters.favs && !data.favourites.includes(r.id)) return false;
     if (activeFilters.tags.length && !activeFilters.tags.every(t => r.tags?.includes(t))) return false;
     if (activeFilters.mealType !== 'all' && r.mealType !== activeFilters.mealType) return false;
@@ -891,20 +1515,36 @@ export default function App() {
       </header>
 
       {tab === 'recipes' && (
-        <div className="mp-search-row">
-          <div className="mp-search">
-            <Search size={16} />
-            <input type="text" placeholder="Search recipes & ingredients…" value={search} onChange={e => setSearch(e.target.value)} />
-            {search && <button className="mp-search-clear" onClick={() => setSearch('')}><X size={14} /></button>}
+        <>
+          <div className="mp-search-row">
+            <div className="mp-search">
+              <Search size={16} />
+              <input type="text" placeholder="Search recipes & ingredients…" value={search} onChange={e => setSearch(e.target.value)} />
+              {search && <button className="mp-search-clear" onClick={() => setSearch('')}><X size={14} /></button>}
+            </div>
           </div>
-        </div>
+          <div className="mp-subtabs">
+            {[
+              { id: 'all',          label: 'All' },
+              { id: 'breakfast',    label: 'Breakfast' },
+              { id: 'lunch-dinner', label: 'Lunch & Dinner' },
+              { id: 'snack',        label: 'Snacks' },
+            ].map(t => (
+              <button
+                key={t.id}
+                className={`mp-subtab ${recipeTab === t.id ? 'mp-subtab-on' : ''}`}
+                onClick={() => setRecipeTab(t.id)}
+              >{t.label}</button>
+            ))}
+          </div>
+        </>
       )}
 
       <main className="mp-main">
         {tab === 'recipes' && <RecipesTab recipes={filteredRecipes} favourites={data.favourites} onOpen={setOpenRecipeId} onToggleFav={toggleFav} isEmpty={data.recipes.length === 0} />}
         {tab === 'week' && <WeekTab week={data.week} recipes={data.recipes} onOpen={setOpenRecipeId} onUnassign={(day) => setDaySlot(day, null)} onMarkLeftover={markLeftover} />}
-        {tab === 'shopping' && <ShoppingTab data={data} onToggleCheck={toggleCheck} onReorderAisles={reorderAisles} />}
-        {tab === 'pantry' && <PantryTab recipes={data.recipes} pantry={data.pantry} onToggle={togglePantry} />}
+        {tab === 'shopping' && <ShoppingTab data={data} onToggleCheck={toggleCheck} onReorderAisles={reorderAisles} onAddCustom={addCustomItem} onDeleteCustom={deleteCustomItem} />}
+        {tab === 'pantry' && <PantryTab recipes={data.recipes} pantry={data.pantry} onToggle={togglePantry} onOpenRecipe={setOpenRecipeId} />}
       </main>
 
       <nav className="mp-bottom-nav">
@@ -997,36 +1637,44 @@ function RecipeCard({ recipe, isFav, onOpen, onToggleFav }) {
   const mealTypeLabel = MEAL_TYPES.find(m => m.id === recipe.mealType);
   return (
     <article className="mp-card" onClick={onOpen} role="button">
-      <div
-        className="mp-card-photo"
-        style={recipe.photo
-          ? { backgroundImage: `url(${recipe.photo})` }
-          : { background: getCardColor(recipe.id) }
-        }
-      >
-        {!recipe.photo && <span className="mp-card-emoji">{getCuisineEmoji(recipe.cuisine)}</span>}
-        <button
-          className={`mp-fav-btn mp-fav-photo ${isFav ? 'mp-fav-on' : ''}`}
-          onClick={(e) => { e.stopPropagation(); onToggleFav(); }}
-          aria-label={isFav ? 'Unfavourite' : 'Favourite'}
-        >
-          <Star size={16} fill={isFav ? 'currentColor' : 'none'} />
-        </button>
-      </div>
+      {recipe.photo ? (
+        <div className="mp-card-photo" style={{ backgroundImage: `url(${recipe.photo})` }}>
+          <button
+            className={`mp-fav-btn mp-fav-photo ${isFav ? 'mp-fav-on' : ''}`}
+            onClick={(e) => { e.stopPropagation(); onToggleFav(); }}
+            aria-label={isFav ? 'Unfavourite' : 'Favourite'}
+          >
+            <Star size={16} fill={isFav ? 'currentColor' : 'none'} />
+          </button>
+        </div>
+      ) : (
+        <div className="mp-card-stripe" style={{ background: getCardColor(recipe.id) }} />
+      )}
       <div className="mp-card-body">
         <div className="mp-card-top">
           <div className="mp-card-meta">{recipe.cuisine || 'Recipe'} · {recipe.time || `serves ${recipe.servings}`}</div>
-          {mealTypeLabel && mealTypeLabel.id !== 'dinner' && (
-            <span className="mp-meal-badge">{mealTypeLabel.emoji} {mealTypeLabel.label}</span>
+          {!recipe.photo && (
+            <button
+              className={`mp-fav-btn ${isFav ? 'mp-fav-on' : ''}`}
+              onClick={(e) => { e.stopPropagation(); onToggleFav(); }}
+              aria-label={isFav ? 'Unfavourite' : 'Favourite'}
+            >
+              <Star size={16} fill={isFav ? 'currentColor' : 'none'} />
+            </button>
           )}
         </div>
         <h2 className="mp-display mp-card-title">{recipe.name}</h2>
-        {recipe.tags?.length > 0 && (
-          <div className="mp-tag-row">
-            {recipe.tags.slice(0, 4).map(t => <span className="mp-tag" key={t}>{t}</span>)}
-            {recipe.tags.length > 4 && <span className="mp-tag mp-tag-more">+{recipe.tags.length - 4}</span>}
-          </div>
-        )}
+        <div className="mp-card-bottom">
+          {recipe.tags?.length > 0 && (
+            <div className="mp-tag-row">
+              {recipe.tags.slice(0, 3).map(t => <span className="mp-tag" key={t}>{t}</span>)}
+              {recipe.tags.length > 3 && <span className="mp-tag mp-tag-more">+{recipe.tags.length - 3}</span>}
+            </div>
+          )}
+          {mealTypeLabel && mealTypeLabel.id !== 'dinner' && (
+            <span className="mp-meal-badge">{mealTypeLabel.label}</span>
+          )}
+        </div>
       </div>
     </article>
   );
@@ -1082,14 +1730,32 @@ function WeekTab({ week, recipes, onOpen, onUnassign, onMarkLeftover }) {
   );
 }
 
-function ShoppingTab({ data, onToggleCheck, onReorderAisles }) {
+function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDeleteCustom }) {
   const [reordering, setReordering] = useState(false);
+  const [addingItem, setAddingItem] = useState(false);
+  const [newItem, setNewItem] = useState({ name: '', amount: '', unit: '', aisle: 'other' });
   const aisleOrder = data.aisleOrder || AISLES.map(a => a.id);
+  const customItems = data.customShoppingItems || [];
 
-  const byAisle = useMemo(
-    () => aggregateShoppingList(data.week, data.recipes, data.pantry),
-    [data.week, data.recipes, data.pantry]
-  );
+  const byAisle = useMemo(() => {
+    const recipeBased = aggregateShoppingList(data.week, data.recipes, data.pantry);
+    // Merge custom items into their aisles
+    customItems.forEach(item => {
+      if (!recipeBased[item.aisle]) recipeBased[item.aisle] = [];
+      recipeBased[item.aisle].push({
+        key: item.id,
+        name: item.name,
+        amount: item.amount ? Number(item.amount) : null,
+        unit: item.unit || '',
+        aisle: item.aisle,
+        recipes: ['added by you'],
+        isCustom: true,
+      });
+    });
+    Object.values(recipeBased).forEach(arr => arr.sort((a, b) => a.name.localeCompare(b.name)));
+    return recipeBased;
+  }, [data.week, data.recipes, data.pantry, customItems]);
+
   const totalItems = Object.values(byAisle).reduce((s, arr) => s + arr.length, 0);
 
   const moveAisle = (i, dir) => {
@@ -1100,11 +1766,18 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles }) {
     onReorderAisles(next);
   };
 
+  const handleAddItem = () => {
+    if (!newItem.name.trim()) return;
+    onAddCustom({ name: newItem.name.trim(), amount: newItem.amount, unit: newItem.unit, aisle: newItem.aisle });
+    setNewItem({ name: '', amount: '', unit: '', aisle: 'other' });
+    setAddingItem(false);
+  };
+
   if (reordering) {
     return (
       <div className="mp-shopping">
         <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1rem'}}>
-          <div className="mp-shopping-meta">Drag to match your store</div>
+          <div className="mp-shopping-meta">Tap arrows to match your store</div>
           <button className="mp-btn mp-btn-primary mp-btn-small" style={{flex:0}} onClick={() => setReordering(false)}>Done</button>
         </div>
         <div className="mp-aisle-order-list">
@@ -1130,22 +1803,56 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles }) {
     );
   }
 
-  if (totalItems === 0) {
-    return <div className="mp-empty"><div className="mp-display mp-empty-title">Empty basket.</div><p className="mp-empty-text">Plan some meals for the week to fill this list.</p></div>;
-  }
-
   const orderedAisles = aisleOrder
     .map(id => AISLES.find(a => a.id === id))
     .filter(a => a && byAisle[a.id]?.length);
 
   return (
     <div className="mp-shopping">
-      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'1rem'}}>
-        <div className="mp-shopping-meta">{totalItems} {totalItems === 1 ? 'item' : 'items'} · {data.shoppingChecked.length} ticked</div>
-        <button className="mp-icon-btn" style={{width:32, height:32}} onClick={() => setReordering(true)} title="Arrange aisles">
-          <GripVertical size={16} />
-        </button>
+      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'0.75rem', gap:8}}>
+        <div className="mp-shopping-meta">
+          {totalItems === 0 ? 'Empty list' : `${totalItems} ${totalItems === 1 ? 'item' : 'items'} · ${data.shoppingChecked.length} ticked`}
+        </div>
+        <div style={{display:'flex', gap:6}}>
+          <button className="mp-icon-btn" style={{width:32, height:32}} onClick={() => setAddingItem(true)} title="Add custom item">
+            <Plus size={16} />
+          </button>
+          <button className="mp-icon-btn" style={{width:32, height:32}} onClick={() => setReordering(true)} title="Arrange aisles">
+            <GripVertical size={16} />
+          </button>
+        </div>
       </div>
+
+      {addingItem && (
+        <div className="mp-custom-add">
+          <input
+            className="mp-input mp-input-name" autoFocus
+            placeholder="e.g. Toilet paper, batteries…"
+            value={newItem.name}
+            onChange={e => setNewItem(i => ({ ...i, name: e.target.value }))}
+            onKeyDown={e => e.key === 'Enter' && handleAddItem()}
+          />
+          <div className="mp-custom-add-row">
+            <input className="mp-input mp-input-amount" type="number" step="0.1" placeholder="qty" value={newItem.amount} onChange={e => setNewItem(i => ({ ...i, amount: e.target.value }))} />
+            <input className="mp-input mp-input-unit" placeholder="unit" value={newItem.unit} onChange={e => setNewItem(i => ({ ...i, unit: e.target.value }))} />
+            <select className="mp-input mp-input-aisle" value={newItem.aisle} onChange={e => setNewItem(i => ({ ...i, aisle: e.target.value }))}>
+              {AISLES.map(a => <option key={a.id} value={a.id}>{a.label}</option>)}
+            </select>
+          </div>
+          <div style={{display:'flex', gap:8, marginTop:8}}>
+            <button className="mp-btn mp-btn-ghost" onClick={() => { setAddingItem(false); setNewItem({ name: '', amount: '', unit: '', aisle: 'other' }); }}>Cancel</button>
+            <button className={`mp-btn mp-btn-primary ${newItem.name.trim() ? '' : 'mp-btn-disabled'}`} disabled={!newItem.name.trim()} onClick={handleAddItem}>Add</button>
+          </div>
+        </div>
+      )}
+
+      {totalItems === 0 && !addingItem && (
+        <div className="mp-empty" style={{padding:'2rem 1rem'}}>
+          <div className="mp-display mp-empty-title">Empty basket.</div>
+          <p className="mp-empty-text">Plan some meals or tap + to add household items.</p>
+        </div>
+      )}
+
       {orderedAisles.map(aisle => (
         <section key={aisle.id} className="mp-aisle">
           <h3 className="mp-aisle-label">{aisle.label}</h3>
@@ -1156,9 +1863,18 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles }) {
                 <li key={item.key} className={`mp-shopping-item ${checked ? 'mp-shopping-checked' : ''}`} onClick={() => onToggleCheck(item.key)}>
                   <div className={`mp-check ${checked ? 'mp-check-on' : ''}`}>{checked && <Check size={14} />}</div>
                   <div className="mp-shopping-text">
-                    <div className="mp-shopping-name">{item.name}</div>
-                    <div className="mp-shopping-sub">{formatAmount(item.amount, item.unit)}<span className="mp-shopping-from"> · {item.recipes.join(', ')}</span></div>
+                    <div className="mp-shopping-name">
+                      {item.name}
+                      {item.isCustom && <span className="mp-custom-pill">custom</span>}
+                    </div>
+                    <div className="mp-shopping-sub">
+                      {item.amount ? formatAmount(item.amount, item.unit) : (item.isCustom ? '' : '')}
+                      {!item.isCustom && <span className="mp-shopping-from"> · {item.recipes.join(', ')}</span>}
+                    </div>
                   </div>
+                  {item.isCustom && (
+                    <button className="mp-shopping-del" onClick={(e) => { e.stopPropagation(); onDeleteCustom(item.key); }}><Trash size={14} /></button>
+                  )}
                 </li>
               );
             })}
@@ -1169,13 +1885,59 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles }) {
   );
 }
 
-function PantryTab({ recipes, pantry, onToggle }) {
+function PantryTab({ recipes, pantry, onToggle, onOpenRecipe }) {
   const known = useMemo(() => allIngredientNames(recipes), [recipes]);
   const [showAll, setShowAll] = useState(false);
+
+  // Suggest recipes based on pantry match
+  const suggestions = useMemo(() => {
+    if (!pantry.length) return [];
+    const pantrySet = new Set(pantry.map(p => p.toLowerCase()));
+    return recipes.map(r => {
+      const total = r.ingredients.length;
+      const have = r.ingredients.filter(i => pantrySet.has(i.name.toLowerCase())).length;
+      const missing = r.ingredients.filter(i => !pantrySet.has(i.name.toLowerCase()));
+      return { recipe: r, have, total, pct: total > 0 ? have / total : 0, missing };
+    })
+    .filter(s => s.pct >= 0.5) // Need at least half the ingredients
+    .sort((a, b) => b.pct - a.pct)
+    .slice(0, 6);
+  }, [recipes, pantry]);
+
   const commonNotYet = COMMON_PANTRY.filter(p => !pantry.includes(p));
   return (
     <div className="mp-pantry">
       <p className="mp-pantry-blurb">Mark what you already keep at home. Anything ticked is hidden from your shopping list.</p>
+
+      {suggestions.length > 0 && (
+        <section className="mp-pantry-section">
+          <div className="mp-pantry-section-head">
+            <h3 className="mp-aisle-label">What can I make?</h3>
+            <span className="mp-tiny">based on your pantry</span>
+          </div>
+          <div className="mp-suggestions">
+            {suggestions.map(s => (
+              <div key={s.recipe.id} className="mp-suggestion" onClick={() => onOpenRecipe(s.recipe.id)}>
+                <div className="mp-suggestion-bar">
+                  <div className="mp-suggestion-bar-fill" style={{ width: `${Math.round(s.pct * 100)}%` }} />
+                </div>
+                <div className="mp-suggestion-body">
+                  <div className="mp-suggestion-name">{s.recipe.name}</div>
+                  <div className="mp-suggestion-meta">
+                    {s.have} of {s.total} ingredients
+                    {s.missing.length > 0 && s.missing.length <= 3 && (
+                      <span> · need {s.missing.map(m => m.name).join(', ')}</span>
+                    )}
+                    {s.missing.length > 3 && <span> · need {s.missing.length} more</span>}
+                  </div>
+                </div>
+                <ChevronRight size={16} style={{ color: 'var(--ink-3)', flexShrink: 0 }} />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {commonNotYet.length > 0 && (
         <div className="mp-pantry-quick">
           <div className="mp-pantry-quick-label">Quick add:</div>
@@ -1734,7 +2496,8 @@ For tags: quick|veggie|high-iron|high-protein|comfort|freezer-friendly|one-tray|
             ? `Fetch and extract the recipe from this URL: ${url}\n\n${EXTRACTION_PROMPT}`
             : `Extract and structure this recipe:\n\n${pasteText}\n\n${EXTRACTION_PROMPT}`);
 
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      // Call our Vercel serverless function (which proxies to Anthropic with the API key)
+      const res = await fetch('/api/extract', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1747,10 +2510,10 @@ For tags: quick|veggie|high-iron|high-protein|comfort|freezer-friendly|one-tray|
       });
 
       const data = await res.json();
-      if (data.error) throw new Error(data.error.message);
+      if (data.error) throw new Error(data.error.message || 'API error');
       const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
       const match = text.match(/\{[\s\S]*\}/);
-      if (!match) throw new Error('No recipe data found');
+      if (!match) throw new Error('No recipe data found in response');
       setExtracted(JSON.parse(match[0]));
     } catch (e) {
       setError(`Could not extract: ${e.message}`);
@@ -1759,15 +2522,45 @@ For tags: quick|veggie|high-iron|high-protein|comfort|freezer-friendly|one-tray|
     }
   };
 
+  // Resize + re-encode any image as JPEG (handles HEIC where browser supports it, drops large file sizes)
+  const processImageFile = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const maxDim = 1568;
+          let { width, height } = img;
+          if (width > maxDim || height > maxDim) {
+            const r = Math.min(maxDim / width, maxDim / height);
+            width = Math.round(width * r);
+            height = Math.round(height * r);
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', 0.85).split(',')[1]);
+        } catch (err) { reject(err); }
+      };
+      img.onerror = () => reject(new Error('Could not read image (HEIC files from iPhone may need converting to JPG first — set Camera Format to "Most Compatible" in iPhone Settings, or take the photo from the in-app camera)'));
+      img.src = reader.result;
+    };
+    reader.onerror = () => reject(new Error('Could not read file'));
+    reader.readAsDataURL(file);
+  });
+
   const handlePhoto = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const base64 = reader.result.split(',')[1];
-      await extract({ type: 'image', source: { type: 'base64', media_type: file.type || 'image/jpeg', data: base64 } }, true);
-    };
-    reader.readAsDataURL(file);
+    setLoading(true);
+    setError('');
+    try {
+      const base64 = await processImageFile(file);
+      await extract({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: base64 } }, true);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
   };
 
   if (extracted) {

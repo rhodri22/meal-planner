@@ -954,3 +954,120 @@ body {
   color: var(--ink-2);
 }
 .mp-photo-import-area:hover { border-color: var(--accent); background: var(--bg-2); }
+
+/* ============================================================
+   Subtabs, accent stripes, pantry suggestions, custom items
+   ============================================================ */
+
+/* Recipe sub-tabs */
+.mp-subtabs {
+  display: flex;
+  gap: 6px;
+  padding: 0 1.25rem 0.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.mp-subtabs::-webkit-scrollbar { display: none; }
+.mp-subtab {
+  font-family: inherit;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 0.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink-2);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.mp-subtab:hover { background: var(--bg-2); }
+.mp-subtab-on {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+  font-weight: 500;
+}
+
+/* Card accent stripe (no photo) */
+.mp-card-stripe {
+  height: 6px;
+  border-radius: var(--border-radius-lg, 14px) var(--border-radius-lg, 14px) 0 0;
+}
+.mp-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Pantry "what can I make" */
+.mp-suggestions { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.mp-suggestion {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--card);
+  border: 0.5px solid var(--line);
+  border-radius: 14px;
+  cursor: pointer;
+  overflow: hidden;
+}
+.mp-suggestion:hover { border-color: var(--accent); }
+.mp-suggestion-bar {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 3px;
+  background: var(--bg-2);
+}
+.mp-suggestion-bar-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--sage), var(--accent));
+}
+.mp-suggestion-body { flex: 1; min-width: 0; }
+.mp-suggestion-name {
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Fraunces', serif;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.mp-suggestion-meta { font-size: 12px; color: var(--ink-3); line-height: 1.4; }
+
+/* Custom shopping items */
+.mp-custom-add {
+  background: var(--card);
+  border: 0.5px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.mp-custom-add-row { display: flex; gap: 6px; margin-top: 8px; }
+.mp-custom-add-row .mp-input { font-size: 13px; padding: 8px 10px; }
+.mp-custom-pill {
+  font-size: 9px;
+  padding: 1px 6px;
+  background: var(--sage);
+  color: var(--bg);
+  border-radius: 999px;
+  margin-left: 6px;
+  vertical-align: 2px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.mp-shopping-del {
+  background: transparent;
+  border: none;
+  color: var(--ink-3);
+  cursor: pointer;
+  padding: 4px;
+  margin-left: 4px;
+  display: flex;
+  align-items: center;
+}
+.mp-shopping-del:hover { color: var(--danger, #DC2626); }
