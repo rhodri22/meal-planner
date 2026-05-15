@@ -3,7 +3,7 @@ import {
   Plus, Star, X, Minus, ChefHat, Calendar, ShoppingBasket, Package,
   Edit3, Trash2, Search, Check, ChevronLeft, ChevronRight, ChevronUp, ChevronDown,
   Trash, RotateCcw, Filter, RefreshCw, Shuffle, Play, Link, ClipboardList,
-  UtensilsCrossed, Repeat2, Camera, Timer, GripVertical
+  UtensilsCrossed, Repeat2, Camera, Timer, GripVertical, Settings, Sparkles, Activity
 } from 'lucide-react';
 import './App.css';
 import { supabase, HOUSEHOLD_ID } from './supabase.js';
@@ -39,6 +39,10 @@ const MEAL_TYPES = [
   { id: 'dinner',    label: 'Dinner',    emoji: '🌙' },
   { id: 'snack',     label: 'Snack',     emoji: '🫐' },
 ];
+
+const MEAL_SLOTS = MEAL_TYPES.map(m => m.id); // ['breakfast', 'lunch', 'dinner', 'snack']
+
+const emptyDaySlots = () => Object.fromEntries(MEAL_SLOTS.map(s => [s, null]));
 
 const CARD_COLORS = ['#B83F2A','#5F6B4E','#8B2635','#C8780A','#2E5E74','#6B4226','#1F5F5B','#7B3F6B'];
 
@@ -1131,6 +1135,152 @@ const SEED_RECIPES = [
       { name: 'pickled jalapeños', amount: 50, unit: 'g', aisle: 'pantry' },
     ],
   },
+  // ────────────────────────────────────────────────────────────
+  // Snacks
+  // ────────────────────────────────────────────────────────────
+  {
+    id: 'apple-almond-butter',
+    name: 'Apple with Almond Butter',
+    cuisine: 'Snack',
+    time: '2 min',
+    servings: 1,
+    mealType: 'snack',
+    tags: ['quick', 'veggie', 'high-protein'],
+    makesLeftovers: false,
+    notes: 'Crunchy + creamy. Add cinnamon for extra warmth.',
+    steps: [
+      'Slice the apple into wedges, removing the core.',
+      'Spread or dollop almond butter over the slices.',
+      'Sprinkle with cinnamon if using.',
+    ],
+    ingredients: [
+      { name: 'apple', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'almond butter', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'cinnamon (optional)', amount: 0.25, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'greek-yogurt-honey-nuts',
+    name: 'Greek Yogurt with Honey & Nuts',
+    cuisine: 'Snack',
+    time: '3 min',
+    servings: 1,
+    mealType: 'snack',
+    tags: ['quick', 'high-protein', 'veggie'],
+    makesLeftovers: false,
+    notes: '20g+ protein per bowl. Add berries if you have them.',
+    steps: [
+      'Spoon yogurt into a bowl.',
+      'Drizzle honey over the top.',
+      'Scatter chopped walnuts (or your favourite nuts).',
+    ],
+    ingredients: [
+      { name: 'greek yogurt 0% or 2%', amount: 200, unit: 'g', aisle: 'dairy' },
+      { name: 'honey', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'mixed nuts, chopped', amount: 20, unit: 'g', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'avocado-toast-snack',
+    name: 'Avocado on Toast',
+    cuisine: 'Snack',
+    time: '5 min',
+    servings: 1,
+    mealType: 'snack',
+    tags: ['quick', 'veggie'],
+    makesLeftovers: false,
+    notes: 'A classic. Add chili flakes and a squeeze of lemon if you like.',
+    steps: [
+      'Toast the bread until golden.',
+      'Mash the avocado roughly with a fork. Season with salt and a squeeze of lemon.',
+      'Pile the avocado onto the toast. Finish with chili flakes and a drizzle of olive oil.',
+    ],
+    ingredients: [
+      { name: 'sourdough bread', amount: 2, unit: 'slices', aisle: 'bakery' },
+      { name: 'avocado', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'lemon', amount: 0.25, unit: '', aisle: 'produce' },
+      { name: 'chili flakes', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'olive oil', amount: 1, unit: 'tsp', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'energy-balls',
+    name: 'Date & Peanut Butter Energy Balls',
+    cuisine: 'Snack',
+    time: '10 min + chill',
+    servings: 12,
+    mealType: 'snack',
+    tags: ['veggie', 'high-protein', 'meal-prep', 'freezer-friendly'],
+    makesLeftovers: true,
+    notes: 'Makes 12 balls — keeps in the fridge for 2 weeks, freezer for 3 months. Grab and go.',
+    steps: [
+      'In a food processor, blend the dates until they form a paste.',
+      'Add oats, peanut butter, cocoa, chia seeds, vanilla and salt. Pulse until combined.',
+      'If the mix is too sticky, add a tablespoon more oats. Too dry — a splash of water.',
+      'Roll into balls (about 1 tbsp each), then roll in desiccated coconut or extra cocoa.',
+      'Chill in the fridge for 30 minutes before eating.',
+    ],
+    ingredients: [
+      { name: 'medjool dates, pitted', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'rolled oats', amount: 100, unit: 'g', aisle: 'pantry' },
+      { name: 'natural peanut butter', amount: 80, unit: 'g', aisle: 'pantry' },
+      { name: 'cocoa powder', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'chia seeds', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'vanilla extract', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'sea salt', amount: 0.25, unit: 'tsp', aisle: 'spices' },
+      { name: 'desiccated coconut, for rolling', amount: 30, unit: 'g', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'hummus-veggie-plate',
+    name: 'Hummus & Veggie Plate',
+    cuisine: 'Snack',
+    time: '5 min',
+    servings: 2,
+    mealType: 'snack',
+    tags: ['quick', 'veggie', 'high-iron'],
+    makesLeftovers: false,
+    notes: 'A proper snack plate. Use shop-bought hummus or whatever you have.',
+    steps: [
+      'Cut the carrots, cucumber and peppers into sticks.',
+      'Halve the cherry tomatoes.',
+      'Spoon hummus into a bowl, drizzle with olive oil and a dust of paprika.',
+      'Arrange the veggies around the bowl with a pile of olives. Serve.',
+    ],
+    ingredients: [
+      { name: 'hummus', amount: 200, unit: 'g', aisle: 'dairy' },
+      { name: 'carrot', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'cucumber', amount: 0.5, unit: '', aisle: 'produce' },
+      { name: 'red bell pepper', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'cherry tomatoes', amount: 100, unit: 'g', aisle: 'produce' },
+      { name: 'olives', amount: 50, unit: 'g', aisle: 'pantry' },
+      { name: 'olive oil', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sweet paprika', amount: 0.25, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'cottage-cheese-berries',
+    name: 'Cottage Cheese Bowl with Berries',
+    cuisine: 'Snack',
+    time: '2 min',
+    servings: 1,
+    mealType: 'snack',
+    tags: ['quick', 'high-protein', 'veggie'],
+    makesLeftovers: false,
+    notes: '25g+ protein. The savoury-sweet thing works — trust it.',
+    steps: [
+      'Scoop cottage cheese into a bowl.',
+      'Top with berries, a drizzle of honey, and a scatter of seeds.',
+      'Crack black pepper over the top (yes, really — it works).',
+    ],
+    ingredients: [
+      { name: 'cottage cheese', amount: 200, unit: 'g', aisle: 'dairy' },
+      { name: 'mixed berries', amount: 80, unit: 'g', aisle: 'produce' },
+      { name: 'honey', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'pumpkin or sunflower seeds', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'black pepper', amount: 1, unit: 'pinch', aisle: 'spices' },
+    ],
+  },
 ];
 
 // ============================================================
@@ -1139,12 +1289,13 @@ const SEED_RECIPES = [
 const DEFAULT_STATE = {
   recipes: SEED_RECIPES,
   pantry: [],
-  week: Object.fromEntries(DAYS.map(d => [d, null])),
+  week: Object.fromEntries(DAYS.map(d => [d, emptyDaySlots()])),
   favourites: [],
   shoppingChecked: [],
   seedSeen: SEED_RECIPES.map(r => r.id),
   aisleOrder: AISLES.map(a => a.id),
   customShoppingItems: [],
+  defaultServings: 2,
 };
 
 // ============================================================
@@ -1177,21 +1328,24 @@ function getDateLabel() {
 
 function aggregateShoppingList(week, recipes, pantry) {
   const map = new Map();
-  Object.values(week).forEach(slot => {
-    if (!slot || slot.isLeftover) return; // skip empty and leftover days
-    const recipe = recipes.find(r => r.id === slot.recipeId);
-    if (!recipe) return;
-    const factor = (slot.servings || recipe.servings) / recipe.servings;
-    recipe.ingredients.forEach(ing => {
-      const key = `${normalizeName(ing.name)}|${ing.unit || ''}`;
-      const existing = map.get(key);
-      const scaled = ing.amount * factor;
-      if (existing) {
-        existing.amount += scaled;
-        if (!existing.recipes.includes(recipe.name)) existing.recipes.push(recipe.name);
-      } else {
-        map.set(key, { key, name: ing.name, unit: ing.unit, amount: scaled, aisle: ing.aisle || 'other', recipes: [recipe.name] });
-      }
+  Object.values(week).forEach(daySlots => {
+    if (!daySlots) return;
+    Object.values(daySlots).forEach(slot => {
+      if (!slot || slot.isLeftover || slot.isSkipped) return; // skip empty, leftover, and "eating out" slots
+      const recipe = recipes.find(r => r.id === slot.recipeId);
+      if (!recipe) return;
+      const factor = (slot.servings || recipe.servings) / recipe.servings;
+      recipe.ingredients.forEach(ing => {
+        const key = `${normalizeName(ing.name)}|${ing.unit || ''}`;
+        const existing = map.get(key);
+        const scaled = ing.amount * factor;
+        if (existing) {
+          existing.amount += scaled;
+          if (!existing.recipes.includes(recipe.name)) existing.recipes.push(recipe.name);
+        } else {
+          map.set(key, { key, name: ing.name, unit: ing.unit, amount: scaled, aisle: ing.aisle || 'other', recipes: [recipe.name] });
+        }
+      });
     });
   });
   const pantrySet = new Set(pantry.map(normalizeName));
@@ -1250,6 +1404,24 @@ function applyRecipeDefaults(r) {
   return { photo: null, mealType: 'dinner', makesLeftovers: false, steps: [], cookLog: [], ...r };
 }
 
+// Migrate older week data (single slot per day) to multi-slot structure
+function migrateWeek(week) {
+  const result = {};
+  DAYS.forEach(day => {
+    const stored = week?.[day];
+    if (!stored) {
+      result[day] = emptyDaySlots();
+    } else if (stored.breakfast !== undefined || stored.lunch !== undefined || stored.dinner !== undefined || stored.snack !== undefined) {
+      // already new format — ensure all slots exist
+      result[day] = { ...emptyDaySlots(), ...stored };
+    } else {
+      // legacy: a single recipe slot or leftover. Move it to dinner.
+      result[day] = { ...emptyDaySlots(), dinner: stored };
+    }
+  });
+  return result;
+}
+
 // Merge any new seed recipes into stored data without overwriting edits or resurrecting deletions
 function mergeSeedRecipes(stored) {
   const seedSeen = new Set(stored.seedSeen || []);
@@ -1259,6 +1431,7 @@ function mergeSeedRecipes(stored) {
     ...DEFAULT_STATE,
     ...stored,
     recipes: [...(stored.recipes || []), ...newSeeds].map(applyRecipeDefaults),
+    week: migrateWeek(stored.week),
     seedSeen: [...new Set([...(stored.seedSeen || []), ...SEED_RECIPES.map(s => s.id)])],
   };
 }
@@ -1278,95 +1451,207 @@ export default function App() {
   const [search, setSearch] = useState('');
   const [activeFilters, setActiveFilters] = useState({ tags: [], favs: false, mealType: 'all' });
   const [filterOpen, setFilterOpen] = useState(false);
+  const [shuffleMenuOpen, setShuffleMenuOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [syncStatus, setSyncStatus] = useState('idle');
+  const [lastSyncedAt, setLastSyncedAt] = useState(null);
+  const [updateAvailable, setUpdateAvailable] = useState(null); // null | { updateSW }
   const lastSavedAt = useRef(null);
-  const isSyncing = useRef(false);
+  const localChangePending = useRef(false);
+  const saveAttempts = useRef(0);
 
   // ── Load ──────────────────────────────────────────────────
+  // Fetches state from Supabase on mount. Falls back to localStorage.
   useEffect(() => {
     (async () => {
       try {
         if (supabase) {
           const { data: row, error } = await supabase
             .from('planner_state')
-            .select('data')
+            .select('data, updated_at')
             .eq('id', HOUSEHOLD_ID)
             .maybeSingle();
 
           if (!error && row?.data) {
             setData(mergeSeedRecipes(row.data));
+            lastSavedAt.current = row.updated_at;
             setSyncStatus('synced');
+            setLastSyncedAt(new Date());
             setLoading(false);
             return;
           }
           // Row doesn't exist yet — first run on this household
           if (!error && !row) {
             const fresh = DEFAULT_STATE;
+            const timestamp = new Date().toISOString();
             setData(fresh);
-            // Seed the row in Supabase so other devices can pick it up
             await supabase.from('planner_state')
-              .insert({ id: HOUSEHOLD_ID, data: fresh, updated_at: new Date().toISOString() });
+              .insert({ id: HOUSEHOLD_ID, data: fresh, updated_at: timestamp });
+            lastSavedAt.current = timestamp;
             setSyncStatus('synced');
+            setLastSyncedAt(new Date());
             setLoading(false);
             return;
           }
+          // Supabase errored — log and fall through to localStorage
+          if (error) console.warn('Supabase load failed:', error.message);
+          setSyncStatus('offline');
         }
-        // Supabase not configured or errored — fall back to localStorage
+        // No Supabase or error — fall back to localStorage
         const raw = localStorage.getItem(STORAGE_KEY);
         setData(raw ? mergeSeedRecipes(JSON.parse(raw)) : DEFAULT_STATE);
       } catch (e) {
+        console.warn('Initial load error:', e.message);
         const raw = localStorage.getItem(STORAGE_KEY);
         setData(raw ? mergeSeedRecipes(JSON.parse(raw)) : DEFAULT_STATE);
+        setSyncStatus('offline');
       } finally {
         setLoading(false);
       }
     })();
   }, []);
 
-  // ── Save (debounced) ──────────────────────────────────────
+  // ── Save (debounced) — no isSyncing guard, retries on transient failure ──
   useEffect(() => {
     if (!data || loading) return;
+    localChangePending.current = true;
     const t = setTimeout(async () => {
-      // Always persist locally so offline still works
+      // Always persist locally for offline use
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (_) {}
 
-      if (!supabase) return;
-      if (isSyncing.current) return;
-      isSyncing.current = true;
-      setSyncStatus('syncing');
+      if (!supabase) { localChangePending.current = false; return; }
 
+      setSyncStatus('syncing');
       const timestamp = new Date().toISOString();
       lastSavedAt.current = timestamp;
 
-      const { error } = await supabase
-        .from('planner_state')
-        .upsert({ id: HOUSEHOLD_ID, data, updated_at: timestamp });
+      try {
+        const { error } = await supabase
+          .from('planner_state')
+          .upsert({ id: HOUSEHOLD_ID, data, updated_at: timestamp });
 
-      isSyncing.current = false;
-      setSyncStatus(error ? 'offline' : 'synced');
-    }, 400);
+        if (error) {
+          saveAttempts.current += 1;
+          setSyncStatus('offline');
+          console.warn('Save error:', error.message);
+        } else {
+          saveAttempts.current = 0;
+          localChangePending.current = false;
+          setSyncStatus('synced');
+          setLastSyncedAt(new Date());
+        }
+      } catch (e) {
+        setSyncStatus('offline');
+        console.warn('Save threw:', e.message);
+      }
+    }, 600); // slightly longer debounce — batches rapid edits
     return () => clearTimeout(t);
   }, [data, loading]);
 
-  // ── Realtime subscription ─────────────────────────────────
+  // ── Realtime subscription + automatic reconnection ────────
   useEffect(() => {
     if (!supabase) return;
-    const channel = supabase
-      .channel('planner-sync')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'planner_state', filter: `id=eq.${HOUSEHOLD_ID}` },
-        (payload) => {
-          if (!payload.new?.data) return;
-          // Skip updates that we ourselves triggered
-          if (payload.new.updated_at === lastSavedAt.current) return;
-          setData(mergeSeedRecipes(payload.new.data));
-          setSyncStatus('synced');
-        }
-      )
-      .subscribe();
-    return () => { supabase.removeChannel(channel); };
+    let channel = null;
+    let cancelled = false;
+
+    const setupChannel = () => {
+      channel = supabase
+        .channel('planner-sync-' + HOUSEHOLD_ID)
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'planner_state', filter: `id=eq.${HOUSEHOLD_ID}` },
+          (payload) => {
+            if (!payload.new?.data) return;
+            // Skip updates from our own save (timestamp matches)
+            if (payload.new.updated_at === lastSavedAt.current) return;
+            // Don't overwrite if we have unsaved local changes
+            if (localChangePending.current) return;
+            setData(mergeSeedRecipes(payload.new.data));
+            lastSavedAt.current = payload.new.updated_at;
+            setSyncStatus('synced');
+            setLastSyncedAt(new Date());
+          }
+        )
+        .subscribe((status) => {
+          if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+            if (!cancelled) {
+              console.warn('Realtime channel error, will retry in 5s');
+              setTimeout(() => { if (!cancelled) { supabase.removeChannel(channel); setupChannel(); } }, 5000);
+            }
+          }
+        });
+    };
+
+    setupChannel();
+    return () => { cancelled = true; if (channel) supabase.removeChannel(channel); };
   }, []);
+
+  // ── Pull-on-visibility: when app becomes visible, force-fetch latest ───
+  // Handles the case where the phone was asleep and missed realtime updates.
+  useEffect(() => {
+    if (!supabase) return;
+    const refetchFromServer = async () => {
+      if (document.visibilityState !== 'visible') return;
+      if (localChangePending.current) return; // don't clobber unsaved local edits
+      try {
+        const { data: row, error } = await supabase
+          .from('planner_state')
+          .select('data, updated_at')
+          .eq('id', HOUSEHOLD_ID)
+          .maybeSingle();
+        if (error || !row?.data) return;
+        // Only apply if newer than what we have
+        if (row.updated_at !== lastSavedAt.current) {
+          setData(mergeSeedRecipes(row.data));
+          lastSavedAt.current = row.updated_at;
+          setSyncStatus('synced');
+          setLastSyncedAt(new Date());
+        }
+      } catch (e) {
+        console.warn('Visibility refetch failed:', e.message);
+      }
+    };
+    document.addEventListener('visibilitychange', refetchFromServer);
+    window.addEventListener('online', refetchFromServer);
+    window.addEventListener('focus', refetchFromServer);
+    return () => {
+      document.removeEventListener('visibilitychange', refetchFromServer);
+      window.removeEventListener('online', refetchFromServer);
+      window.removeEventListener('focus', refetchFromServer);
+    };
+  }, []);
+
+  // ── PWA update detection ──────────────────────────────────
+  useEffect(() => {
+    const handleUpdate = (e) => setUpdateAvailable(e.detail);
+    window.addEventListener('pwa-update-available', handleUpdate);
+    return () => window.removeEventListener('pwa-update-available', handleUpdate);
+  }, []);
+
+  // Manual force-sync — user can tap the sync dot to trigger this
+  const forceSync = async () => {
+    if (!supabase) return;
+    setSyncStatus('syncing');
+    try {
+      const { data: row, error } = await supabase
+        .from('planner_state')
+        .select('data, updated_at')
+        .eq('id', HOUSEHOLD_ID)
+        .maybeSingle();
+      if (error) throw error;
+      if (row?.data) {
+        if (!localChangePending.current && row.updated_at !== lastSavedAt.current) {
+          setData(mergeSeedRecipes(row.data));
+          lastSavedAt.current = row.updated_at;
+        }
+      }
+      setSyncStatus('synced');
+      setLastSyncedAt(new Date());
+    } catch (e) {
+      setSyncStatus('offline');
+      console.warn('Force sync failed:', e.message);
+    }
+  };
 
   const upsertRecipe = (r) => setData(d => {
     const exists = d.recipes.find(x => x.id === r.id);
@@ -1391,7 +1676,13 @@ export default function App() {
     favourites: d.favourites.includes(id) ? d.favourites.filter(f => f !== id) : [...d.favourites, id],
   }));
 
-  const setDaySlot = (day, slot) => setData(d => ({ ...d, week: { ...d.week, [day]: slot } }));
+  const setDaySlot = (day, mealSlot, value) => setData(d => ({
+    ...d,
+    week: {
+      ...d.week,
+      [day]: { ...(d.week[day] || emptyDaySlots()), [mealSlot]: value },
+    },
+  }));
 
   const togglePantry = (name) => setData(d => ({
     ...d,
@@ -1406,7 +1697,7 @@ export default function App() {
   }));
 
   const clearChecks = () => setData(d => ({ ...d, shoppingChecked: [] }));
-  const clearWeek = () => setData(d => ({ ...d, week: Object.fromEntries(DAYS.map(day => [day, null])) }));
+  const clearWeek = () => setData(d => ({ ...d, week: Object.fromEntries(DAYS.map(day => [day, emptyDaySlots()])) }));
 
   const logCook = (recipeId, entry) => setData(d => ({
     ...d,
@@ -1417,6 +1708,14 @@ export default function App() {
   }));
 
   const reorderAisles = (newOrder) => setData(d => ({ ...d, aisleOrder: newOrder }));
+
+  const setDefaultServings = (n) => setData(d => ({ ...d, defaultServings: Math.max(1, Math.min(20, n)) }));
+
+  // Store AI-generated nutrition info on a recipe
+  const setRecipeNutrition = (recipeId, nutrition) => setData(d => ({
+    ...d,
+    recipes: d.recipes.map(r => r.id === recipeId ? { ...r, nutrition } : r),
+  }));
 
   const addCustomItem = (item) => setData(d => ({
     ...d,
@@ -1429,32 +1728,62 @@ export default function App() {
     shoppingChecked: d.shoppingChecked.filter(k => k !== id),
   }));
 
-  const fillWeekRandom = () => {
+  const fillWeekRandom = (onlyMealTypes = null) => {
     if (!data.recipes.length) return;
-    const shuffled = [...data.recipes].sort(() => Math.random() - 0.5);
-    let ri = 0;
+    const targetSlots = onlyMealTypes || MEAL_SLOTS;
+    // Group recipes by meal type
+    const byType = {};
+    MEAL_SLOTS.forEach(s => { byType[s] = []; });
+    data.recipes.forEach(r => {
+      const t = r.mealType || 'dinner';
+      if (byType[t]) byType[t].push(r);
+    });
+    // Shuffle each pool
+    Object.keys(byType).forEach(t => { byType[t] = byType[t].sort(() => Math.random() - 0.5); });
+
     const newWeek = { ...data.week };
+    const idx = {}; MEAL_SLOTS.forEach(s => { idx[s] = 0; });
     DAYS.forEach(day => {
-      if (!newWeek[day]) {
-        newWeek[day] = { recipeId: shuffled[ri % shuffled.length].id, servings: shuffled[ri % shuffled.length].servings };
-        ri++;
-      }
+      const daySlots = { ...(newWeek[day] || emptyDaySlots()) };
+      targetSlots.forEach(mealSlot => {
+        if (!daySlots[mealSlot] && byType[mealSlot].length > 0) {
+          const pool = byType[mealSlot];
+          const recipe = pool[idx[mealSlot] % pool.length];
+          idx[mealSlot]++;
+          daySlots[mealSlot] = { recipeId: recipe.id, servings: data.defaultServings || recipe.servings };
+        }
+      });
+      newWeek[day] = daySlots;
     });
     setData(d => ({ ...d, week: newWeek }));
   };
 
-  const markLeftover = (sourceDay) => {
+  const markLeftover = (sourceDay, mealSlot) => {
     const idx = DAYS.indexOf(sourceDay);
     const nextDay = DAYS[idx + 1];
     if (!nextDay) return;
-    const slot = data.week[sourceDay];
+    const slot = data.week[sourceDay]?.[mealSlot];
     if (!slot || slot.isLeftover) return;
     const recipe = data.recipes.find(r => r.id === slot.recipeId);
     setData(d => ({
       ...d,
-      week: { ...d.week, [nextDay]: { isLeftover: true, fromDay: sourceDay, recipeName: recipe?.name || '' } }
+      week: {
+        ...d.week,
+        [nextDay]: {
+          ...(d.week[nextDay] || emptyDaySlots()),
+          [mealSlot]: { isLeftover: true, fromDay: sourceDay, fromMealSlot: mealSlot, recipeName: recipe?.name || '' },
+        },
+      },
     }));
   };
+
+  const markSkipped = (day, mealSlot) => setData(d => ({
+    ...d,
+    week: {
+      ...d.week,
+      [day]: { ...(d.week[day] || emptyDaySlots()), [mealSlot]: { isSkipped: true } },
+    },
+  }));
 
   if (loading || !data) return <Loader />;
 
@@ -1477,7 +1806,10 @@ export default function App() {
     return true;
   });
 
-  const weekCount = Object.values(data.week).filter(s => s && !s.isLeftover).length;
+  const weekCount = Object.values(data.week).reduce((sum, daySlots) => {
+    if (!daySlots) return sum;
+    return sum + Object.values(daySlots).filter(s => s && !s.isLeftover).length;
+  }, 0);
 
   // If cook mode is active, render it full screen
   if (cookModeRecipe) {
@@ -1490,6 +1822,12 @@ export default function App() {
 
   return (
     <div className="mp-root">
+      {updateAvailable && (
+        <UpdateBanner
+          onUpdate={() => updateAvailable.updateSW(true)}
+          onDismiss={() => setUpdateAvailable(null)}
+        />
+      )}
       <header className="mp-header">
         <div>
           <div className="mp-meta">{getDateLabel()}</div>
@@ -1500,14 +1838,32 @@ export default function App() {
           {tab === 'recipes' && <div className="mp-subtitle">{filteredRecipes.length} of {data.recipes.length}</div>}
         </div>
         <div className="mp-header-actions">
-          <SyncDot status={syncStatus} hasSupabase={!!supabase} />
+          <button className="mp-icon-btn" onClick={() => setSettingsOpen(true)} title="Settings"><Settings size={18} /></button>
+          <SyncDot status={syncStatus} hasSupabase={!!supabase} lastSyncedAt={lastSyncedAt} onForceSync={forceSync} />
           {tab === 'recipes' && <>
             <button className="mp-icon-btn" onClick={() => setImporting(true)} title="Import from URL"><Link size={18} /></button>
             <button className={`mp-icon-btn ${(activeFilters.tags.length || activeFilters.favs || activeFilters.mealType !== 'all') ? 'mp-icon-btn-active' : ''}`} onClick={() => setFilterOpen(true)}><Filter size={18} /></button>
             <button className="mp-icon-btn mp-icon-btn-primary" onClick={() => setEditing({})}><Plus size={20} /></button>
           </>}
           {tab === 'week' && <>
-            <button className="mp-icon-btn" onClick={fillWeekRandom} title="Fill empty days randomly"><Shuffle size={18} /></button>
+            <div className="mp-shuffle-menu-wrap">
+              <button className="mp-icon-btn" onClick={() => setShuffleMenuOpen(s => !s)} title="Fill randomly">
+                <Shuffle size={18} />
+              </button>
+              {shuffleMenuOpen && (
+                <>
+                  <div className="mp-shuffle-menu-backdrop" onClick={() => setShuffleMenuOpen(false)} />
+                  <div className="mp-shuffle-menu">
+                    <button onClick={() => { fillWeekRandom(); setShuffleMenuOpen(false); }}>Fill empty slots (all meals)</button>
+                    {MEAL_TYPES.map(mt => (
+                      <button key={mt.id} onClick={() => { fillWeekRandom([mt.id]); setShuffleMenuOpen(false); }}>
+                        {mt.emoji} Just fill {mt.label.toLowerCase()}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
             {weekCount > 0 && <button className="mp-icon-btn" onClick={() => { if (window.confirm('Clear the whole week?')) clearWeek(); }}><RotateCcw size={18} /></button>}
           </>}
           {tab === 'shopping' && data.shoppingChecked.length > 0 && <button className="mp-icon-btn" onClick={clearChecks}><RotateCcw size={18} /></button>}
@@ -1542,7 +1898,7 @@ export default function App() {
 
       <main className="mp-main">
         {tab === 'recipes' && <RecipesTab recipes={filteredRecipes} favourites={data.favourites} onOpen={setOpenRecipeId} onToggleFav={toggleFav} isEmpty={data.recipes.length === 0} />}
-        {tab === 'week' && <WeekTab week={data.week} recipes={data.recipes} onOpen={setOpenRecipeId} onUnassign={(day) => setDaySlot(day, null)} onMarkLeftover={markLeftover} />}
+        {tab === 'week' && <WeekTab week={data.week} recipes={data.recipes} onOpen={setOpenRecipeId} onUnassign={(day, mealSlot) => setDaySlot(day, mealSlot, null)} onMarkLeftover={markLeftover} onMarkSkipped={markSkipped} />}
         {tab === 'shopping' && <ShoppingTab data={data} onToggleCheck={toggleCheck} onReorderAisles={reorderAisles} onAddCustom={addCustomItem} onDeleteCustom={deleteCustomItem} />}
         {tab === 'pantry' && <PantryTab recipes={data.recipes} pantry={data.pantry} onToggle={togglePantry} onOpenRecipe={setOpenRecipeId} />}
       </main>
@@ -1557,12 +1913,14 @@ export default function App() {
       {openRecipe && (
         <RecipeDetailSheet
           recipe={openRecipe} week={data.week} isFav={data.favourites.includes(openRecipe.id)}
+          defaultServings={data.defaultServings || 2}
           onClose={() => setOpenRecipeId(null)} onToggleFav={() => toggleFav(openRecipe.id)}
           onEdit={() => { setEditing(openRecipe); setOpenRecipeId(null); }}
           onDelete={() => { if (window.confirm(`Delete "${openRecipe.name}"?`)) { deleteRecipe(openRecipe.id); setOpenRecipeId(null); } }}
-          onAssignDay={(day, servings) => setDaySlot(day, { recipeId: openRecipe.id, servings })}
-          onUnassignDay={(day) => setDaySlot(day, null)}
+          onAssignDay={(day, mealSlot, servings) => setDaySlot(day, mealSlot, { recipeId: openRecipe.id, servings })}
+          onUnassignDay={(day, mealSlot) => setDaySlot(day, mealSlot, null)}
           onStartCook={() => { setOpenRecipeId(null); setCookModeRecipe(openRecipe); }}
+          onNutritionUpdate={setRecipeNutrition}
         />
       )}
 
@@ -1580,6 +1938,14 @@ export default function App() {
           onSave={(r) => { upsertRecipe({ ...applyRecipeDefaults(r), id: uid() }); setImporting(false); }}
         />
       )}
+
+      {settingsOpen && (
+        <SettingsSheet
+          defaultServings={data.defaultServings || 2}
+          onSetServings={setDefaultServings}
+          onClose={() => setSettingsOpen(false)}
+        />
+      )}
     </div>
   );
 }
@@ -1587,18 +1953,44 @@ export default function App() {
 // ============================================================
 // SUB-COMPONENTS
 // ============================================================
-function SyncDot({ status, hasSupabase }) {
+function SyncDot({ status, hasSupabase, lastSyncedAt, onForceSync }) {
   if (!hasSupabase) return null;
   const map = {
     idle:    { cls: 'mp-sync-idle',    title: 'Connecting…' },
     syncing: { cls: 'mp-sync-syncing', title: 'Syncing…' },
-    synced:  { cls: 'mp-sync-synced',  title: 'Synced across devices' },
-    offline: { cls: 'mp-sync-offline', title: 'Offline — changes saved locally' },
+    synced:  { cls: 'mp-sync-synced',  title: 'Synced — tap to refresh' },
+    offline: { cls: 'mp-sync-offline', title: 'Offline — tap to retry' },
   };
   const { cls, title } = map[status] || map.idle;
+
+  // Format "last synced" tooltip
+  let tooltip = title;
+  if (lastSyncedAt && status === 'synced') {
+    const seconds = Math.floor((Date.now() - lastSyncedAt.getTime()) / 1000);
+    if (seconds < 60) tooltip = `Synced just now — tap to refresh`;
+    else if (seconds < 3600) tooltip = `Synced ${Math.floor(seconds / 60)}m ago — tap to refresh`;
+    else tooltip = `Synced ${Math.floor(seconds / 3600)}h ago — tap to refresh`;
+  }
+
   return (
-    <div className={`mp-sync-dot ${cls}`} title={title}>
-      {status === 'syncing' && <RefreshCw size={10} />}
+    <button
+      className={`mp-sync-dot mp-sync-dot-btn ${cls}`}
+      title={tooltip}
+      onClick={onForceSync}
+      aria-label={tooltip}
+    >
+      {status === 'syncing' && <RefreshCw size={10} className="mp-sync-spin" />}
+    </button>
+  );
+}
+
+function UpdateBanner({ onUpdate, onDismiss }) {
+  return (
+    <div className="mp-update-banner">
+      <RefreshCw size={14} />
+      <span>New version available</span>
+      <button className="mp-update-btn" onClick={onUpdate}>Refresh</button>
+      <button className="mp-update-dismiss" onClick={onDismiss} aria-label="Dismiss"><X size={14} /></button>
     </div>
   );
 }
@@ -1680,52 +2072,137 @@ function RecipeCard({ recipe, isFav, onOpen, onToggleFav }) {
   );
 }
 
-function WeekTab({ week, recipes, onOpen, onUnassign, onMarkLeftover }) {
+function WeekTab({ week, recipes, onOpen, onUnassign, onMarkLeftover, onMarkSkipped }) {
+  const todayIdx = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
+  const [viewMode, setViewMode] = useState(() => localStorage.getItem('week-view-mode') || 'expanded');
+  const [expandedDays, setExpandedDays] = useState(() => new Set([DAYS[todayIdx]]));
+
+  const setMode = (mode) => {
+    setViewMode(mode);
+    localStorage.setItem('week-view-mode', mode);
+  };
+
+  const toggleExpanded = (day) => {
+    setExpandedDays(prev => {
+      const next = new Set(prev);
+      if (next.has(day)) next.delete(day); else next.add(day);
+      return next;
+    });
+  };
+
   return (
     <div className="mp-week">
-      {DAYS.map(day => {
-        const slot = week[day];
-        const recipe = (slot && !slot.isLeftover) ? recipes.find(r => r.id === slot.recipeId) : null;
-        const isLeftover = slot?.isLeftover;
+      <div className="mp-week-mode-toggle">
+        <button className={`mp-week-mode-btn ${viewMode === 'expanded' ? 'mp-week-mode-on' : ''}`} onClick={() => setMode('expanded')}>Expanded</button>
+        <button className={`mp-week-mode-btn ${viewMode === 'compact' ? 'mp-week-mode-on' : ''}`} onClick={() => setMode('compact')}>Compact</button>
+      </div>
+
+      {DAYS.map((day, dayIdx) => {
+        const daySlots = week[day] || emptyDaySlots();
+        const slotsPlanned = MEAL_SLOTS.filter(s => daySlots[s] && !daySlots[s].isLeftover && !daySlots[s].isSkipped).length;
+        const slotsSkipped = MEAL_SLOTS.filter(s => daySlots[s]?.isSkipped).length;
+        const isToday = dayIdx === todayIdx;
+        const isExpanded = viewMode === 'expanded' || expandedDays.has(day);
+
+        // Compact summary text
+        const plannedNames = MEAL_SLOTS
+          .filter(s => daySlots[s] && !daySlots[s].isLeftover && !daySlots[s].isSkipped)
+          .map(s => recipes.find(r => r.id === daySlots[s].recipeId)?.name)
+          .filter(Boolean)
+          .slice(0, 2);
+
         return (
-          <div key={day} className="mp-week-row">
-            <div className="mp-week-day"><div className="mp-display mp-week-daylabel">{DAY_LONG[day]}</div></div>
-            {recipe ? (
-              <div className="mp-week-card" onClick={() => onOpen(recipe.id)}>
-                <div style={{flex:1, minWidth:0}}>
-                  <div className="mp-week-recipe-meta">{recipe.cuisine || ''} {recipe.time ? `· ${recipe.time}` : ''}</div>
-                  <div className="mp-display mp-week-recipe-name">{recipe.name}</div>
-                  <div style={{display:'flex', alignItems:'center', gap:8, marginTop:2}}>
-                    <div className="mp-week-servings">serves {slot.servings}</div>
-                    {recipe.makesLeftovers && DAYS.indexOf(day) < 6 && !week[DAYS[DAYS.indexOf(day)+1]] && (
-                      <button
-                        className="mp-leftover-btn"
-                        onClick={(e) => { e.stopPropagation(); onMarkLeftover(day); }}
-                        title="Mark tomorrow as leftovers"
-                      >
-                        <Repeat2 size={12} /> leftovers tomorrow?
-                      </button>
-                    )}
-                  </div>
-                </div>
-                <button className="mp-week-remove" onClick={(e) => { e.stopPropagation(); onUnassign(day); }}><X size={16} /></button>
+          <div key={day} className={`mp-week-daycard ${isToday ? 'mp-week-daycard-today' : ''}`}>
+            <div
+              className="mp-week-daycard-head"
+              onClick={viewMode === 'compact' ? () => toggleExpanded(day) : undefined}
+              style={viewMode === 'compact' ? { cursor: 'pointer' } : {}}
+            >
+              <div className="mp-display mp-week-daylabel">
+                {DAY_LONG[day]}
+                {isToday && <span className="mp-today-pill">today</span>}
               </div>
-            ) : isLeftover ? (
-              <div className="mp-week-leftover">
-                <Repeat2 size={14} />
-                <div>
-                  <div className="mp-week-leftover-title">Leftovers</div>
-                  <div className="mp-week-leftover-from">from {DAY_LONG[slot.fromDay]}: {slot.recipeName}</div>
-                </div>
-                <button className="mp-week-remove" onClick={() => onUnassign(day)}><X size={16} /></button>
+              <div style={{display:'flex', alignItems:'center', gap:8}}>
+                {slotsPlanned > 0 && <div className="mp-week-meal-count">{slotsPlanned} {slotsPlanned === 1 ? 'meal' : 'meals'}</div>}
+                {viewMode === 'compact' && (
+                  <ChevronDown size={16} style={{ color: 'var(--ink-3)', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s' }} />
+                )}
               </div>
-            ) : (
-              <div className="mp-week-empty"><span>Nothing planned</span></div>
+            </div>
+
+            {/* Compact summary line shown when collapsed */}
+            {viewMode === 'compact' && !isExpanded && (
+              <div className="mp-week-compact-summary">
+                {plannedNames.length > 0
+                  ? <>{plannedNames.join(' · ')}{slotsPlanned > plannedNames.length && <span> · +{slotsPlanned - plannedNames.length} more</span>}</>
+                  : <span style={{color:'var(--ink-3)', fontStyle:'italic'}}>Nothing planned</span>}
+                {slotsSkipped > 0 && <span style={{color:'var(--ink-3)'}}> · {slotsSkipped} out</span>}
+              </div>
+            )}
+
+            {isExpanded && (
+              <div className="mp-meal-slots">
+                {MEAL_TYPES.map(mt => {
+                  const slot = daySlots[mt.id];
+                  const recipe = (slot && !slot.isLeftover && !slot.isSkipped) ? recipes.find(r => r.id === slot.recipeId) : null;
+                  const isLeftover = slot?.isLeftover;
+                  const isSkipped = slot?.isSkipped;
+                  const canLeftover = recipe?.makesLeftovers && dayIdx < 6 && !daySlots[mt.id]?.isLeftover && !week[DAYS[dayIdx + 1]]?.[mt.id];
+                  return (
+                    <div key={mt.id} className={`mp-meal-slot ${recipe ? 'mp-meal-slot-filled' : isLeftover ? 'mp-meal-slot-leftover' : isSkipped ? 'mp-meal-slot-skipped' : 'mp-meal-slot-empty'}`}>
+                      <div className="mp-meal-slot-label">
+                        <span className="mp-meal-slot-emoji">{mt.emoji}</span>
+                        <span className="mp-meal-slot-type">{mt.label}</span>
+                      </div>
+                      {recipe ? (
+                        <div className="mp-meal-slot-body" onClick={() => onOpen(recipe.id)}>
+                          <div className="mp-meal-slot-name">{recipe.name}</div>
+                          <div className="mp-meal-slot-meta">
+                            serves {slot.servings}
+                            {canLeftover && (
+                              <button
+                                className="mp-leftover-btn"
+                                onClick={(e) => { e.stopPropagation(); onMarkLeftover(day, mt.id); }}
+                                title="Mark tomorrow's same slot as leftovers"
+                              >
+                                <Repeat2 size={10} /> tomorrow?
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      ) : isLeftover ? (
+                        <div className="mp-meal-slot-body">
+                          <div className="mp-meal-slot-leftover-text">
+                            <Repeat2 size={11} /> Leftovers from {DAY_LONG[slot.fromDay]} ({slot.recipeName})
+                          </div>
+                        </div>
+                      ) : isSkipped ? (
+                        <div className="mp-meal-slot-body">
+                          <div className="mp-meal-slot-skipped-text">
+                            <UtensilsCrossed size={11} /> Eating out
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="mp-meal-slot-body">
+                          <button className="mp-meal-slot-skip-link" onClick={() => onMarkSkipped(day, mt.id)} title="Mark as eating out">
+                            <span className="mp-meal-slot-empty-text">— skip</span>
+                          </button>
+                        </div>
+                      )}
+                      {(recipe || isLeftover || isSkipped) && (
+                        <button className="mp-meal-slot-remove" onClick={(e) => { e.stopPropagation(); onUnassign(day, mt.id); }} aria-label="Remove">
+                          <X size={14} />
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </div>
         );
       })}
-      <div className="mp-hint">Tap a recipe → assign it to a day. Tap <Shuffle size={12} style={{verticalAlign:'-2px'}} /> to fill the week randomly.</div>
+      <div className="mp-hint">Open a recipe → choose meal slot + days. Tap <Shuffle size={12} style={{verticalAlign:'-2px'}} /> to fill empty slots randomly.</div>
     </div>
   );
 }
@@ -1966,16 +2443,71 @@ function PantryTab({ recipes, pantry, onToggle, onOpenRecipe }) {
   );
 }
 
-function RecipeDetailSheet({ recipe, week, isFav, onClose, onToggleFav, onEdit, onDelete, onAssignDay, onUnassignDay, onStartCook }) {
-  const [servings, setServings] = useState(recipe.servings);
+function RecipeDetailSheet({ recipe, week, isFav, defaultServings, onClose, onToggleFav, onEdit, onDelete, onAssignDay, onUnassignDay, onStartCook, onNutritionUpdate }) {
+  const [servings, setServings] = useState(defaultServings || recipe.servings);
+  const [mealSlot, setMealSlot] = useState(recipe.mealType || 'dinner');
+  const [nutritionLoading, setNutritionLoading] = useState(false);
+  const [nutritionError, setNutritionError] = useState('');
+
+  const fetchNutrition = async () => {
+    setNutritionLoading(true);
+    setNutritionError('');
+    try {
+      const ingredientList = recipe.ingredients.map(i => `${i.amount}${i.unit ? ' ' + i.unit : ''} ${i.name}`).join('\n');
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 500,
+          system: 'You estimate nutrition for recipes. Return ONLY a JSON object — no markdown.',
+          messages: [{
+            role: 'user',
+            content: `Estimate nutrition per serving for this recipe (serves ${recipe.servings}):
+
+${recipe.name}
+
+Ingredients:
+${ingredientList}
+
+Return ONLY this JSON:
+{"calories": 0, "protein": 0, "carbs": 0, "fat": 0, "fibre": 0}
+
+All values per ONE serving. Numbers only, no units, rounded to whole numbers. Best estimate.`
+          }],
+        }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error.message);
+      const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      const match = text.match(/\{[\s\S]*\}/);
+      if (!match) throw new Error('Could not parse nutrition data');
+      const nutrition = JSON.parse(match[0]);
+      onNutritionUpdate(recipe.id, nutrition);
+    } catch (e) {
+      setNutritionError(`Couldn't estimate: ${e.message}`);
+    } finally {
+      setNutritionLoading(false);
+    }
+  };
   const factor = servings / recipe.servings;
-  const assignedDays = Object.entries(week).filter(([, s]) => s?.recipeId === recipe.id).map(([d]) => d);
   const hasSteps = recipe.steps?.length > 0;
+
+  // Find all places this recipe is assigned (any day, any meal slot)
+  const assignedSlots = [];
+  DAYS.forEach(day => {
+    MEAL_SLOTS.forEach(slotKey => {
+      if (week[day]?.[slotKey]?.recipeId === recipe.id) {
+        assignedSlots.push({ day, mealSlot: slotKey });
+      }
+    });
+  });
+
+  const mealSlotLabel = MEAL_TYPES.find(m => m.id === mealSlot);
 
   return (
     <div className="mp-sheet" onClick={onClose}>
       <div className="mp-sheet-content" onClick={e => e.stopPropagation()}>
-        {/* Safe-area-aware sticky header */}
         <header className="mp-sheet-header mp-sheet-header-safe">
           <button className="mp-back" onClick={onClose} aria-label="Close"><ChevronLeft size={22} /></button>
           <button className={`mp-fav-btn mp-fav-big ${isFav ? 'mp-fav-on' : ''}`} onClick={onToggleFav}>
@@ -1989,7 +2521,6 @@ function RecipeDetailSheet({ recipe, week, isFav, onClose, onToggleFav, onEdit, 
 
           {recipe.tags?.length > 0 && <div className="mp-tag-row mp-tag-row-spacious">{recipe.tags.map(t => <span key={t} className="mp-tag">{t}</span>)}</div>}
 
-          {/* Cook Mode entry */}
           <button
             className={`mp-cook-btn ${!hasSteps ? 'mp-cook-btn-dim' : ''}`}
             onClick={hasSteps ? onStartCook : undefined}
@@ -2007,25 +2538,63 @@ function RecipeDetailSheet({ recipe, week, isFav, onClose, onToggleFav, onEdit, 
           </section>
 
           <section className="mp-sheet-section">
-            <h3 className="mp-aisle-label">Cook on</h3>
+            <h3 className="mp-aisle-label">Add to week</h3>
+            <div className="mp-tiny" style={{marginBottom:8}}>Pick the meal slot, then tap days.</div>
+            <div className="mp-tag-row" style={{marginBottom:14}}>
+              {MEAL_TYPES.map(mt => (
+                <button key={mt.id}
+                  className={`mp-tag mp-tag-btn ${mealSlot === mt.id ? 'mp-tag-on' : ''}`}
+                  onClick={() => setMealSlot(mt.id)}>
+                  {mt.emoji} {mt.label}
+                </button>
+              ))}
+            </div>
             <div className="mp-day-chips">
               {DAYS.map(day => {
-                const slot = week[day];
+                const slot = week[day]?.[mealSlot];
                 const mine = slot?.recipeId === recipe.id;
                 const otherTaken = slot && !mine;
                 return (
                   <button key={day} className={`mp-day-chip ${mine ? 'mp-day-chip-on' : ''} ${otherTaken ? 'mp-day-chip-busy' : ''}`}
                     onClick={() => {
-                      if (mine) { onUnassignDay(day); }
-                      else if (otherTaken) { if (window.confirm(`${DAY_LONG[day]} already has a meal. Replace it?`)) onAssignDay(day, servings); }
-                      else { onAssignDay(day, servings); }
+                      if (mine) { onUnassignDay(day, mealSlot); }
+                      else if (otherTaken) {
+                        if (window.confirm(`${DAY_LONG[day]} ${mealSlotLabel.label.toLowerCase()} already has a meal. Replace it?`)) onAssignDay(day, mealSlot, servings);
+                      }
+                      else { onAssignDay(day, mealSlot, servings); }
                     }}>
                     {DAY_SHORT[day]}
                   </button>
                 );
               })}
             </div>
-            {assignedDays.length > 0 && <div className="mp-tiny">on {assignedDays.map(d => DAY_LONG[d]).join(', ')}</div>}
+            <div className="mp-day-shortcuts">
+              <button className="mp-day-shortcut-btn" onClick={() => {
+                ['monday','tuesday','wednesday','thursday','friday'].forEach(d => {
+                  if (!week[d]?.[mealSlot] || week[d][mealSlot].recipeId !== recipe.id) onAssignDay(d, mealSlot, servings);
+                });
+              }}>+ weekdays</button>
+              <button className="mp-day-shortcut-btn" onClick={() => {
+                ['saturday','sunday'].forEach(d => {
+                  if (!week[d]?.[mealSlot] || week[d][mealSlot].recipeId !== recipe.id) onAssignDay(d, mealSlot, servings);
+                });
+              }}>+ weekend</button>
+              <button className="mp-day-shortcut-btn" onClick={() => {
+                DAYS.forEach(d => {
+                  if (!week[d]?.[mealSlot] || week[d][mealSlot].recipeId !== recipe.id) onAssignDay(d, mealSlot, servings);
+                });
+              }}>+ all 7</button>
+              <button className="mp-day-shortcut-btn mp-day-shortcut-clear" onClick={() => {
+                DAYS.forEach(d => {
+                  if (week[d]?.[mealSlot]?.recipeId === recipe.id) onUnassignDay(d, mealSlot);
+                });
+              }}>clear</button>
+            </div>
+            {assignedSlots.length > 0 && (
+              <div className="mp-tiny" style={{marginTop:8}}>
+                on {assignedSlots.map(a => `${DAY_SHORT[a.day]} ${MEAL_TYPES.find(m => m.id === a.mealSlot).label.toLowerCase()}`).join(', ')}
+              </div>
+            )}
           </section>
 
           <section className="mp-sheet-section">
@@ -2041,6 +2610,55 @@ function RecipeDetailSheet({ recipe, week, isFav, onClose, onToggleFav, onEdit, 
           </section>
 
           {recipe.notes && <section className="mp-sheet-section"><h3 className="mp-aisle-label">Notes</h3><p className="mp-notes">{recipe.notes}</p></section>}
+
+          <section className="mp-sheet-section">
+            <div className="mp-pantry-section-head">
+              <h3 className="mp-aisle-label">Nutrition <span style={{fontWeight:400, fontSize:11, color:'var(--ink-3)'}}>per serving</span></h3>
+              {!recipe.nutrition && !nutritionLoading && (
+                <button className="mp-ai-btn" onClick={fetchNutrition}>
+                  <Activity size={11} /> estimate
+                </button>
+              )}
+              {recipe.nutrition && !nutritionLoading && (
+                <button className="mp-link" onClick={fetchNutrition}>refresh</button>
+              )}
+            </div>
+            {nutritionLoading ? (
+              <div className="mp-nutrition-loading">
+                <RefreshCw size={14} className="mp-sync-spin" /> Estimating nutrition…
+              </div>
+            ) : recipe.nutrition ? (
+              <>
+                <div className="mp-nutrition-grid">
+                  <div className="mp-nutrition-stat">
+                    <div className="mp-nutrition-value">{recipe.nutrition.calories}</div>
+                    <div className="mp-nutrition-label">kcal</div>
+                  </div>
+                  <div className="mp-nutrition-stat">
+                    <div className="mp-nutrition-value">{recipe.nutrition.protein}g</div>
+                    <div className="mp-nutrition-label">protein</div>
+                  </div>
+                  <div className="mp-nutrition-stat">
+                    <div className="mp-nutrition-value">{recipe.nutrition.carbs}g</div>
+                    <div className="mp-nutrition-label">carbs</div>
+                  </div>
+                  <div className="mp-nutrition-stat">
+                    <div className="mp-nutrition-value">{recipe.nutrition.fat}g</div>
+                    <div className="mp-nutrition-label">fat</div>
+                  </div>
+                </div>
+                {recipe.nutrition.fibre !== undefined && (
+                  <div className="mp-tiny" style={{marginTop:8, textAlign:'center'}}>{recipe.nutrition.fibre}g fibre · AI-estimated, not exact</div>
+                )}
+              </>
+            ) : nutritionError ? (
+              <div className="mp-tiny" style={{color:'#B91C1C'}}>{nutritionError}</div>
+            ) : (
+              <p style={{fontSize:13, color:'var(--ink-3)', fontStyle:'italic', margin:'4px 0 0'}}>
+                Tap "estimate" — Claude will guess the macros from the ingredients.
+              </p>
+            )}
+          </section>
 
           {recipe.cookLog?.length > 0 && (
             <section className="mp-sheet-section">
@@ -2089,7 +2707,37 @@ function CookModeView({ recipe, onClose, onLogCook }) {
   const [showLog, setShowLog] = useState(false);
   const [logRating, setLogRating] = useState(5);
   const [logNote, setLogNote] = useState('');
+  const [subResult, setSubResult] = useState(null);
+  const [subLoading, setSubLoading] = useState(false);
   const steps = recipe.steps || [];
+
+  const fetchSubstitute = async (ingredient) => {
+    setSubLoading(true);
+    setSubResult(null);
+    try {
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 250,
+          system: 'You suggest cooking substitutions. Be concise — 1 short sentence with the best substitute, then ½ sentence on flavour/texture difference if relevant. No headers, no lists.',
+          messages: [{
+            role: 'user',
+            content: `In the recipe "${recipe.name}", what's the best substitute for ${ingredient.name}? Consider the cooking context.`
+          }],
+        }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error.message);
+      const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+      setSubResult({ ingredient: ingredient.name, text });
+    } catch (e) {
+      setSubResult({ ingredient: ingredient.name, text: `Couldn't fetch: ${e.message}` });
+    } finally {
+      setSubLoading(false);
+    }
+  };
 
   // Keep screen awake
   useEffect(() => {
@@ -2199,8 +2847,14 @@ function CookModeView({ recipe, onClose, onLogCook }) {
                   >
                     {part.text}
                     {activeIng === i && (
-                      <span className="mp-ing-popup">
-                        {formatAmount(part.ing.amount, part.ing.unit)}
+                      <span className="mp-ing-popup mp-ing-popup-rich" onClick={(e) => e.stopPropagation()}>
+                        <span className="mp-ing-popup-qty">{formatAmount(part.ing.amount, part.ing.unit)}</span>
+                        <button
+                          className="mp-ing-popup-sub"
+                          onClick={(e) => { e.stopPropagation(); fetchSubstitute(part.ing); setActiveIng(null); }}
+                        >
+                          <Sparkles size={10} /> no this?
+                        </button>
                       </span>
                     )}
                   </button>
@@ -2209,6 +2863,29 @@ function CookModeView({ recipe, onClose, onLogCook }) {
                 )
               )}
             </div>
+
+            {/* AI substitution result */}
+            {(subLoading || subResult) && (
+              <div className="mp-cookmode-sub-result">
+                {subLoading ? (
+                  <div style={{display:'flex', alignItems:'center', gap:8}}>
+                    <RefreshCw size={14} className="mp-sync-spin" /> finding a substitute…
+                  </div>
+                ) : (
+                  <>
+                    <div style={{fontSize:11, color:'#F59E0B', textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:4, fontWeight:600}}>
+                      substitute for {subResult.ingredient}
+                    </div>
+                    <div>{subResult.text}</div>
+                    <button
+                      style={{background:'transparent', border:'none', color:'rgba(255,255,255,0.5)', fontSize:11, marginTop:6, cursor:'pointer', padding:0, fontFamily:'inherit'}}
+                      onClick={() => setSubResult(null)}
+                    >dismiss</button>
+                  </>
+                )}
+              </div>
+            )}
+
             {/* Auto-detected timers */}
             {currentTimers.length > 0 && (
               <div className="mp-cookmode-timers">
@@ -2472,6 +3149,39 @@ function FilterSheet({ filters, setFilters, favourites, onClose }) {
 }
 
 // ── AI Recipe Import ──────────────────────────────────────────
+function SettingsSheet({ defaultServings, onSetServings, onClose }) {
+  const [servings, setServings] = useState(defaultServings);
+  return (
+    <div className="mp-sheet mp-sheet-bottom" onClick={onClose}>
+      <div className="mp-sheet-content mp-sheet-content-bottom" onClick={e => e.stopPropagation()}>
+        <header className="mp-sheet-header">
+          <h3 className="mp-display mp-filter-title">Settings</h3>
+          <button className="mp-back" onClick={onClose}><X size={20} /></button>
+        </header>
+        <div className="mp-sheet-body">
+          <section className="mp-sheet-section">
+            <label className="mp-label">Default servings (your household size)</label>
+            <p style={{fontSize:12, color:'var(--ink-2)', margin:'4px 0 12px', lineHeight:1.5}}>
+              When you assign a recipe to a day, it'll default to this many servings instead of the recipe's original number.
+            </p>
+            <div style={{display:'flex', alignItems:'center', gap:10}}>
+              <button className="mp-btn mp-btn-ghost" style={{width:44, padding:8, flex:0}} onClick={() => setServings(s => Math.max(1, s - 1))}>−</button>
+              <input className="mp-input" type="number" min="1" max="20" value={servings}
+                onChange={e => setServings(Math.max(1, Math.min(20, Number(e.target.value) || 1)))}
+                style={{textAlign:'center', flex:1, fontFamily:'Fraunces, serif', fontSize:24, fontWeight:500}} />
+              <button className="mp-btn mp-btn-ghost" style={{width:44, padding:8, flex:0}} onClick={() => setServings(s => Math.min(20, s + 1))}>+</button>
+            </div>
+          </section>
+          <div className="mp-sheet-actions">
+            <button className="mp-btn mp-btn-ghost" onClick={onClose}>Cancel</button>
+            <button className="mp-btn mp-btn-primary" onClick={() => { onSetServings(servings); onClose(); }}>Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ImportSheet({ onClose, onSave }) {
   const [mode, setMode] = useState('url');
   const [url, setUrl] = useState('');
