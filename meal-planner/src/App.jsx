@@ -2576,7 +2576,7 @@ function RecipeDetailSheet({ recipe, week, isFav, defaultServings, onClose, onTo
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-haiku-4-5-20251001',
           max_tokens: 500,
           system: 'You estimate nutrition for recipes. Return ONLY a JSON object — no markdown.',
           messages: [{
@@ -2837,7 +2837,7 @@ function CookModeView({ recipe, onClose, onLogCook }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-haiku-4-5-20251001',
           max_tokens: 250,
           system: 'You suggest cooking substitutions. Be concise — 1 short sentence with the best substitute, then ½ sentence on flavour/texture difference if relevant. No headers, no lists.',
           messages: [{
@@ -3427,9 +3427,9 @@ For tags: quick|veggie|high-iron|high-protein|comfort|freezer-friendly|one-tray|
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-sonnet-4-6',
           max_tokens: 2000,
-          ...(!isImage && mode === 'url' ? { tools: [{ type: 'web_search_20250305', name: 'web_search' }] } : {}),
+          ...(!isImage && mode === 'url' ? { tools: [{ type: 'web_search_20260209', name: 'web_search' }] } : {}),
           system: 'You extract recipes and return ONLY a valid JSON object — no markdown, no backticks.',
           messages: [{ role: 'user', content: userContent }],
         }),
