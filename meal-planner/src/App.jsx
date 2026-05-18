@@ -1455,7 +1455,17 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [syncStatus, setSyncStatus] = useState('idle');
   const [lastSyncedAt, setLastSyncedAt] = useState(null);
-  const [updateAvailable, setUpdateAvailable] = useState(null); // null | { updateSW }
+  const [updateAvailable, setUpdateAvailable] = useState(null);
+  const [diagnostics, setDiagnostics] = useState({
+    realtimeStatus: 'connecting',  // connecting | subscribed | error | timeout | closed
+    lastSaveOk: null,    // Date | null
+    lastSaveError: null, // string | null
+    lastLoadOk: null,
+    lastLoadError: null,
+    pollCount: 0,
+    saveCount: 0,
+    incomingCount: 0,
+  });
   const lastSavedAt = useRef(null);
   const localChangePending = useRef(false);
   const saveAttempts = useRef(0);
@@ -1477,6 +1487,7 @@ export default function App() {
             lastSavedAt.current = row.updated_at;
             setSyncStatus('synced');
             setLastSyncedAt(new Date());
+            setDiagnostics(d => ({ ...d, lastLoadOk: new Date(), lastLoadError: null }));
             setLoading(false);
             return;
           }
@@ -1485,16 +1496,19 @@ export default function App() {
             const fresh = DEFAULT_STATE;
             const timestamp = new Date().toISOString();
             setData(fresh);
-            await supabase.from('planner_state')
+            const ins = await supabase.from('planner_state')
               .insert({ id: HOUSEHOLD_ID, data: fresh, updated_at: timestamp });
             lastSavedAt.current = timestamp;
             setSyncStatus('synced');
             setLastSyncedAt(new Date());
+            setDiagnostics(d => ({ ...d, lastLoadOk: new Date(), lastLoadError: ins.error?.message || null }));
             setLoading(false);
             return;
           }
-          // Supabase errored — log and fall through to localStorage
-          if (error) console.warn('Supabase load failed:', error.message);
+          if (error) {
+            console.warn('Supabase load failed:', error.message);
+            setDiagnostics(d => ({ ...d, lastLoadError: error.message }));
+          }
           setSyncStatus('offline');
         }
         // No Supabase or error — fall back to localStorage
@@ -1502,6 +1516,7 @@ export default function App() {
         setData(raw ? mergeSeedRecipes(JSON.parse(raw)) : DEFAULT_STATE);
       } catch (e) {
         console.warn('Initial load error:', e.message);
+        setDiagnostics(d => ({ ...d, lastLoadError: e.message }));
         const raw = localStorage.getItem(STORAGE_KEY);
         setData(raw ? mergeSeedRecipes(JSON.parse(raw)) : DEFAULT_STATE);
         setSyncStatus('offline');
@@ -1533,15 +1548,18 @@ export default function App() {
         if (error) {
           saveAttempts.current += 1;
           setSyncStatus('offline');
+          setDiagnostics(d => ({ ...d, lastSaveError: error.message, saveCount: d.saveCount + 1 }));
           console.warn('Save error:', error.message);
         } else {
           saveAttempts.current = 0;
           localChangePending.current = false;
           setSyncStatus('synced');
           setLastSyncedAt(new Date());
+          setDiagnostics(d => ({ ...d, lastSaveOk: new Date(), lastSaveError: null, saveCount: d.saveCount + 1 }));
         }
       } catch (e) {
         setSyncStatus('offline');
+        setDiagnostics(d => ({ ...d, lastSaveError: e.message }));
         console.warn('Save threw:', e.message);
       }
     }, 600); // slightly longer debounce — batches rapid edits
@@ -1550,21 +1568,24 @@ export default function App() {
 
   // ── Realtime subscription + automatic reconnection ────────
   useEffect(() => {
-    if (!supabase) return;
+    if (!supabase) {
+      setDiagnostics(d => ({ ...d, realtimeStatus: 'not-configured' }));
+      return;
+    }
     let channel = null;
     let cancelled = false;
 
     const setupChannel = () => {
+      setDiagnostics(d => ({ ...d, realtimeStatus: 'connecting' }));
       channel = supabase
         .channel('planner-sync-' + HOUSEHOLD_ID)
         .on(
           'postgres_changes',
           { event: '*', schema: 'public', table: 'planner_state', filter: `id=eq.${HOUSEHOLD_ID}` },
           (payload) => {
+            setDiagnostics(d => ({ ...d, incomingCount: d.incomingCount + 1 }));
             if (!payload.new?.data) return;
-            // Skip updates from our own save (timestamp matches)
             if (payload.new.updated_at === lastSavedAt.current) return;
-            // Don't overwrite if we have unsaved local changes
             if (localChangePending.current) return;
             setData(mergeSeedRecipes(payload.new.data));
             lastSavedAt.current = payload.new.updated_at;
@@ -1573,6 +1594,7 @@ export default function App() {
           }
         )
         .subscribe((status) => {
+          setDiagnostics(d => ({ ...d, realtimeStatus: status.toLowerCase().replace('_', '-') }));
           if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
             if (!cancelled) {
               console.warn('Realtime channel error, will retry in 5s');
@@ -1628,6 +1650,47 @@ export default function App() {
     return () => window.removeEventListener('pwa-update-available', handleUpdate);
   }, []);
 
+  // ── Polling fallback ──────────────────────────────────────
+  // Every 20 seconds, check Supabase for changes. This is belt-and-braces in
+  // case realtime subscription has silently disconnected (which happens on
+  // mobile networks and after device sleep).
+  useEffect(() => {
+    if (!supabase) return;
+    const POLL_MS = 20000;
+    let timeoutId = null;
+    let cancelled = false;
+
+    const poll = async () => {
+      if (cancelled) return;
+      if (document.visibilityState !== 'visible') {
+        timeoutId = setTimeout(poll, POLL_MS);
+        return;
+      }
+      if (localChangePending.current) {
+        timeoutId = setTimeout(poll, POLL_MS);
+        return;
+      }
+      try {
+        const { data: row, error } = await supabase
+          .from('planner_state')
+          .select('data, updated_at')
+          .eq('id', HOUSEHOLD_ID)
+          .maybeSingle();
+        setDiagnostics(d => ({ ...d, pollCount: d.pollCount + 1 }));
+        if (!error && row?.data && row.updated_at !== lastSavedAt.current) {
+          setData(mergeSeedRecipes(row.data));
+          lastSavedAt.current = row.updated_at;
+          setSyncStatus('synced');
+          setLastSyncedAt(new Date());
+        }
+      } catch (_) { /* silent */ }
+      if (!cancelled) timeoutId = setTimeout(poll, POLL_MS);
+    };
+
+    timeoutId = setTimeout(poll, POLL_MS);
+    return () => { cancelled = true; if (timeoutId) clearTimeout(timeoutId); };
+  }, []);
+
   // Manual force-sync — user can tap the sync dot to trigger this
   const forceSync = async () => {
     if (!supabase) return;
@@ -1647,9 +1710,58 @@ export default function App() {
       }
       setSyncStatus('synced');
       setLastSyncedAt(new Date());
+      setDiagnostics(d => ({ ...d, lastLoadOk: new Date(), lastLoadError: null }));
     } catch (e) {
       setSyncStatus('offline');
+      setDiagnostics(d => ({ ...d, lastLoadError: e.message }));
       console.warn('Force sync failed:', e.message);
+    }
+  };
+
+  // Hard reset — wipes local data and pulls fresh from server.
+  // Use this if a device gets out of sync and you want to force it to match the server.
+  const hardResyncFromServer = async () => {
+    if (!supabase) return;
+    if (!window.confirm('Wipe local changes and pull fresh from server? Other devices keep their data.')) return;
+    try {
+      const { data: row, error } = await supabase
+        .from('planner_state')
+        .select('data, updated_at')
+        .eq('id', HOUSEHOLD_ID)
+        .maybeSingle();
+      if (error) throw error;
+      if (row?.data) {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+        localChangePending.current = false;
+        setData(mergeSeedRecipes(row.data));
+        lastSavedAt.current = row.updated_at;
+        setSyncStatus('synced');
+        setLastSyncedAt(new Date());
+        window.alert('Reset complete — local data replaced with server version.');
+      } else {
+        window.alert('No data found on server. Nothing to restore.');
+      }
+    } catch (e) {
+      window.alert(`Reset failed: ${e.message}`);
+    }
+  };
+
+  // Test write — runs a no-op upsert to verify the round-trip works
+  const testWrite = async () => {
+    if (!supabase) { window.alert('Supabase not configured on this build.'); return; }
+    try {
+      const { error } = await supabase
+        .from('planner_state')
+        .upsert({ id: HOUSEHOLD_ID, data, updated_at: new Date().toISOString() });
+      if (error) {
+        window.alert(`Test write FAILED: ${error.message}\n\nCheck your Supabase RLS policies and table permissions.`);
+        setDiagnostics(d => ({ ...d, lastSaveError: error.message }));
+      } else {
+        window.alert(`Test write OK ✓\nHousehold: ${HOUSEHOLD_ID}\nOther devices should now receive this update.`);
+        setDiagnostics(d => ({ ...d, lastSaveOk: new Date(), lastSaveError: null }));
+      }
+    } catch (e) {
+      window.alert(`Test write THREW: ${e.message}`);
     }
   };
 
@@ -1944,6 +2056,12 @@ export default function App() {
           defaultServings={data.defaultServings || 2}
           onSetServings={setDefaultServings}
           onClose={() => setSettingsOpen(false)}
+          diagnostics={diagnostics}
+          householdId={HOUSEHOLD_ID}
+          hasSupabase={!!supabase}
+          onForceSync={forceSync}
+          onTestWrite={testWrite}
+          onHardResync={hardResyncFromServer}
         />
       )}
     </div>
@@ -3149,8 +3267,18 @@ function FilterSheet({ filters, setFilters, favourites, onClose }) {
 }
 
 // ── AI Recipe Import ──────────────────────────────────────────
-function SettingsSheet({ defaultServings, onSetServings, onClose }) {
+function SettingsSheet({ defaultServings, onSetServings, onClose, diagnostics, householdId, hasSupabase, onTestWrite, onHardResync, onForceSync }) {
   const [servings, setServings] = useState(defaultServings);
+  const [showDiagnostics, setShowDiagnostics] = useState(false);
+
+  const formatTime = (d) => {
+    if (!d) return '—';
+    const seconds = Math.floor((Date.now() - new Date(d).getTime()) / 1000);
+    if (seconds < 60) return `${seconds}s ago`;
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+    return `${Math.floor(seconds / 3600)}h ago`;
+  };
+
   return (
     <div className="mp-sheet mp-sheet-bottom" onClick={onClose}>
       <div className="mp-sheet-content mp-sheet-content-bottom" onClick={e => e.stopPropagation()}>
@@ -3162,7 +3290,7 @@ function SettingsSheet({ defaultServings, onSetServings, onClose }) {
           <section className="mp-sheet-section">
             <label className="mp-label">Default servings (your household size)</label>
             <p style={{fontSize:12, color:'var(--ink-2)', margin:'4px 0 12px', lineHeight:1.5}}>
-              When you assign a recipe to a day, it'll default to this many servings instead of the recipe's original number.
+              When you assign a recipe to a day, it'll default to this many servings.
             </p>
             <div style={{display:'flex', alignItems:'center', gap:10}}>
               <button className="mp-btn mp-btn-ghost" style={{width:44, padding:8, flex:0}} onClick={() => setServings(s => Math.max(1, s - 1))}>−</button>
@@ -3171,11 +3299,99 @@ function SettingsSheet({ defaultServings, onSetServings, onClose }) {
                 style={{textAlign:'center', flex:1, fontFamily:'Fraunces, serif', fontSize:24, fontWeight:500}} />
               <button className="mp-btn mp-btn-ghost" style={{width:44, padding:8, flex:0}} onClick={() => setServings(s => Math.min(20, s + 1))}>+</button>
             </div>
+            <div style={{display:'flex', gap:8, marginTop:14}}>
+              <button className="mp-btn mp-btn-ghost" onClick={onClose}>Cancel</button>
+              <button className="mp-btn mp-btn-primary" onClick={() => { onSetServings(servings); onClose(); }}>Save</button>
+            </div>
           </section>
-          <div className="mp-sheet-actions">
-            <button className="mp-btn mp-btn-ghost" onClick={onClose}>Cancel</button>
-            <button className="mp-btn mp-btn-primary" onClick={() => { onSetServings(servings); onClose(); }}>Save</button>
-          </div>
+
+          <section className="mp-sheet-section">
+            <div className="mp-pantry-section-head">
+              <h3 className="mp-aisle-label">Sync diagnostics</h3>
+              <button className="mp-link" onClick={() => setShowDiagnostics(s => !s)}>
+                {showDiagnostics ? 'hide' : 'show details'}
+              </button>
+            </div>
+
+            <div className="mp-diag-list">
+              <div className="mp-diag-row">
+                <span>Supabase configured</span>
+                <span className={hasSupabase ? 'mp-diag-ok' : 'mp-diag-bad'}>
+                  {hasSupabase ? '✓ yes' : '✗ NO — env vars missing'}
+                </span>
+              </div>
+              <div className="mp-diag-row">
+                <span>Household ID</span>
+                <span className="mp-diag-mono">{householdId}</span>
+              </div>
+              <div className="mp-diag-row">
+                <span>Realtime</span>
+                <span className={diagnostics.realtimeStatus === 'subscribed' ? 'mp-diag-ok' : 'mp-diag-warn'}>
+                  {diagnostics.realtimeStatus}
+                </span>
+              </div>
+              <div className="mp-diag-row">
+                <span>Last save</span>
+                <span>{formatTime(diagnostics.lastSaveOk)}</span>
+              </div>
+              <div className="mp-diag-row">
+                <span>Last load</span>
+                <span>{formatTime(diagnostics.lastLoadOk)}</span>
+              </div>
+              {showDiagnostics && (
+                <>
+                  <div className="mp-diag-row">
+                    <span>Saves performed</span>
+                    <span>{diagnostics.saveCount}</span>
+                  </div>
+                  <div className="mp-diag-row">
+                    <span>Realtime msgs received</span>
+                    <span>{diagnostics.incomingCount}</span>
+                  </div>
+                  <div className="mp-diag-row">
+                    <span>Polls performed</span>
+                    <span>{diagnostics.pollCount}</span>
+                  </div>
+                  {diagnostics.lastSaveError && (
+                    <div className="mp-diag-error">
+                      <strong>Last save error:</strong><br />{diagnostics.lastSaveError}
+                    </div>
+                  )}
+                  {diagnostics.lastLoadError && (
+                    <div className="mp-diag-error">
+                      <strong>Last load error:</strong><br />{diagnostics.lastLoadError}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+
+            <div style={{display:'flex', flexDirection:'column', gap:8, marginTop:14}}>
+              <button className="mp-btn mp-btn-ghost" onClick={onForceSync}>
+                <RefreshCw size={14} /> Pull from server now
+              </button>
+              <button className="mp-btn mp-btn-ghost" onClick={onTestWrite}>
+                <Check size={14} /> Test write (verify round-trip)
+              </button>
+              <button className="mp-btn mp-btn-ghost" onClick={onHardResync} style={{color: '#B91C1C'}}>
+                <RotateCcw size={14} /> Hard reset: replace local with server
+              </button>
+            </div>
+          </section>
+
+          {!hasSupabase && (
+            <section className="mp-sheet-section">
+              <div className="mp-diag-error">
+                <strong>Sync is OFF on this device.</strong><br />
+                The Supabase environment variables haven't loaded. Things you can try:<br />
+                <br />
+                • Pull-to-refresh this page<br />
+                • Force-quit the app and reopen<br />
+                • If on PWA: uninstall and reinstall from the browser<br />
+                • Check VITE_SUPABASE_URL is set in Vercel and you've redeployed
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </div>

@@ -1475,3 +1475,56 @@ body {
 .mp-ing-popup-sub:hover {
   background: rgba(0,0,0,0.25);
 }
+
+/* ============================================================
+   Diagnostics panel
+   ============================================================ */
+
+.mp-diag-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: var(--bg-2);
+  border-radius: 10px;
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+}
+.mp-diag-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.mp-diag-row > span:first-child {
+  color: var(--ink-2);
+  font-family: 'DM Sans', sans-serif;
+}
+.mp-diag-ok {
+  color: #16A34A;
+  font-weight: 600;
+}
+.mp-diag-warn {
+  color: #D97706;
+  font-weight: 600;
+}
+.mp-diag-bad {
+  color: #DC2626;
+  font-weight: 600;
+}
+.mp-diag-mono {
+  font-family: var(--font-mono, monospace);
+  color: var(--ink);
+  font-size: 11px;
+}
+.mp-diag-error {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: rgba(220, 38, 38, 0.08);
+  border-left: 3px solid #DC2626;
+  border-radius: 0 6px 6px 0;
+  font-size: 12px;
+  color: #B91C1C;
+  line-height: 1.5;
+  font-family: 'DM Sans', sans-serif;
+}
