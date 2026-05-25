@@ -1281,6 +1281,278 @@ const SEED_RECIPES = [
       { name: 'black pepper', amount: 1, unit: 'pinch', aisle: 'spices' },
     ],
   },
+  // ────────────────────────────────────────────────────────────
+  // High-protein breakfasts
+  // ────────────────────────────────────────────────────────────
+  {
+    id: 'protein-banana-egg-pancakes',
+    name: 'Protein, Banana & Egg Pancakes',
+    cuisine: 'Breakfast',
+    time: '10 min',
+    servings: 2,
+    mealType: 'breakfast',
+    tags: ['high-protein', 'quick', 'gluten-free', 'veggie'],
+    makesLeftovers: false,
+    notes: '35g+ protein per stack. The banana binds everything and adds sweetness without sugar.',
+    steps: [
+      'Mash the bananas thoroughly in a bowl until almost smooth.',
+      'Whisk in the eggs, then stir in the protein powder, oats and cinnamon. Let the batter sit for 2 minutes to thicken.',
+      'Heat a non-stick pan over medium-low heat with a little butter or oil.',
+      'Ladle small pancakes (about 8cm) into the pan. Cook 2-3 minutes until bubbles form on top and the edges set, then flip and cook another 1-2 minutes.',
+      'Stack and top with berries, a drizzle of nut butter and a splash of maple syrup.',
+    ],
+    ingredients: [
+      { name: 'banana', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'egg', amount: 4, unit: '', aisle: 'dairy' },
+      { name: 'vanilla protein powder', amount: 50, unit: 'g', aisle: 'pantry' },
+      { name: 'rolled oats', amount: 40, unit: 'g', aisle: 'pantry' },
+      { name: 'ground cinnamon', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'butter for the pan', amount: 1, unit: 'tsp', aisle: 'dairy' },
+      { name: 'mixed berries', amount: 80, unit: 'g', aisle: 'produce' },
+      { name: 'almond or peanut butter', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'maple syrup', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'high-protein-omelette',
+    name: 'High-Protein Veggie Omelette',
+    cuisine: 'Breakfast',
+    time: '12 min',
+    servings: 1,
+    mealType: 'breakfast',
+    tags: ['high-protein', 'quick', 'veggie', 'low-carb'],
+    makesLeftovers: false,
+    notes: 'Around 40g protein. The cottage cheese melts into pockets and keeps it tender — trust it.',
+    steps: [
+      'Whisk the eggs and egg whites with a pinch of salt and pepper.',
+      'Heat butter in a non-stick pan over medium heat. Add the spinach, cherry tomatoes and spring onion. Cook 1-2 minutes until the spinach wilts.',
+      'Pour in the eggs and let them set on the bottom for 30 seconds.',
+      'Scatter the cottage cheese and feta across one half of the omelette. Gently drag the edges to the centre with a spatula, tilting the pan so raw egg flows underneath.',
+      'When mostly set but still slightly glossy, fold the omelette over and slide onto a plate. Top with chives and chili flakes.',
+    ],
+    ingredients: [
+      { name: 'egg', amount: 3, unit: '', aisle: 'dairy' },
+      { name: 'egg whites', amount: 100, unit: 'ml', aisle: 'dairy' },
+      { name: 'cottage cheese', amount: 60, unit: 'g', aisle: 'dairy' },
+      { name: 'feta', amount: 30, unit: 'g', aisle: 'dairy' },
+      { name: 'baby spinach', amount: 30, unit: 'g', aisle: 'produce' },
+      { name: 'cherry tomato', amount: 6, unit: '', aisle: 'produce' },
+      { name: 'spring onion', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'chives', amount: 1, unit: 'tbsp', aisle: 'produce' },
+      { name: 'butter for the pan', amount: 1, unit: 'tsp', aisle: 'dairy' },
+      { name: 'chili flakes', amount: 0.25, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'spiced-beef-breakfast-bowl',
+    name: 'Spiced Beef Breakfast Bowl with Feta',
+    cuisine: 'Tex-Mex',
+    time: '15 min',
+    servings: 2,
+    mealType: 'breakfast',
+    tags: ['high-protein', 'high-fat', 'low-carb', 'quick', 'gluten-free'],
+    makesLeftovers: false,
+    notes: '40g+ protein, eats like a savoury breakfast bowl. The runny yolk into the spiced beef is the whole point — set a timer for the eggs.',
+    steps: [
+      'Bring a small pan of water to a boil. Gently lower in the eggs and boil for 6 minutes 30 seconds for jammy yolks. Drain, run under cold water, then peel.',
+      'Heat olive oil in a wide pan over medium-high heat. Add the beef mince and break it up with a wooden spoon. Cook for 3-4 minutes, undisturbed at first to get a proper sear on the bottom.',
+      'Stir in the cumin, sweet paprika, smoked paprika, garlic powder, cayenne, dried oregano, salt and pepper. Cook another 3-4 minutes, breaking the mince up further, until it\'s deeply browned and crispy in places. Don\'t rush this — the crispy edges are everything.',
+      'Meanwhile, slice the red bell pepper into batons. Cut the cucumber into thick batons. Peel the carrots and slice into batons (or use a vegetable peeler for ribbons).',
+      'Divide the spiced beef between two bowls. Crumble the feta over the top — the residual heat will soften it slightly. Halve the eggs and place two halves on each bowl.',
+      'Arrange the raw veg alongside the beef. Scatter chopped coriander, give a generous squeeze of lemon, and finish with a crack of black pepper. Add a dollop of yogurt if using.',
+    ],
+    ingredients: [
+      { name: 'beef mince (5%+ fat)', amount: 300, unit: 'g', aisle: 'meat' },
+      { name: 'egg', amount: 2, unit: '', aisle: 'dairy' },
+      { name: 'feta', amount: 100, unit: 'g', aisle: 'dairy' },
+      { name: 'red bell pepper', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'cucumber', amount: 0.5, unit: '', aisle: 'produce' },
+      { name: 'carrot', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'fresh coriander', amount: 1, unit: 'small bunch', aisle: 'produce' },
+      { name: 'lemon', amount: 0.5, unit: '', aisle: 'produce' },
+      { name: 'olive oil', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'ground cumin', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'sweet paprika', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'smoked paprika', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'garlic powder', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'cayenne pepper', amount: 0.25, unit: 'tsp', aisle: 'spices' },
+      { name: 'dried oregano', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'greek yogurt (optional)', amount: 100, unit: 'g', aisle: 'dairy' },
+    ],
+  },
+  // ────────────────────────────────────────────────────────────
+  // High-fibre
+  // ────────────────────────────────────────────────────────────
+  {
+    id: 'overnight-oats-chia-berries',
+    name: 'Overnight Oats with Chia & Berries',
+    cuisine: 'Breakfast',
+    time: '5 min + overnight',
+    servings: 2,
+    mealType: 'breakfast',
+    tags: ['high-fibre', 'high-protein', 'meal-prep', 'veggie'],
+    makesLeftovers: true,
+    notes: '12g+ fibre. Make 4 jars on Sunday — eat them through the week. Add berries fresh in the morning.',
+    steps: [
+      'In a jar or container, combine the oats, chia seeds, protein powder (if using) and cinnamon.',
+      'Pour in the milk and yogurt, then add the honey or maple syrup. Stir thoroughly until no dry oats remain.',
+      'Seal and refrigerate overnight (at least 6 hours).',
+      'In the morning, give it a stir. If it\'s too thick, splash in more milk. Top with berries, a spoon of nut butter and seeds.',
+    ],
+    ingredients: [
+      { name: 'rolled oats', amount: 100, unit: 'g', aisle: 'pantry' },
+      { name: 'chia seeds', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'vanilla protein powder', amount: 30, unit: 'g', aisle: 'pantry' },
+      { name: 'ground cinnamon', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'milk', amount: 300, unit: 'ml', aisle: 'dairy' },
+      { name: 'greek yogurt', amount: 100, unit: 'g', aisle: 'dairy' },
+      { name: 'honey or maple syrup', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'mixed berries', amount: 120, unit: 'g', aisle: 'produce' },
+      { name: 'almond or peanut butter', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'pumpkin or sunflower seeds', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'roasted-root-quinoa-bowl',
+    name: 'Roasted Root Veg & Quinoa Bowl',
+    cuisine: 'Sheet pan',
+    time: '40 min',
+    servings: 2,
+    mealType: 'lunch',
+    tags: ['high-fibre', 'high-iron', 'veggie', 'meal-prep', 'gluten-free'],
+    makesLeftovers: true,
+    notes: '15g+ fibre. Roast extra veg and use it for lunches all week. The tahini dressing is the soul of this bowl.',
+    steps: [
+      'Heat the oven to 220°C. Cut the sweet potato, carrots, parsnips and red onion into chunks.',
+      'Spread the veg on a baking tray, drizzle with olive oil and toss with cumin, paprika, salt and pepper. Roast for 25-30 minutes until caramelised at the edges.',
+      'Meanwhile, rinse the quinoa and cook in salted water (1:2 ratio) for 15 minutes, until the little tails appear. Drain and fluff.',
+      'Whisk the tahini with lemon juice, garlic, a pinch of salt and just enough warm water to loosen it into a pourable dressing.',
+      'Massage the kale with a little olive oil and a squeeze of lemon until softened.',
+      'Build bowls: quinoa, then roasted veg, then kale, then chickpeas. Drizzle with tahini dressing, scatter pomegranate seeds and pumpkin seeds.',
+    ],
+    ingredients: [
+      { name: 'sweet potato', amount: 1, unit: 'large', aisle: 'produce' },
+      { name: 'carrot', amount: 3, unit: '', aisle: 'produce' },
+      { name: 'parsnip', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'red onion', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'quinoa', amount: 150, unit: 'g', aisle: 'pantry' },
+      { name: 'tinned chickpeas, drained', amount: 240, unit: 'g', aisle: 'pantry' },
+      { name: 'kale', amount: 100, unit: 'g', aisle: 'produce' },
+      { name: 'tahini', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'lemon', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'garlic', amount: 1, unit: 'clove', aisle: 'produce' },
+      { name: 'pomegranate seeds', amount: 50, unit: 'g', aisle: 'produce' },
+      { name: 'pumpkin seeds', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'olive oil', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'ground cumin', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'sweet paprika', amount: 1, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'black-bean-sweet-potato-chili',
+    name: 'Black Bean & Sweet Potato Chili',
+    cuisine: 'Mexican-inspired',
+    time: '45 min',
+    servings: 4,
+    mealType: 'dinner',
+    tags: ['high-fibre', 'veggie', 'one-pot', 'meal-prep', 'freezer-friendly'],
+    makesLeftovers: true,
+    notes: '14g+ fibre per bowl, gets better the next day. Freezes beautifully — double it.',
+    steps: [
+      'Heat olive oil in a large pot over medium heat. Add the onion and cook for 4-5 minutes until softening.',
+      'Add the garlic, sweet potato, peppers, cumin, smoked paprika, chipotle and oregano. Cook another 2 minutes, stirring, until fragrant.',
+      'Tip in the tinned tomatoes, black beans, kidney beans, stock and a generous pinch of salt. Bring to a simmer.',
+      'Cover and cook for 25 minutes, until the sweet potato is tender. Uncover for the last 5 minutes to thicken.',
+      'Stir in the lime juice and a handful of coriander. Taste and adjust salt.',
+      'Serve in bowls topped with yogurt, more coriander, avocado, and a wedge of lime.',
+    ],
+    ingredients: [
+      { name: 'olive oil', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'onion', amount: 1, unit: 'large', aisle: 'produce' },
+      { name: 'garlic', amount: 4, unit: 'cloves', aisle: 'produce' },
+      { name: 'sweet potato', amount: 600, unit: 'g', aisle: 'produce' },
+      { name: 'red bell pepper', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'ground cumin', amount: 2, unit: 'tsp', aisle: 'spices' },
+      { name: 'smoked paprika', amount: 2, unit: 'tsp', aisle: 'spices' },
+      { name: 'chipotle paste or chili powder', amount: 1, unit: 'tbsp', aisle: 'spices' },
+      { name: 'dried oregano', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'tinned tomatoes', amount: 400, unit: 'g', aisle: 'pantry' },
+      { name: 'tinned black beans, drained', amount: 480, unit: 'g', aisle: 'pantry' },
+      { name: 'tinned kidney beans, drained', amount: 240, unit: 'g', aisle: 'pantry' },
+      { name: 'vegetable stock', amount: 400, unit: 'ml', aisle: 'pantry' },
+      { name: 'lime', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'fresh coriander', amount: 30, unit: 'g', aisle: 'produce' },
+      { name: 'greek yogurt', amount: 200, unit: 'g', aisle: 'dairy' },
+      { name: 'avocado', amount: 2, unit: '', aisle: 'produce' },
+    ],
+  },
+  // ────────────────────────────────────────────────────────────
+  // Fresh & light (fruits / vegetables)
+  // ────────────────────────────────────────────────────────────
+  {
+    id: 'tropical-fruit-yogurt-bowl',
+    name: 'Tropical Fruit & Yogurt Bowl',
+    cuisine: 'Breakfast',
+    time: '5 min',
+    servings: 2,
+    mealType: 'breakfast',
+    tags: ['quick', 'high-protein', 'veggie', 'fresh'],
+    makesLeftovers: false,
+    notes: 'Brighter than a smoothie, more substantial than fruit alone. Use whatever\'s ripe.',
+    steps: [
+      'Cut the mango, pineapple and papaya (or whatever tropical fruit you have) into bite-sized chunks.',
+      'Halve the strawberries. Slice the kiwi.',
+      'Divide the yogurt between two bowls.',
+      'Pile the fruit on top in colourful sections. Scatter granola, coconut flakes and chia seeds. Drizzle with honey and a squeeze of lime.',
+    ],
+    ingredients: [
+      { name: 'greek yogurt', amount: 300, unit: 'g', aisle: 'dairy' },
+      { name: 'mango', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'pineapple chunks', amount: 200, unit: 'g', aisle: 'produce' },
+      { name: 'kiwi', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'strawberries', amount: 150, unit: 'g', aisle: 'produce' },
+      { name: 'granola', amount: 60, unit: 'g', aisle: 'pantry' },
+      { name: 'coconut flakes', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'chia seeds', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'honey', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'lime', amount: 0.5, unit: '', aisle: 'produce' },
+    ],
+  },
+  {
+    id: 'mediterranean-veg-platter',
+    name: 'Mediterranean Veg Platter',
+    cuisine: 'Mezze',
+    time: '15 min',
+    servings: 2,
+    mealType: 'lunch',
+    tags: ['veggie', 'high-fibre', 'fresh', 'quick', 'no-cook'],
+    makesLeftovers: false,
+    notes: 'A graze board lunch. Mix and match what\'s in the fridge — this is just a starting structure.',
+    steps: [
+      'Slice the cucumber into batons. Cut the bell peppers into strips. Halve the cherry tomatoes. Slice the radishes thinly.',
+      'Pit the olives if needed. Crumble the feta into chunks. Drain the artichokes and sundried tomatoes.',
+      'Arrange everything on a big board or two large plates, grouping by colour. Add piles of hummus and tzatziki.',
+      'Drizzle olive oil over the feta, scatter chopped parsley and a generous twist of black pepper.',
+      'Serve with warm pita bread or crusty sourdough.',
+    ],
+    ingredients: [
+      { name: 'cucumber', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'red bell pepper', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'yellow bell pepper', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'cherry tomato', amount: 200, unit: 'g', aisle: 'produce' },
+      { name: 'radish', amount: 100, unit: 'g', aisle: 'produce' },
+      { name: 'feta', amount: 150, unit: 'g', aisle: 'dairy' },
+      { name: 'kalamata olives', amount: 100, unit: 'g', aisle: 'pantry' },
+      { name: 'artichoke hearts', amount: 100, unit: 'g', aisle: 'pantry' },
+      { name: 'sundried tomatoes', amount: 60, unit: 'g', aisle: 'pantry' },
+      { name: 'hummus', amount: 200, unit: 'g', aisle: 'dairy' },
+      { name: 'tzatziki', amount: 150, unit: 'g', aisle: 'dairy' },
+      { name: 'pita bread', amount: 4, unit: '', aisle: 'bakery' },
+      { name: 'olive oil', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'flat-leaf parsley', amount: 1, unit: 'small bunch', aisle: 'produce' },
+      { name: 'black pepper', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
 ];
 
 // ============================================================
@@ -1309,6 +1581,85 @@ function normalizeName(name) {
   return (name || '').toLowerCase().trim();
 }
 
+// Stronger ingredient matching: strips modifiers, normalises plurals,
+// and maps common synonyms so "garlic", "garlic clove", "garlic cloves",
+// "minced garlic" all resolve to the same canonical name.
+const PLURAL_MAP = {
+  eggs: 'egg', tomatoes: 'tomato', potatoes: 'potato', onions: 'onion',
+  lemons: 'lemon', limes: 'lime', oranges: 'orange', apples: 'apple',
+  bananas: 'banana', carrots: 'carrot', mushrooms: 'mushroom',
+  shallots: 'shallot', cucumbers: 'cucumber', avocados: 'avocado',
+  peaches: 'peach', pears: 'pear', plums: 'plum', berries: 'berry',
+  strawberries: 'strawberry', blueberries: 'blueberry', raspberries: 'raspberry',
+  cherries: 'cherry', grapes: 'grape', figs: 'fig', dates: 'date',
+  peppers: 'pepper', chillies: 'chili', chilies: 'chili', chillis: 'chili',
+  jalapeños: 'jalapeño', jalapenos: 'jalapeño',
+  beans: 'bean', lentils: 'lentil', chickpeas: 'chickpea',
+  herbs: 'herb', leaves: 'leaf', stalks: 'stalk',
+  cloves: 'clove', sprigs: 'sprig',
+};
+
+const SYNONYM_MAP = {
+  'garlic clove': 'garlic', 'garlic cloves': 'garlic',
+  'clove garlic': 'garlic', 'cloves garlic': 'garlic',
+  'clove of garlic': 'garlic', 'cloves of garlic': 'garlic',
+  'spring onion': 'spring onion', 'scallion': 'spring onion', 'scallions': 'spring onion', 'green onion': 'spring onion',
+  'coriander': 'coriander', 'cilantro': 'coriander',
+  'aubergine': 'aubergine', 'eggplant': 'aubergine',
+  'courgette': 'courgette', 'zucchini': 'courgette',
+  'rocket': 'rocket', 'arugula': 'rocket',
+  'plain flour': 'plain flour', 'all-purpose flour': 'plain flour', 'all purpose flour': 'plain flour',
+  'caster sugar': 'caster sugar', 'superfine sugar': 'caster sugar',
+  'icing sugar': 'icing sugar', 'powdered sugar': 'icing sugar', 'confectioners sugar': 'icing sugar',
+  'double cream': 'double cream', 'heavy cream': 'double cream',
+  'single cream': 'single cream', 'light cream': 'single cream',
+  'soft cheese': 'cream cheese', 'cream cheese': 'cream cheese',
+  'rapeseed oil': 'rapeseed oil', 'canola oil': 'rapeseed oil',
+  'tinned tomatoes': 'tinned tomatoes', 'canned tomatoes': 'tinned tomatoes', 'chopped tomatoes': 'tinned tomatoes',
+  'cherry tomato': 'cherry tomato', 'cherry tomatoes': 'cherry tomato',
+  'spring greens': 'spring greens', 'collard greens': 'spring greens',
+};
+
+const MODIFIERS = [
+  'fresh', 'large', 'medium', 'small', 'ripe', 'free-range', 'free range', 'organic',
+  'extra virgin', 'extra-virgin', 'finely', 'roughly', 'thinly', 'thickly',
+  'chopped', 'sliced', 'minced', 'diced', 'grated', 'crushed', 'peeled', 'whole',
+  'cubed', 'shredded', 'beaten', 'mashed', 'cooked', 'raw',
+  'soft', 'hard', 'cold', 'warm', 'hot', 'room temperature', 'room-temperature',
+  'unsalted', 'salted', 'low-sodium', 'low sodium',
+  'plain', 'self-raising', 'self raising', 'self-rising',
+  'good-quality', 'good quality', 'best-quality', 'best quality',
+  'optional', 'to taste', 'to serve', 'for serving', 'for garnish',
+  'a pinch of', 'pinch of', 'splash of', 'drizzle of',
+];
+
+function canonicalIngredientName(name) {
+  if (!name) return '';
+  let n = name.toLowerCase().trim();
+  // Strip parentheticals: "(about 200g)" etc
+  n = n.replace(/\([^)]*\)/g, '').trim();
+  // Strip leading numbers (in case amount got mashed into name)
+  n = n.replace(/^\d+\s*/, '');
+  // Strip modifier phrases
+  for (const m of MODIFIERS) {
+    n = n.replace(new RegExp(`\\b${m.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi'), ' ');
+  }
+  // Clean punctuation, collapse spaces
+  n = n.replace(/[,.;]/g, ' ').replace(/\s+/g, ' ').trim();
+  // Check synonym map FIRST (multi-word entries)
+  if (SYNONYM_MAP[n]) return SYNONYM_MAP[n];
+  // Plural map
+  if (PLURAL_MAP[n]) return PLURAL_MAP[n];
+  // Try last word (e.g. "garlic clove" → "clove" wouldn't help, but "garlic cloves" → strip plural)
+  const lastWord = n.split(' ').pop();
+  if (PLURAL_MAP[lastWord]) {
+    const replaced = n.replace(new RegExp(lastWord + '$'), PLURAL_MAP[lastWord]);
+    if (SYNONYM_MAP[replaced]) return SYNONYM_MAP[replaced];
+    return replaced;
+  }
+  return n;
+}
+
 function formatNum(n) {
   if (n === 0) return '0';
   const rounded = Math.round(n * 100) / 100;
@@ -1327,35 +1678,59 @@ function getDateLabel() {
 }
 
 function aggregateShoppingList(week, recipes, pantry) {
-  const map = new Map();
+  const map = new Map(); // key = canon|unit
   Object.values(week).forEach(daySlots => {
     if (!daySlots) return;
     Object.values(daySlots).forEach(slot => {
-      if (!slot || slot.isLeftover || slot.isSkipped) return; // skip empty, leftover, and "eating out" slots
+      if (!slot || slot.isLeftover || slot.isSkipped) return;
       const recipe = recipes.find(r => r.id === slot.recipeId);
       if (!recipe) return;
       const factor = (slot.servings || recipe.servings) / recipe.servings;
       recipe.ingredients.forEach(ing => {
-        const key = `${normalizeName(ing.name)}|${ing.unit || ''}`;
+        const canon = canonicalIngredientName(ing.name);
+        const normUnit = (ing.unit || '').toLowerCase().trim();
+        const key = `${canon}|${normUnit}`;
         const existing = map.get(key);
         const scaled = ing.amount * factor;
         if (existing) {
           existing.amount += scaled;
           if (!existing.recipes.includes(recipe.name)) existing.recipes.push(recipe.name);
         } else {
-          map.set(key, { key, name: ing.name, unit: ing.unit, amount: scaled, aisle: ing.aisle || 'other', recipes: [recipe.name] });
+          map.set(key, {
+            key,
+            canon,
+            name: canon, // use canonical for display so "garlic clove" + "garlic" merge visually
+            unit: ing.unit,
+            amount: scaled,
+            aisle: ing.aisle || 'other',
+            recipes: [recipe.name],
+          });
         }
       });
     });
   });
-  const pantrySet = new Set(pantry.map(normalizeName));
-  const filtered = [...map.values()].filter(i => !pantrySet.has(normalizeName(i.name)));
+
+  // Filter out pantry items (canonical match)
+  const pantrySet = new Set(pantry.map(p => canonicalIngredientName(p)));
+  const filtered = [...map.values()].filter(i => !pantrySet.has(i.canon));
+
+  // Group entries with the same canonical name (different units stay separate items
+  // but render together). E.g., "garlic | clove" + "garlic | head" → one group, two rows.
+  const groupedByCanon = new Map();
+  for (const item of filtered) {
+    if (!groupedByCanon.has(item.canon)) {
+      groupedByCanon.set(item.canon, { canon: item.canon, name: item.canon, aisle: item.aisle, units: [] });
+    }
+    groupedByCanon.get(item.canon).units.push(item);
+  }
+
+  // Group by aisle
   const byAisle = {};
-  filtered.forEach(i => {
-    if (!byAisle[i.aisle]) byAisle[i.aisle] = [];
-    byAisle[i.aisle].push(i);
-  });
-  Object.values(byAisle).forEach(arr => arr.sort((a, b) => a.name.localeCompare(b.name)));
+  for (const group of groupedByCanon.values()) {
+    if (!byAisle[group.aisle]) byAisle[group.aisle] = [];
+    byAisle[group.aisle].push(group);
+  }
+  Object.values(byAisle).forEach(arr => arr.sort((a, b) => a.canon.localeCompare(b.canon)));
   return byAisle;
 }
 
@@ -1453,6 +1828,7 @@ export default function App() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [shuffleMenuOpen, setShuffleMenuOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [inventOpen, setInventOpen] = useState(false);
   const [syncStatus, setSyncStatus] = useState('idle');
   const [lastSyncedAt, setLastSyncedAt] = useState(null);
   const [updateAvailable, setUpdateAvailable] = useState(null);
@@ -2012,7 +2388,7 @@ export default function App() {
         {tab === 'recipes' && <RecipesTab recipes={filteredRecipes} favourites={data.favourites} onOpen={setOpenRecipeId} onToggleFav={toggleFav} isEmpty={data.recipes.length === 0} />}
         {tab === 'week' && <WeekTab week={data.week} recipes={data.recipes} onOpen={setOpenRecipeId} onUnassign={(day, mealSlot) => setDaySlot(day, mealSlot, null)} onMarkLeftover={markLeftover} onMarkSkipped={markSkipped} />}
         {tab === 'shopping' && <ShoppingTab data={data} onToggleCheck={toggleCheck} onReorderAisles={reorderAisles} onAddCustom={addCustomItem} onDeleteCustom={deleteCustomItem} />}
-        {tab === 'pantry' && <PantryTab recipes={data.recipes} pantry={data.pantry} onToggle={togglePantry} onOpenRecipe={setOpenRecipeId} />}
+        {tab === 'pantry' && <PantryTab recipes={data.recipes} pantry={data.pantry} onToggle={togglePantry} onOpenRecipe={setOpenRecipeId} onInventOpen={() => setInventOpen(true)} />}
       </main>
 
       <nav className="mp-bottom-nav">
@@ -2062,6 +2438,15 @@ export default function App() {
           onForceSync={forceSync}
           onTestWrite={testWrite}
           onHardResync={hardResyncFromServer}
+        />
+      )}
+
+      {inventOpen && (
+        <InventRecipeSheet
+          pantry={data.pantry}
+          defaultServings={data.defaultServings || 2}
+          onClose={() => setInventOpen(false)}
+          onSaveRecipe={(r) => { upsertRecipe({ ...applyRecipeDefaults(r), id: uid() }); }}
         />
       )}
     </div>
@@ -2329,29 +2714,54 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDele
   const [reordering, setReordering] = useState(false);
   const [addingItem, setAddingItem] = useState(false);
   const [newItem, setNewItem] = useState({ name: '', amount: '', unit: '', aisle: 'other' });
+  const [showCompleted, setShowCompleted] = useState(false);
   const aisleOrder = data.aisleOrder || AISLES.map(a => a.id);
   const customItems = data.customShoppingItems || [];
 
+  // Returns: { aisleId: [ {canon, name, aisle, units: [{key,amount,unit,recipes}], isCustom?} ] }
   const byAisle = useMemo(() => {
     const recipeBased = aggregateShoppingList(data.week, data.recipes, data.pantry);
-    // Merge custom items into their aisles
+    // Add custom items as their own single-unit "groups"
     customItems.forEach(item => {
       if (!recipeBased[item.aisle]) recipeBased[item.aisle] = [];
       recipeBased[item.aisle].push({
-        key: item.id,
+        canon: item.id, // unique key for custom items
         name: item.name,
-        amount: item.amount ? Number(item.amount) : null,
-        unit: item.unit || '',
         aisle: item.aisle,
-        recipes: ['added by you'],
         isCustom: true,
+        units: [{
+          key: item.id,
+          amount: item.amount ? Number(item.amount) : null,
+          unit: item.unit || '',
+          recipes: ['added by you'],
+        }],
       });
     });
     Object.values(recipeBased).forEach(arr => arr.sort((a, b) => a.name.localeCompare(b.name)));
     return recipeBased;
   }, [data.week, data.recipes, data.pantry, customItems]);
 
-  const totalItems = Object.values(byAisle).reduce((s, arr) => s + arr.length, 0);
+  // A "group" is checked when all its units are checked.
+  const isGroupChecked = (group) => group.units.every(u => data.shoppingChecked.includes(u.key));
+
+  // Split into pending vs completed groups for display
+  const pending = {};
+  const completed = [];
+  for (const aisle of aisleOrder) {
+    const arr = byAisle[aisle] || [];
+    arr.forEach(group => {
+      if (isGroupChecked(group)) {
+        completed.push(group);
+      } else {
+        if (!pending[aisle]) pending[aisle] = [];
+        pending[aisle].push(group);
+      }
+    });
+  }
+
+  const totalPending = Object.values(pending).reduce((s, arr) => s + arr.length, 0);
+  const totalCompleted = completed.length;
+  const totalItems = totalPending + totalCompleted;
 
   const moveAisle = (i, dir) => {
     const j = i + dir;
@@ -2366,6 +2776,17 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDele
     onAddCustom({ name: newItem.name.trim(), amount: newItem.amount, unit: newItem.unit, aisle: newItem.aisle });
     setNewItem({ name: '', amount: '', unit: '', aisle: 'other' });
     setAddingItem(false);
+  };
+
+  // Toggle all units in a group at once
+  const toggleGroup = (group) => {
+    const allChecked = isGroupChecked(group);
+    group.units.forEach(u => {
+      const isOn = data.shoppingChecked.includes(u.key);
+      // If not all checked, only check the unchecked ones. If all checked, uncheck all.
+      if (allChecked) { onToggleCheck(u.key); }
+      else if (!isOn) { onToggleCheck(u.key); }
+    });
   };
 
   if (reordering) {
@@ -2406,7 +2827,7 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDele
     <div className="mp-shopping">
       <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'0.75rem', gap:8}}>
         <div className="mp-shopping-meta">
-          {totalItems === 0 ? 'Empty list' : `${totalItems} ${totalItems === 1 ? 'item' : 'items'} · ${data.shoppingChecked.length} ticked`}
+          {totalItems === 0 ? 'Empty list' : `${totalPending} to get${totalCompleted > 0 ? ` · ${totalCompleted} done` : ''}`}
         </div>
         <div style={{display:'flex', gap:6}}>
           <button className="mp-icon-btn" style={{width:32, height:32}} onClick={() => setAddingItem(true)} title="Add custom item">
@@ -2448,27 +2869,51 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDele
         </div>
       )}
 
-      {orderedAisles.map(aisle => (
+      {totalItems > 0 && totalPending === 0 && (
+        <div className="mp-empty" style={{padding:'2rem 1rem'}}>
+          <div className="mp-display mp-empty-title">All done! 🎉</div>
+          <p className="mp-empty-text">Tap "Show completed" below to review or un-tick anything.</p>
+        </div>
+      )}
+
+      {orderedAisles.filter(a => pending[a.id]).map(aisle => (
         <section key={aisle.id} className="mp-aisle">
           <h3 className="mp-aisle-label">{aisle.label}</h3>
           <ul className="mp-aisle-list">
-            {byAisle[aisle.id].map(item => {
-              const checked = data.shoppingChecked.includes(item.key);
+            {pending[aisle.id].map(group => {
+              const hasMultipleUnits = group.units.length > 1;
               return (
-                <li key={item.key} className={`mp-shopping-item ${checked ? 'mp-shopping-checked' : ''}`} onClick={() => onToggleCheck(item.key)}>
-                  <div className={`mp-check ${checked ? 'mp-check-on' : ''}`}>{checked && <Check size={14} />}</div>
+                <li key={group.canon} className="mp-shopping-item" onClick={() => toggleGroup(group)}>
+                  <div className="mp-check">{/* unchecked */}</div>
                   <div className="mp-shopping-text">
                     <div className="mp-shopping-name">
-                      {item.name}
-                      {item.isCustom && <span className="mp-custom-pill">custom</span>}
+                      {group.name}
+                      {group.isCustom && <span className="mp-custom-pill">custom</span>}
                     </div>
-                    <div className="mp-shopping-sub">
-                      {item.amount ? formatAmount(item.amount, item.unit) : (item.isCustom ? '' : '')}
-                      {!item.isCustom && <span className="mp-shopping-from"> · {item.recipes.join(', ')}</span>}
-                    </div>
+                    {hasMultipleUnits ? (
+                      <div className="mp-shopping-sub">
+                        {group.units.map((u, i) => (
+                          <span key={u.key}>
+                            {i > 0 && <span style={{opacity:0.5}}> + </span>}
+                            {u.amount ? formatAmount(u.amount, u.unit) : (u.unit || '1')}
+                          </span>
+                        ))}
+                        {!group.isCustom && (
+                          <span className="mp-shopping-from">
+                            {' · '}
+                            {[...new Set(group.units.flatMap(u => u.recipes))].join(', ')}
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="mp-shopping-sub">
+                        {group.units[0].amount ? formatAmount(group.units[0].amount, group.units[0].unit) : ''}
+                        {!group.isCustom && <span className="mp-shopping-from"> · {group.units[0].recipes.join(', ')}</span>}
+                      </div>
+                    )}
                   </div>
-                  {item.isCustom && (
-                    <button className="mp-shopping-del" onClick={(e) => { e.stopPropagation(); onDeleteCustom(item.key); }}><Trash size={14} /></button>
+                  {group.isCustom && (
+                    <button className="mp-shopping-del" onClick={(e) => { e.stopPropagation(); onDeleteCustom(group.units[0].key); }}><Trash size={14} /></button>
                   )}
                 </li>
               );
@@ -2476,11 +2921,32 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDele
           </ul>
         </section>
       ))}
+
+      {totalCompleted > 0 && (
+        <div className="mp-completed-section">
+          <button className="mp-completed-toggle" onClick={() => setShowCompleted(s => !s)}>
+            <ChevronDown size={14} style={{transform: showCompleted ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s'}} />
+            {showCompleted ? 'Hide' : 'Show'} {totalCompleted} completed
+          </button>
+          {showCompleted && (
+            <ul className="mp-aisle-list mp-aisle-list-completed">
+              {completed.map(group => (
+                <li key={group.canon} className="mp-shopping-item mp-shopping-checked" onClick={() => toggleGroup(group)}>
+                  <div className="mp-check mp-check-on"><Check size={14} /></div>
+                  <div className="mp-shopping-text">
+                    <div className="mp-shopping-name">{group.name}{group.isCustom && <span className="mp-custom-pill">custom</span>}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
-function PantryTab({ recipes, pantry, onToggle, onOpenRecipe }) {
+function PantryTab({ recipes, pantry, onToggle, onOpenRecipe, onInventOpen }) {
   const known = useMemo(() => allIngredientNames(recipes), [recipes]);
   const [showAll, setShowAll] = useState(false);
 
@@ -2494,7 +2960,7 @@ function PantryTab({ recipes, pantry, onToggle, onOpenRecipe }) {
       const missing = r.ingredients.filter(i => !pantrySet.has(i.name.toLowerCase()));
       return { recipe: r, have, total, pct: total > 0 ? have / total : 0, missing };
     })
-    .filter(s => s.pct >= 0.5) // Need at least half the ingredients
+    .filter(s => s.pct >= 0.5)
     .sort((a, b) => b.pct - a.pct)
     .slice(0, 6);
   }, [recipes, pantry]);
@@ -2504,11 +2970,22 @@ function PantryTab({ recipes, pantry, onToggle, onOpenRecipe }) {
     <div className="mp-pantry">
       <p className="mp-pantry-blurb">Mark what you already keep at home. Anything ticked is hidden from your shopping list.</p>
 
+      <button className="mp-invent-btn" onClick={onInventOpen} disabled={pantry.length === 0}>
+        <Sparkles size={16} />
+        <div style={{flex:1, textAlign:'left'}}>
+          <div style={{fontWeight:500, fontSize:14}}>Invent a recipe with what I have</div>
+          <div style={{fontSize:11, opacity:0.7, marginTop:2}}>
+            {pantry.length === 0 ? 'Add some pantry items first' : `Claude will suggest dishes using your ${pantry.length} items`}
+          </div>
+        </div>
+        <ChevronRight size={16} />
+      </button>
+
       {suggestions.length > 0 && (
         <section className="mp-pantry-section">
           <div className="mp-pantry-section-head">
             <h3 className="mp-aisle-label">What can I make?</h3>
-            <span className="mp-tiny">based on your pantry</span>
+            <span className="mp-tiny">from your existing recipes</span>
           </div>
           <div className="mp-suggestions">
             {suggestions.map(s => (
@@ -3391,6 +3868,238 @@ function SettingsSheet({ defaultServings, onSetServings, onClose, diagnostics, h
                 • Check VITE_SUPABASE_URL is set in Vercel and you've redeployed
               </div>
             </section>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InventRecipeSheet({ pantry, defaultServings, onClose, onSaveRecipe }) {
+  const [selectedItems, setSelectedItems] = useState(() => new Set(pantry));
+  const [mealType, setMealType] = useState('any');
+  const [timeLimit, setTimeLimit] = useState('any');
+  const [count, setCount] = useState(3);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [results, setResults] = useState([]);
+  const [savedIds, setSavedIds] = useState(new Set());
+
+  const toggleItem = (item) => {
+    setSelectedItems(prev => {
+      const next = new Set(prev);
+      if (next.has(item)) next.delete(item); else next.add(item);
+      return next;
+    });
+  };
+
+  const generate = async () => {
+    if (selectedItems.size === 0) return;
+    setLoading(true);
+    setError('');
+    setResults([]);
+
+    const items = Array.from(selectedItems);
+    const constraints = [];
+    if (mealType !== 'any') constraints.push(`meal type: ${mealType}`);
+    if (timeLimit !== 'any') constraints.push(`under ${timeLimit} minutes total`);
+
+    const prompt = `You're a creative home cook. Given these ingredients I have on hand, suggest ${count} distinct recipes that primarily use them.
+
+Available ingredients:
+${items.map(i => `- ${i}`).join('\n')}
+
+${constraints.length > 0 ? 'Constraints: ' + constraints.join(', ') + '.' : ''}
+
+Rules:
+- Each recipe must mostly use ingredients from the list above
+- You can assume basic pantry staples are always available: salt, pepper, oil, water, butter
+- Vary the recipes — different meal types, cuisines, or cooking methods
+- Keep them realistic for a home kitchen
+- Serves ${defaultServings} unless the recipe makes more sense at a different size (e.g. batch cooking)
+
+Return ONLY a JSON array — no markdown, no backticks, no preamble:
+[
+  {
+    "name": "string",
+    "cuisine": "short descriptor like 'Italian' or 'Sheet pan'",
+    "time": "e.g. '25 min' or '45 min + rest'",
+    "servings": ${defaultServings},
+    "mealType": "breakfast|lunch|dinner|snack",
+    "tags": ["quick", "high-protein", "veggie", "high-fibre", "one-pot", etc],
+    "makesLeftovers": true|false,
+    "notes": "one-line tip or context",
+    "ingredients": [
+      {"name": "string", "amount": number, "unit": "g|kg|ml|tsp|tbsp|cup|" or empty, "aisle": "produce|meat|dairy|pantry|bakery|frozen|spices|drinks|other"}
+    ],
+    "steps": ["full sentence", "full sentence", ...]
+  }
+]`;
+
+    try {
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 4000,
+          system: 'You design recipes that respect the ingredient constraints. Return ONLY valid JSON — no markdown, no commentary.',
+          messages: [{ role: 'user', content: prompt }],
+        }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error.message);
+      const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      const match = text.match(/\[[\s\S]*\]/);
+      if (!match) throw new Error('Could not parse recipes from response');
+      const recipes = JSON.parse(match[0]);
+      if (!Array.isArray(recipes)) throw new Error('Response was not an array of recipes');
+      setResults(recipes);
+    } catch (e) {
+      setError(`Couldn't generate: ${e.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSave = (recipe, idx) => {
+    onSaveRecipe(recipe);
+    setSavedIds(prev => new Set([...prev, idx]));
+  };
+
+  return (
+    <div className="mp-sheet mp-sheet-bottom" onClick={onClose}>
+      <div className="mp-sheet-content mp-sheet-content-bottom" onClick={e => e.stopPropagation()} style={{maxHeight:'90vh'}}>
+        <header className="mp-sheet-header">
+          <h3 className="mp-display mp-filter-title">Invent a recipe</h3>
+          <button className="mp-back" onClick={onClose}><X size={20} /></button>
+        </header>
+        <div className="mp-sheet-body">
+          {results.length === 0 && !loading && (
+            <>
+              <p style={{fontSize:13, color:'var(--ink-2)', marginBottom:14}}>
+                Claude will suggest {count} recipes using ingredients from your pantry. Untick anything you don't want to use.
+              </p>
+
+              <section className="mp-sheet-section">
+                <h3 className="mp-aisle-label">Using these ({selectedItems.size} of {pantry.length})</h3>
+                <div className="mp-tag-row" style={{maxHeight:200, overflowY:'auto'}}>
+                  {pantry.map(item => {
+                    const on = selectedItems.has(item);
+                    return (
+                      <button key={item} className={`mp-pantry-pill ${on ? 'mp-pantry-pill-on' : ''}`} onClick={() => toggleItem(item)}>
+                        {item}
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+
+              <section className="mp-sheet-section">
+                <h3 className="mp-aisle-label">Meal type</h3>
+                <div className="mp-tag-row">
+                  {['any', 'breakfast', 'lunch', 'dinner', 'snack'].map(mt => (
+                    <button key={mt} className={`mp-tag mp-tag-btn ${mealType === mt ? 'mp-tag-on' : ''}`} onClick={() => setMealType(mt)}>
+                      {mt}
+                    </button>
+                  ))}
+                </div>
+              </section>
+
+              <section className="mp-sheet-section">
+                <h3 className="mp-aisle-label">Time limit</h3>
+                <div className="mp-tag-row">
+                  {[['any', 'any'], ['15', 'under 15 min'], ['30', 'under 30 min'], ['60', 'under 1 hr']].map(([val, label]) => (
+                    <button key={val} className={`mp-tag mp-tag-btn ${timeLimit === val ? 'mp-tag-on' : ''}`} onClick={() => setTimeLimit(val)}>
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </section>
+
+              <section className="mp-sheet-section">
+                <h3 className="mp-aisle-label">How many ideas?</h3>
+                <div className="mp-tag-row">
+                  {[2, 3, 4, 5].map(n => (
+                    <button key={n} className={`mp-tag mp-tag-btn ${count === n ? 'mp-tag-on' : ''}`} onClick={() => setCount(n)}>
+                      {n}
+                    </button>
+                  ))}
+                </div>
+              </section>
+
+              {error && <div className="mp-diag-error" style={{marginTop:14}}>{error}</div>}
+
+              <div style={{display:'flex', gap:8, marginTop:14}}>
+                <button className="mp-btn mp-btn-ghost" onClick={onClose}>Cancel</button>
+                <button className={`mp-btn mp-btn-primary ${selectedItems.size === 0 ? 'mp-btn-disabled' : ''}`}
+                        disabled={selectedItems.size === 0}
+                        onClick={generate}>
+                  <Sparkles size={14} /> Generate
+                </button>
+              </div>
+            </>
+          )}
+
+          {loading && (
+            <div style={{padding:'3rem 1rem', textAlign:'center'}}>
+              <RefreshCw size={28} className="mp-sync-spin" style={{color: 'var(--accent)', marginBottom: 12}} />
+              <div style={{fontSize:14, color:'var(--ink-2)'}}>Claude is cooking…</div>
+              <div style={{fontSize:11, color:'var(--ink-3)', marginTop:6}}>This takes ~15-30 seconds</div>
+            </div>
+          )}
+
+          {results.length > 0 && (
+            <>
+              <p style={{fontSize:13, color:'var(--ink-2)', marginBottom:14}}>
+                {results.length} ideas — tap "Save" on any you like to add to your recipes.
+              </p>
+              {results.map((r, idx) => (
+                <div key={idx} className="mp-invent-result">
+                  <div className="mp-invent-result-head">
+                    <div>
+                      <div className="mp-invent-result-name">{r.name}</div>
+                      <div className="mp-invent-result-meta">{r.cuisine || 'Recipe'} · {r.time || ''} · serves {r.servings || defaultServings}</div>
+                    </div>
+                    <button
+                      className={`mp-btn ${savedIds.has(idx) ? 'mp-btn-ghost' : 'mp-btn-primary'}`}
+                      style={{flex:0, padding:'8px 14px', fontSize:13}}
+                      disabled={savedIds.has(idx)}
+                      onClick={() => handleSave(r, idx)}
+                    >
+                      {savedIds.has(idx) ? <><Check size={14} /> Saved</> : 'Save'}
+                    </button>
+                  </div>
+                  {r.tags?.length > 0 && (
+                    <div className="mp-tag-row" style={{margin:'8px 0'}}>
+                      {r.tags.map(t => <span key={t} className="mp-tag">{t}</span>)}
+                    </div>
+                  )}
+                  {r.notes && <p style={{fontSize:12, color:'var(--ink-2)', fontStyle:'italic', margin:'4px 0 8px'}}>{r.notes}</p>}
+                  <details>
+                    <summary style={{fontSize:12, color:'var(--ink-3)', cursor:'pointer', padding:'4px 0'}}>
+                      {r.ingredients?.length || 0} ingredients · {r.steps?.length || 0} steps
+                    </summary>
+                    <div style={{padding:'8px 0', fontSize:13}}>
+                      <strong style={{fontSize:11, textTransform:'uppercase', letterSpacing:'0.06em', color:'var(--ink-3)'}}>Ingredients</strong>
+                      <ul style={{margin:'4px 0 10px', paddingLeft:18, color:'var(--ink-2)'}}>
+                        {r.ingredients?.map((ing, i) => (
+                          <li key={i}>{ing.amount}{ing.unit ? ' ' + ing.unit : ''} {ing.name}</li>
+                        ))}
+                      </ul>
+                      <strong style={{fontSize:11, textTransform:'uppercase', letterSpacing:'0.06em', color:'var(--ink-3)'}}>Steps</strong>
+                      <ol style={{margin:'4px 0 0', paddingLeft:18, color:'var(--ink-2)', lineHeight:1.5}}>
+                        {r.steps?.map((step, i) => <li key={i} style={{marginBottom:4}}>{step}</li>)}
+                      </ol>
+                    </div>
+                  </details>
+                </div>
+              ))}
+              <div style={{display:'flex', gap:8, marginTop:14}}>
+                <button className="mp-btn mp-btn-ghost" onClick={() => { setResults([]); setSavedIds(new Set()); }}>← Try again</button>
+                <button className="mp-btn mp-btn-primary" onClick={onClose}>Done</button>
+              </div>
+            </>
           )}
         </div>
       </div>
