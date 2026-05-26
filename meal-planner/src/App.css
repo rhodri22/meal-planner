@@ -1614,77 +1614,60 @@ body {
 /* ============================================================
    THEMES
    ============================================================ */
+/* ============================================================
+   THEMES — override the :root variables that the app actually uses
+   ============================================================ */
 [data-theme="terracotta"] {
-  --accent: #C8553D;
-  --accent-2: #D77462;
-  --cream: #F5EFE6;
-  --paper: #FBF8F1;
-  --ink: #2B2A28;
-  --ink-2: #4D4A47;
-  --ink-3: #7C7873;
-  --line: rgba(43, 42, 40, 0.12);
-  --line-soft: rgba(43, 42, 40, 0.07);
-  --card: #FFFFFF;
+  --bg: #F2E9D8;
+  --bg-2: #E8DCC4;
+  --ink: #2B231D;
+  --ink-2: #5A4D43;
+  --ink-3: #8A7E72;
+  --accent: #B83F2A;
+  --accent-dark: #8B2A1A;
+  --sage: #5F6B4E;
+  --line: #D8C9AE;
+  --line-soft: #E8DCC4;
+  --card: #FAF3E3;
 }
 [data-theme="forest"] {
-  --accent: #4A6741;
-  --accent-2: #6B8E5A;
-  --cream: #F0EDE4;
-  --paper: #F7F4ED;
+  --bg: #EAEBE0;
+  --bg-2: #DCDFD0;
   --ink: #1F2D1A;
   --ink-2: #3D4F36;
   --ink-3: #6D7C66;
-  --line: rgba(31, 45, 26, 0.12);
-  --line-soft: rgba(31, 45, 26, 0.07);
-  --card: #FFFFFF;
-}
-[data-theme="ocean"] {
-  --accent: #3A6B7D;
-  --accent-2: #5A8A9D;
-  --cream: #EBF0F3;
-  --paper: #F4F7F9;
-  --ink: #1A2A33;
-  --ink-2: #344A55;
-  --ink-3: #6A7F89;
-  --line: rgba(26, 42, 51, 0.12);
-  --line-soft: rgba(26, 42, 51, 0.07);
-  --card: #FFFFFF;
-}
-[data-theme="sunrise"] {
-  --accent: #E08E45;
-  --accent-2: #E8A663;
-  --cream: #FAF1E4;
-  --paper: #FCF6EC;
-  --ink: #3A2F1F;
-  --ink-2: #5C4A33;
-  --ink-3: #8C7857;
-  --line: rgba(58, 47, 31, 0.12);
-  --line-soft: rgba(58, 47, 31, 0.07);
-  --card: #FFFFFF;
+  --accent: #4A6741;
+  --accent-dark: #324A2D;
+  --sage: #7A8A6C;
+  --line: #BCC4AC;
+  --line-soft: #D6DAC6;
+  --card: #F5F6EE;
 }
 [data-theme="plum"] {
-  --accent: #7A4E69;
-  --accent-2: #9A6A88;
-  --cream: #F3EEF1;
-  --paper: #F9F4F6;
+  --bg: #EFE9EC;
+  --bg-2: #E3D9DE;
   --ink: #2D1F28;
   --ink-2: #4D3942;
   --ink-3: #7D6873;
-  --line: rgba(45, 31, 40, 0.12);
-  --line-soft: rgba(45, 31, 40, 0.07);
-  --card: #FFFFFF;
+  --accent: #7A4E69;
+  --accent-dark: #5A3850;
+  --sage: #9A8390;
+  --line: #C9BAC2;
+  --line-soft: #DDD0D6;
+  --card: #F7F2F4;
 }
 [data-theme="midnight"] {
-  --accent: #6B8FB8;
-  --accent-2: #8AAAD1;
-  --cream: #1F2937;
-  --paper: #111827;
-  --ink: #F3F4F6;
-  --ink-2: #D1D5DB;
-  --ink-3: #9CA3AF;
-  --line: rgba(243, 244, 246, 0.12);
-  --line-soft: rgba(243, 244, 246, 0.07);
-  --card: #1F2937;
+  --bg: #1A2231;
+  --bg-2: #232C3D;
+  --ink: #F1F4F8;
+  --ink-2: #C2CAD4;
+  --ink-3: #8B96A4;
+  --accent: #E8A663;
+  --accent-dark: #C58A47;
+  --sage: #7AA0BB;
+  --line: #3A4458;
+  --line-soft: #2C3548;
+  --card: #2A3346;
 }
 
 /* Theme swatch grid in settings */

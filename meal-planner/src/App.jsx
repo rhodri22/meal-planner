@@ -36,12 +36,10 @@ const AISLES = [
 ];
 
 const THEMES = [
-  { id: 'terracotta', label: 'Terracotta', emoji: '🧡', preview: '#C8553D' },
-  { id: 'forest', label: 'Forest', emoji: '🌲', preview: '#4A6741' },
-  { id: 'ocean', label: 'Ocean', emoji: '🌊', preview: '#3A6B7D' },
-  { id: 'sunrise', label: 'Sunrise', emoji: '🌅', preview: '#E08E45' },
-  { id: 'plum', label: 'Plum', emoji: '🍇', preview: '#7A4E69' },
-  { id: 'midnight', label: 'Midnight', emoji: '🌙', preview: '#2C3E50' },
+  { id: 'terracotta', label: 'Terracotta', emoji: '🧡', preview: '#B83F2A' },
+  { id: 'forest',     label: 'Forest',     emoji: '🌲', preview: '#4A6741' },
+  { id: 'plum',       label: 'Plum',       emoji: '🍇', preview: '#7A4E69' },
+  { id: 'midnight',   label: 'Midnight',   emoji: '🌙', preview: '#E8A663' },
 ];
 
 const TAGS = ['quick', 'veggie', 'high-iron', 'high-protein', 'comfort', 'freezer-friendly', 'one-tray', 'weeknight', 'weekend', 'meal-prep'];
@@ -2693,7 +2691,8 @@ export default function App() {
   // Apply current theme to document root.
   useEffect(() => {
     if (!data) return;
-    const theme = data.theme || 'terracotta';
+    const validIds = THEMES.map(t => t.id);
+    const theme = validIds.includes(data.theme) ? data.theme : 'terracotta';
     document.documentElement.setAttribute('data-theme', theme);
   }, [data?.theme]);
 
@@ -3022,23 +3021,6 @@ export default function App() {
     },
   }));
 
-  // Swap two week slots — used by drag-and-drop. Source slot gets target's value, vice versa.
-  const swapSlots = (fromDay, fromSlot, toDay, toSlot) => {
-    if (fromDay === toDay && fromSlot === toSlot) return;
-    setData(d => {
-      const fromValue = d.week[fromDay]?.[fromSlot] || null;
-      const toValue = d.week[toDay]?.[toSlot] || null;
-      return {
-        ...d,
-        week: {
-          ...d.week,
-          [fromDay]: { ...(d.week[fromDay] || emptyDaySlots()), [fromSlot]: toValue },
-          [toDay]: { ...(d.week[toDay] || emptyDaySlots()), [toSlot]: fromValue },
-        },
-      };
-    });
-  };
-
   const togglePantry = (name) => setData(d => ({
     ...d,
     pantry: d.pantry.includes(name) ? d.pantry.filter(p => p !== name) : [...d.pantry, name],
@@ -3300,7 +3282,7 @@ export default function App() {
 
       <main className="mp-main">
         {tab === 'recipes' && <RecipesTab recipes={filteredRecipes} favourites={data.favourites} onOpen={setOpenRecipeId} onToggleFav={toggleFav} isEmpty={data.recipes.length === 0} onOpenDiscover={() => setDiscoveryOpen(true)} />}
-        {tab === 'week' && <WeekTab week={data.week} recipes={data.recipes} onOpen={setOpenRecipeId} onUnassign={(day, mealSlot) => setDaySlot(day, mealSlot, null)} onMarkLeftover={markLeftover} onMarkSkipped={markSkipped} onOpenTemplates={() => setTemplatesOpen(true)} onOpenTimeline={() => setTimelineOpen(true)} onSwapSlots={swapSlots} />}
+        {tab === 'week' && <WeekTab week={data.week} recipes={data.recipes} onOpen={setOpenRecipeId} onUnassign={(day, mealSlot) => setDaySlot(day, mealSlot, null)} onMarkLeftover={markLeftover} onMarkSkipped={markSkipped} onOpenTemplates={() => setTemplatesOpen(true)} onOpenTimeline={() => setTimelineOpen(true)} />}
         {tab === 'shopping' && <ShoppingTab data={data} onToggleCheck={toggleCheck} onReorderAisles={reorderAisles} onAddCustom={addCustomItem} onDeleteCustom={deleteCustomItem} />}
         {tab === 'pantry' && <PantryTab recipes={data.recipes} pantry={data.pantry} onToggle={togglePantry} onOpenRecipe={setOpenRecipeId} onInventOpen={() => setInventOpen(true)} onFridgeOpen={() => setFridgeOpen(true)} />}
       </main>
@@ -3580,35 +3562,13 @@ function RecipeCard({ recipe, isFav, onOpen, onToggleFav }) {
   );
 }
 
-function WeekTab({ week, recipes, onOpen, onUnassign, onMarkLeftover, onMarkSkipped, onOpenTemplates, onOpenTimeline, onSwapSlots }) {
+function WeekTab({ week, recipes, onOpen, onUnassign, onMarkLeftover, onMarkSkipped, onOpenTemplates, onOpenTimeline }) {
   const todayIdx = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
   const [viewMode, setViewMode] = useState(() => localStorage.getItem('week-view-mode') || 'expanded');
   const [expandedDays, setExpandedDays] = useState(() => new Set([DAYS[todayIdx]]));
   const [reviewLoading, setReviewLoading] = useState(false);
   const [reviewResult, setReviewResult] = useState(null);
   const [reviewError, setReviewError] = useState('');
-  const [dragSource, setDragSource] = useState(null); // {day, slot}
-  const [dragOver, setDragOver] = useState(null);
-
-  const handleDragStart = (day, slot) => (e) => {
-    setDragSource({ day, slot });
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', `${day}|${slot}`); // some browsers need data
-  };
-  const handleDragEnd = () => { setDragSource(null); setDragOver(null); };
-  const handleDragOver = (day, slot) => (e) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    setDragOver({ day, slot });
-  };
-  const handleDrop = (day, slot) => (e) => {
-    e.preventDefault();
-    if (dragSource) {
-      onSwapSlots?.(dragSource.day, dragSource.slot, day, slot);
-    }
-    setDragSource(null);
-    setDragOver(null);
-  };
 
   const setMode = (mode) => {
     setViewMode(mode);
@@ -3779,15 +3739,7 @@ Keep observations and suggestions to 2-4 items each. Be kind. If everything look
                   const isSkipped = slot?.isSkipped;
                   const canLeftover = recipe?.makesLeftovers && dayIdx < 6 && !daySlots[mt.id]?.isLeftover && !week[DAYS[dayIdx + 1]]?.[mt.id];
                   return (
-                    <div key={mt.id}
-                      className={`mp-meal-slot ${recipe ? 'mp-meal-slot-filled' : isLeftover ? 'mp-meal-slot-leftover' : isSkipped ? 'mp-meal-slot-skipped' : 'mp-meal-slot-empty'} ${dragOver?.day === day && dragOver?.slot === mt.id ? 'mp-meal-slot-dragover' : ''} ${dragSource?.day === day && dragSource?.slot === mt.id ? 'mp-meal-slot-dragging' : ''}`}
-                      draggable={!!(recipe || isLeftover || isSkipped)}
-                      onDragStart={handleDragStart(day, mt.id)}
-                      onDragEnd={handleDragEnd}
-                      onDragOver={handleDragOver(day, mt.id)}
-                      onDragLeave={() => setDragOver(null)}
-                      onDrop={handleDrop(day, mt.id)}
-                    >
+                    <div key={mt.id} className={`mp-meal-slot ${recipe ? 'mp-meal-slot-filled' : isLeftover ? 'mp-meal-slot-leftover' : isSkipped ? 'mp-meal-slot-skipped' : 'mp-meal-slot-empty'}`}>
                       <div className="mp-meal-slot-label">
                         <span className="mp-meal-slot-emoji">{mt.emoji}</span>
                         <span className="mp-meal-slot-type">{mt.label}</span>
@@ -4008,10 +3960,10 @@ Return ONLY the JSON array.`
     setAddingItem(false);
   };
 
-  // AI: ask Claude which aisle a typed item belongs in. Called after typing pause.
-  const suggestAisle = async (itemName) => {
-    if (!itemName || itemName.trim().length < 2) return;
-    if (aisleManuallySet) return; // don't override user choice
+  // AI: ask Claude which aisle a typed item belongs in. Called manually via button.
+  const suggestAisle = async () => {
+    const itemName = newItem.name.trim();
+    if (!itemName || itemName.length < 2) return;
     setAisleSuggesting(true);
     try {
       const aisleList = AISLES.map(a => `${a.id} (${a.label})`).join(', ');
@@ -4022,28 +3974,20 @@ Return ONLY the JSON array.`
           model: 'claude-haiku-4-5-20251001',
           max_tokens: 30,
           system: `You categorise grocery list items. Reply with ONLY the aisle id from this list (one word, nothing else): ${aisleList}. If unclear, reply: other`,
-          messages: [{ role: 'user', content: itemName.trim() }],
+          messages: [{ role: 'user', content: itemName }],
         }),
       });
-      const data = await res.json();
-      if (data.error) return;
-      const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim().toLowerCase();
-      // Match the response to a valid aisle id
+      const json = await res.json();
+      if (json.error) return;
+      const text = (json.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim().toLowerCase();
       const validId = AISLES.find(a => a.id === text)?.id;
-      if (validId && !aisleManuallySet) {
+      if (validId) {
         setNewItem(i => ({ ...i, aisle: validId }));
+        setAisleManuallySet(true); // treat AI suggestion as locked-in so it doesn't get overridden
       }
     } catch (_) { /* fail silent */ }
     finally { setAisleSuggesting(false); }
   };
-
-  // Debounce aisle suggestion when user types
-  useEffect(() => {
-    if (!addingItem || aisleManuallySet) return;
-    if (!newItem.name.trim() || newItem.name.trim().length < 3) return;
-    const timer = setTimeout(() => suggestAisle(newItem.name), 700);
-    return () => clearTimeout(timer);
-  }, [newItem.name, addingItem, aisleManuallySet]);
 
   // Toggle all units in a group at once
   const toggleGroup = (group) => {
@@ -4131,14 +4075,19 @@ Return ONLY the JSON array.`
               {AISLES.map(a => <option key={a.id} value={a.id}>{a.label}</option>)}
             </select>
           </div>
-          {aisleSuggesting && <div className="mp-tiny" style={{marginTop:4, color:'var(--ink-3)'}}><Sparkles size={10} /> Claude is figuring out where this goes…</div>}
-          {!aisleSuggesting && newItem.name.trim().length >= 3 && !aisleManuallySet && newItem.aisle !== 'other' && (
-            <div className="mp-tiny" style={{marginTop:4, color:'var(--ink-3)'}}>
-              <Sparkles size={10} style={{verticalAlign:'-1px'}} /> Auto-categorised — change the dropdown if wrong
-            </div>
+          {newItem.name.trim().length >= 2 && (
+            <button
+              type="button"
+              className="mp-ai-btn"
+              style={{marginTop:6}}
+              onClick={suggestAisle}
+              disabled={aisleSuggesting}
+            >
+              {aisleSuggesting ? <><RefreshCw size={11} className="mp-sync-spin" /> thinking…</> : <><Sparkles size={11} /> guess the aisle</>}
+            </button>
           )}
-          <div style={{display:'flex', gap:8, marginTop:8}}>
-            <button className="mp-btn mp-btn-ghost" onClick={() => { setAddingItem(false); setNewItem({ name: '', amount: '', unit: '', aisle: 'other' }); }}>Cancel</button>
+          <div style={{display:'flex', gap:8, marginTop:10}}>
+            <button className="mp-btn mp-btn-ghost" onClick={() => { setAddingItem(false); setNewItem({ name: '', amount: '', unit: '', aisle: 'other' }); setAisleManuallySet(false); }}>Cancel</button>
             <button className={`mp-btn mp-btn-primary ${newItem.name.trim() ? '' : 'mp-btn-disabled'}`} disabled={!newItem.name.trim()} onClick={handleAddItem}>Add</button>
           </div>
         </div>
