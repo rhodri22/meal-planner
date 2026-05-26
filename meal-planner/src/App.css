@@ -1610,3 +1610,490 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+/* ============================================================
+   THEMES
+   ============================================================ */
+[data-theme="terracotta"] {
+  --accent: #C8553D;
+  --accent-2: #D77462;
+  --cream: #F5EFE6;
+  --paper: #FBF8F1;
+  --ink: #2B2A28;
+  --ink-2: #4D4A47;
+  --ink-3: #7C7873;
+  --line: rgba(43, 42, 40, 0.12);
+  --line-soft: rgba(43, 42, 40, 0.07);
+  --card: #FFFFFF;
+}
+[data-theme="forest"] {
+  --accent: #4A6741;
+  --accent-2: #6B8E5A;
+  --cream: #F0EDE4;
+  --paper: #F7F4ED;
+  --ink: #1F2D1A;
+  --ink-2: #3D4F36;
+  --ink-3: #6D7C66;
+  --line: rgba(31, 45, 26, 0.12);
+  --line-soft: rgba(31, 45, 26, 0.07);
+  --card: #FFFFFF;
+}
+[data-theme="ocean"] {
+  --accent: #3A6B7D;
+  --accent-2: #5A8A9D;
+  --cream: #EBF0F3;
+  --paper: #F4F7F9;
+  --ink: #1A2A33;
+  --ink-2: #344A55;
+  --ink-3: #6A7F89;
+  --line: rgba(26, 42, 51, 0.12);
+  --line-soft: rgba(26, 42, 51, 0.07);
+  --card: #FFFFFF;
+}
+[data-theme="sunrise"] {
+  --accent: #E08E45;
+  --accent-2: #E8A663;
+  --cream: #FAF1E4;
+  --paper: #FCF6EC;
+  --ink: #3A2F1F;
+  --ink-2: #5C4A33;
+  --ink-3: #8C7857;
+  --line: rgba(58, 47, 31, 0.12);
+  --line-soft: rgba(58, 47, 31, 0.07);
+  --card: #FFFFFF;
+}
+[data-theme="plum"] {
+  --accent: #7A4E69;
+  --accent-2: #9A6A88;
+  --cream: #F3EEF1;
+  --paper: #F9F4F6;
+  --ink: #2D1F28;
+  --ink-2: #4D3942;
+  --ink-3: #7D6873;
+  --line: rgba(45, 31, 40, 0.12);
+  --line-soft: rgba(45, 31, 40, 0.07);
+  --card: #FFFFFF;
+}
+[data-theme="midnight"] {
+  --accent: #6B8FB8;
+  --accent-2: #8AAAD1;
+  --cream: #1F2937;
+  --paper: #111827;
+  --ink: #F3F4F6;
+  --ink-2: #D1D5DB;
+  --ink-3: #9CA3AF;
+  --line: rgba(243, 244, 246, 0.12);
+  --line-soft: rgba(243, 244, 246, 0.07);
+  --card: #1F2937;
+}
+
+/* Theme swatch grid in settings */
+.mp-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 8px;
+}
+.mp-theme-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--ink);
+  transition: border-color 0.15s, transform 0.1s;
+}
+.mp-theme-card:hover { transform: translateY(-1px); }
+.mp-theme-card.mp-theme-card-on {
+  border-color: var(--accent);
+  border-width: 2px;
+}
+.mp-theme-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.mp-theme-label {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Health score */
+.mp-health-score {
+  padding: 12px 0;
+}
+.mp-health-score-big {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+  color: var(--accent);
+  font-family: 'Fraunces', serif;
+  margin-bottom: 12px;
+}
+.mp-health-score-num {
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1;
+}
+.mp-health-score-out {
+  font-size: 20px;
+  color: var(--ink-3);
+}
+.mp-health-factors {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.mp-health-factors li {
+  padding: 4px 0;
+  padding-left: 18px;
+  position: relative;
+}
+.mp-health-factors li:before {
+  content: '·';
+  position: absolute;
+  left: 6px;
+  color: var(--accent);
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Week action buttons */
+.mp-week-actions {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 12px;
+  flex-wrap: wrap;
+}
+.mp-week-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  background: var(--card);
+  border: 0.5px solid var(--line);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.mp-week-action-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.mp-week-action-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.mp-week-review {
+  margin: 0 16px 16px;
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(245, 158, 11, 0.02));
+  border: 0.5px solid rgba(245, 158, 11, 0.3);
+  border-radius: 14px;
+}
+.mp-week-review-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Template list rows */
+.mp-template-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 0.5px solid var(--line-soft);
+}
+.mp-template-row:last-child { border-bottom: none; }
+
+/* Cooking timeline */
+.mp-timeline-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  position: relative;
+}
+.mp-timeline-list:before {
+  content: '';
+  position: absolute;
+  left: 56px;
+  top: 12px;
+  bottom: 12px;
+  width: 1.5px;
+  background: var(--line);
+}
+.mp-timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  position: relative;
+}
+.mp-timeline-item:before {
+  content: '';
+  position: absolute;
+  left: 53px;
+  top: 16px;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  z-index: 1;
+}
+.mp-timeline-time {
+  width: 50px;
+  flex-shrink: 0;
+  font-family: 'Fraunces', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent);
+  padding-top: 2px;
+}
+.mp-timeline-task {
+  flex: 1;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.4;
+  padding-left: 14px;
+}
+
+/* Discovery sheet */
+.mp-discovery-counter {
+  text-align: center;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+}
+.mp-discovery-card {
+  background: var(--card);
+  border: 0.5px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.mp-discovery-name {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.mp-discovery-meta {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+.mp-discovery-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.mp-discovery-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 18px 24px;
+  border: none;
+  border-radius: 16px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  flex: 1;
+  max-width: 160px;
+  transition: transform 0.15s;
+}
+.mp-discovery-btn:active { transform: scale(0.96); }
+.mp-discovery-dismiss {
+  background: var(--cream);
+  color: var(--ink-2);
+}
+.mp-discovery-save {
+  background: var(--accent);
+  color: white;
+}
+
+/* Voice entry */
+.mp-voice-active {
+  background: var(--accent) !important;
+  color: white !important;
+  animation: pulse 1s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.mp-voice-status {
+  margin: 8px 0;
+  padding: 10px 14px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 0.5px solid rgba(245, 158, 11, 0.3);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mp-voice-status.mp-voice-ok {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+/* "Haven't cooked in a while" badge */
+.mp-stale-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(4px);
+}
+.mp-stale-badge.mp-stale-hot {
+  background: var(--accent);
+}
+.mp-stale-badge.mp-stale-recent {
+  background: rgba(34, 197, 94, 0.85);
+}
+
+/* Cook history calendar */
+.mp-cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.mp-cal-month {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+.mp-cal-stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 14px;
+  background: var(--cream);
+  border-radius: 12px;
+}
+.mp-cal-stat { flex: 1; text-align: center; }
+.mp-cal-stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1.1;
+}
+.mp-cal-stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+.mp-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 18px;
+}
+.mp-cal-weekday {
+  text-align: center;
+  font-size: 10px;
+  color: var(--ink-3);
+  font-weight: 600;
+  padding: 4px 0;
+}
+.mp-cal-cell {
+  aspect-ratio: 1;
+  background: var(--card);
+  border: 0.5px solid var(--line);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  color: var(--ink-3);
+  cursor: pointer;
+  position: relative;
+  padding: 2px;
+}
+.mp-cal-cell:disabled { cursor: default; }
+.mp-cal-blank { background: transparent; border-color: transparent; }
+.mp-cal-cell-active { background: var(--cream); color: var(--ink); }
+.mp-cal-cell-today { border-color: var(--accent); border-width: 1.5px; }
+.mp-cal-cell-selected { background: var(--accent); color: white; }
+.mp-cal-cell-selected .mp-cal-dot { background: white; }
+.mp-cal-day-num { font-size: 12px; font-weight: 500; }
+.mp-cal-dot-row { display: flex; gap: 2px; margin-top: 2px; align-items: center; }
+.mp-cal-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.mp-cal-detail {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 0.5px solid var(--line);
+}
+
+/* Fridge photo */
+.mp-photo-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px;
+  border: 2px dashed var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  cursor: pointer;
+  text-align: center;
+  color: var(--ink);
+}
+.mp-photo-upload:hover { border-color: var(--accent); }
+.mp-photo-preview {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 4px;
+}
+
+/* Drag-and-drop states for week meal slots */
+.mp-meal-slot { transition: transform 0.12s, opacity 0.12s, border-color 0.12s; }
+.mp-meal-slot[draggable="true"] { cursor: grab; }
+.mp-meal-slot[draggable="true"]:active { cursor: grabbing; }
+.mp-meal-slot-dragging {
+  opacity: 0.4;
+  transform: scale(0.95);
+}
+.mp-meal-slot-dragover {
+  border-color: var(--accent) !important;
+  border-style: dashed !important;
+  border-width: 2px !important;
+  background: rgba(200, 85, 61, 0.06) !important;
+  transform: scale(1.02);
+}

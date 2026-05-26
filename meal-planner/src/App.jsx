@@ -3,7 +3,8 @@ import {
   Plus, Star, X, Minus, ChefHat, Calendar, ShoppingBasket, Package,
   Edit3, Trash2, Search, Check, ChevronLeft, ChevronRight, ChevronUp, ChevronDown,
   Trash, RotateCcw, Filter, RefreshCw, Shuffle, Play, Link, ClipboardList,
-  UtensilsCrossed, Repeat2, Camera, Timer, GripVertical, Settings, Sparkles, Activity
+  UtensilsCrossed, Repeat2, Camera, Timer, GripVertical, Settings, Sparkles, Activity,
+  Bookmark, Clock, Mic, Heart, Image as ImageIcon
 } from 'lucide-react';
 import './App.css';
 import { supabase, HOUSEHOLD_ID } from './supabase.js';
@@ -26,7 +27,21 @@ const AISLES = [
   { id: 'spices', label: 'Spices' },
   { id: 'bakery', label: 'Bakery' },
   { id: 'frozen', label: 'Frozen' },
+  { id: 'drinks', label: 'Drinks' },
+  { id: 'bathroom', label: 'Bathroom' },
+  { id: 'household', label: 'Household' },
+  { id: 'pets', label: 'Pets' },
+  { id: 'baby', label: 'Baby' },
   { id: 'other', label: 'Other' },
+];
+
+const THEMES = [
+  { id: 'terracotta', label: 'Terracotta', emoji: '🧡', preview: '#C8553D' },
+  { id: 'forest', label: 'Forest', emoji: '🌲', preview: '#4A6741' },
+  { id: 'ocean', label: 'Ocean', emoji: '🌊', preview: '#3A6B7D' },
+  { id: 'sunrise', label: 'Sunrise', emoji: '🌅', preview: '#E08E45' },
+  { id: 'plum', label: 'Plum', emoji: '🍇', preview: '#7A4E69' },
+  { id: 'midnight', label: 'Midnight', emoji: '🌙', preview: '#2C3E50' },
 ];
 
 const TAGS = ['quick', 'veggie', 'high-iron', 'high-protein', 'comfort', 'freezer-friendly', 'one-tray', 'weeknight', 'weekend', 'meal-prep'];
@@ -1553,6 +1568,824 @@ const SEED_RECIPES = [
       { name: 'black pepper', amount: 0.5, unit: 'tsp', aisle: 'spices' },
     ],
   },
+  // ────────────────────────────────────────────────────────────
+  // Sunday Roasts
+  // ────────────────────────────────────────────────────────────
+  {
+    id: 'sunday-roast-chicken',
+    name: 'Sunday Roast Chicken with All the Trimmings',
+    cuisine: 'British',
+    time: '2 hr',
+    servings: 4,
+    mealType: 'dinner',
+    tags: ['weekend', 'comfort', 'high-protein'],
+    makesLeftovers: true,
+    notes: 'The full Sunday treatment — roast chicken, crispy potatoes, Yorkshires, gravy, and veg. Start the potatoes parboiling 1 hour before you want to eat.',
+    steps: [
+      'Take the chicken out of the fridge 1 hour before cooking to let it come to room temperature — this is critical for even roasting. Pat the skin completely dry with kitchen paper.',
+      'Heat the oven to 220°C fan / 240°C conventional. Sit the chicken in a deep roasting tin. Rub the entire bird with 30g softened butter, getting under the breast skin where you can. Season generously with salt and pepper — at least 2 teaspoons of salt total. Stuff the cavity with the lemon halves, 4 garlic cloves, and the thyme sprigs.',
+      'Place the chicken breast-side up. Roast at 240°C for 20 minutes to crisp the skin, then turn down to 180°C fan / 200°C conventional. Continue roasting for 1 hour for a 1.6kg bird (allow 20 min per 500g + 20 min extra). The chicken is done when a skewer in the thickest part of the thigh runs clear and the juices are no longer pink. The internal temperature should be 75°C.',
+      'Meanwhile, peel and quarter the potatoes. Put them in a large pan of cold salted water, bring to a boil, then simmer for 8 minutes — they should be just starting to soften at the edges. Drain in a colander and shake them aggressively for 30 seconds — the rough, broken edges become the crispy bits later.',
+      'When the chicken has 50 minutes left, heat 100g goose fat or oil in a separate roasting tin in the oven until smoking hot — about 5 minutes. Carefully tip in the potatoes (stand back, it spits), turn them to coat in the fat, and roast for 45-50 minutes, turning twice, until deep golden and crisp.',
+      'For Yorkshire puddings: in a bowl, whisk 140g plain flour, 4 eggs, and 200ml milk to a smooth batter. Season with salt. Let it rest for at least 30 minutes. Heat the oven to 220°C fan for the Yorkshires. Put a teaspoon of oil into each hole of a 12-hole muffin tin and heat in the oven for 5 minutes until smoking. Pour the batter in (it should sizzle violently), then bake for 20-25 minutes until risen and bronzed. Do not open the oven door during cooking.',
+      'When the chicken comes out, transfer it to a board and tent loosely with foil. Rest for at least 20 minutes — this lets the juices redistribute so the meat stays moist when you carve it. While it rests, finish the gravy and veg.',
+      'For gravy: pour off most of the fat from the chicken tin, leaving the dark sticky bits and juices. Place the tin over medium heat on the hob. Stir in 2 tablespoons of plain flour and cook for 1 minute. Gradually whisk in 600ml of hot chicken stock, scraping the base of the tin. Add a splash of white wine if you have it. Simmer for 5 minutes until thickened. Strain into a jug.',
+      'Meanwhile cook the veg: steam the carrots for 8 minutes and the broccoli for 4 minutes — they should be tender with a slight bite. Toss with a knob of butter and salt.',
+      'Carve the chicken: remove the legs first, separate thigh from drumstick. Then take each breast off the carcass in one piece and slice across the grain. Serve everything together — potatoes, Yorkshires, veg, chicken — with the hot gravy poured over.',
+    ],
+    ingredients: [
+      { name: 'whole chicken', amount: 1.6, unit: 'kg', aisle: 'meat' },
+      { name: 'butter, softened', amount: 30, unit: 'g', aisle: 'dairy' },
+      { name: 'lemon', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'garlic', amount: 4, unit: 'cloves', aisle: 'produce' },
+      { name: 'fresh thyme', amount: 6, unit: 'sprigs', aisle: 'produce' },
+      { name: 'maris piper or king edward potato', amount: 1.2, unit: 'kg', aisle: 'produce' },
+      { name: 'goose fat or vegetable oil', amount: 100, unit: 'g', aisle: 'pantry' },
+      { name: 'plain flour', amount: 140, unit: 'g', aisle: 'pantry' },
+      { name: 'egg', amount: 4, unit: '', aisle: 'dairy' },
+      { name: 'milk', amount: 200, unit: 'ml', aisle: 'dairy' },
+      { name: 'chicken stock', amount: 600, unit: 'ml', aisle: 'pantry' },
+      { name: 'plain flour (for gravy)', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'white wine (optional)', amount: 100, unit: 'ml', aisle: 'drinks' },
+      { name: 'carrot', amount: 500, unit: 'g', aisle: 'produce' },
+      { name: 'tenderstem broccoli', amount: 300, unit: 'g', aisle: 'produce' },
+      { name: 'sea salt', amount: 2, unit: 'tsp', aisle: 'spices' },
+      { name: 'black pepper', amount: 1, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'sunday-roast-gammon',
+    name: 'Sunday Roast Gammon with Marmalade Glaze',
+    cuisine: 'British',
+    time: '3 hr',
+    servings: 6,
+    mealType: 'dinner',
+    tags: ['weekend', 'comfort', 'high-protein', 'meal-prep'],
+    makesLeftovers: true,
+    notes: 'Boil-then-bake method gives you tender meat and a glossy sticky crust. The leftovers are gold for sandwiches all week.',
+    steps: [
+      'Place the gammon joint in a very large pot. Cover completely with cold water. Add the onion (halved), 2 carrots (roughly chopped), the bay leaves, peppercorns and cloves. The water should just cover the gammon — if not, top up.',
+      'Bring to a boil over high heat, then immediately reduce to a bare simmer (small bubbles, not a rolling boil — this keeps the meat tender). Skim off any scum that rises to the surface. Simmer for 1 hour 40 minutes for a 2kg joint (allow 20 minutes per 500g + 20 minutes extra).',
+      'Meanwhile, prepare the rest of the meal. Peel and quarter the potatoes, put in a pan of cold salted water, bring to the boil and parboil for 8 minutes. Drain and shake roughly to break up the edges. Set aside.',
+      'Heat the oven to 200°C fan / 220°C conventional. Once the gammon is cooked, lift it out carefully and let it rest 10 minutes — it is easier to handle. Place it in a roasting tin.',
+      'Cut away the skin with a sharp knife, leaving as much of the white fat layer as possible (this is what crisps up beautifully). Score the fat in a diamond pattern with cuts about 1cm apart, going only into the fat — not the meat. Press a clove into the centre of each diamond.',
+      'In a small bowl, mix 4 tablespoons orange marmalade, 2 tablespoons brown sugar, 1 tablespoon Dijon mustard, and 1 tablespoon whisky or cider vinegar. Spoon this glaze all over the scored fat, making sure it gets into the diamond cuts.',
+      'Heat 100g goose fat or oil in a roasting tin in the oven for 5 minutes until smoking. Tip in the potatoes, turn to coat, and roast for 40-45 minutes alongside the gammon (in a separate tin) until deep golden and crisp.',
+      'Roast the gammon for 25-30 minutes, basting with the glaze every 10 minutes. The fat should be deep amber and lacquered. If the top is darkening too fast, cover loosely with foil. Internal temp should be 65°C.',
+      'Rest the gammon for 15 minutes before carving — this is non-negotiable for juicy slices.',
+      'Steam the cabbage and carrots: cabbage for 4 minutes, carrots for 8 minutes. Toss the cabbage with butter, salt and a squeeze of lemon. Toss the carrots with butter and a drizzle of honey.',
+      'For the parsley sauce: melt 30g butter in a small pan, whisk in 30g plain flour and cook 1 minute. Gradually whisk in 400ml warm milk until smooth and thickened, about 5 minutes. Stir in a handful of finely chopped parsley, salt and pepper. This is the classic British gammon partner — do not skip it.',
+      'Carve the gammon in slices across the grain. Serve with the crispy potatoes, glazed carrots, cabbage, and parsley sauce.',
+    ],
+    ingredients: [
+      { name: 'unsmoked gammon joint', amount: 2, unit: 'kg', aisle: 'meat' },
+      { name: 'onion', amount: 1, unit: 'large', aisle: 'produce' },
+      { name: 'carrot', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'bay leaves', amount: 3, unit: '', aisle: 'spices' },
+      { name: 'black peppercorns', amount: 1, unit: 'tbsp', aisle: 'spices' },
+      { name: 'whole cloves', amount: 25, unit: '', aisle: 'spices' },
+      { name: 'orange marmalade', amount: 4, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'soft brown sugar', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'dijon mustard', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'whisky or cider vinegar', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'maris piper or king edward potato', amount: 1.5, unit: 'kg', aisle: 'produce' },
+      { name: 'goose fat or vegetable oil', amount: 100, unit: 'g', aisle: 'pantry' },
+      { name: 'savoy cabbage', amount: 1, unit: 'small', aisle: 'produce' },
+      { name: 'carrot (for roasting)', amount: 600, unit: 'g', aisle: 'produce' },
+      { name: 'butter', amount: 30, unit: 'g', aisle: 'dairy' },
+      { name: 'plain flour', amount: 30, unit: 'g', aisle: 'pantry' },
+      { name: 'milk', amount: 400, unit: 'ml', aisle: 'dairy' },
+      { name: 'flat-leaf parsley', amount: 30, unit: 'g', aisle: 'produce' },
+      { name: 'honey', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'full-welsh-breakfast',
+    name: 'Full Welsh Breakfast',
+    cuisine: 'Welsh',
+    time: '40 min',
+    servings: 2,
+    mealType: 'breakfast',
+    tags: ['weekend', 'comfort', 'high-protein'],
+    makesLeftovers: false,
+    notes: 'Like a Full English but with laverbread, cockles, and Glamorgan sausage. Choreography is everything — read all steps before starting.',
+    steps: [
+      'Heat the oven to 100°C — you will keep finished items warm in there as you go. Put two plates in to warm too.',
+      'Start with the Glamorgan sausages (they take longest). In a bowl, combine 150g grated Caerphilly cheese, 80g breadcrumbs, 1 egg yolk, 2 finely chopped spring onions, 1 tsp Dijon mustard, and a good pinch of salt and pepper. Mix to a stiff paste — if too dry, add a splash of milk. Shape into 4 sausages. Lightly beat the remaining egg white. Dip each sausage in the egg white, then roll in extra breadcrumbs. Chill 10 minutes if you have time.',
+      'Get a large frying pan going over medium heat with a tablespoon of oil. Fry the Glamorgan sausages, turning, for 8-10 minutes until evenly golden all over. Transfer to a plate in the warm oven.',
+      'In the same pan (do not clean it), add the bacon rashers. Fry over medium-high heat for 3-4 minutes per side until crispy at the edges. Move to the oven plate.',
+      'Add the black pudding slices to the bacon fat. Fry for 2 minutes per side — they should be crisp on the outside and still moist within. Add the laverbread (Welsh seaweed paste) to the pan in small dollops mixed with a handful of oatmeal — it will form little patties. Fry for 2 minutes each side. Move both to the oven.',
+      'Halve the tomatoes. Add to the pan cut-side down with a knob of butter. Fry for 3-4 minutes until charred, then flip and cook the skin side for 2 more minutes. Squeeze of lemon over them. Into the oven.',
+      'Slice the mushrooms thickly. Add another knob of butter and cook the mushrooms over medium-high heat for 5-6 minutes until deeply golden — do not crowd the pan or they will steam. Into the oven.',
+      'Heat the cockles in a small pan with a splash of water, a knob of butter, and a pinch of chopped parsley for 2 minutes until warmed through. Set aside.',
+      'For the eggs: melt butter in a clean non-stick pan over low heat. Crack the eggs in carefully and cook for 3-4 minutes — the whites should be set but the yolks still runny. Spoon hot butter over the whites to set the tops.',
+      'Toast the bread (preferably proper Welsh bara or thick-cut sourdough) and butter generously.',
+      'Plate everything: a sausage, 2 rashers of bacon, 2 slices of black pudding, a laverbread patty, charred tomato, mushrooms, cockles, fried egg, toast. Serve immediately with a strong cup of tea.',
+    ],
+    ingredients: [
+      { name: 'caerphilly cheese', amount: 150, unit: 'g', aisle: 'dairy' },
+      { name: 'fresh breadcrumbs', amount: 80, unit: 'g', aisle: 'bakery' },
+      { name: 'egg', amount: 5, unit: '', aisle: 'dairy' },
+      { name: 'spring onion', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'dijon mustard', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'streaky bacon', amount: 6, unit: 'rashers', aisle: 'meat' },
+      { name: 'black pudding', amount: 4, unit: 'slices', aisle: 'meat' },
+      { name: 'laverbread', amount: 100, unit: 'g', aisle: 'fish' },
+      { name: 'pinhead oatmeal', amount: 50, unit: 'g', aisle: 'pantry' },
+      { name: 'cockles', amount: 100, unit: 'g', aisle: 'fish' },
+      { name: 'large tomato', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'chestnut mushroom', amount: 200, unit: 'g', aisle: 'produce' },
+      { name: 'butter', amount: 60, unit: 'g', aisle: 'dairy' },
+      { name: 'sourdough or bara bread', amount: 4, unit: 'thick slices', aisle: 'bakery' },
+      { name: 'lemon', amount: 0.5, unit: '', aisle: 'produce' },
+      { name: 'fresh parsley', amount: 1, unit: 'small bunch', aisle: 'produce' },
+      { name: 'vegetable oil', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  // ────────────────────────────────────────────────────────────
+  // Asian soups & noodles, papaya salad, aphrodisiac
+  // ────────────────────────────────────────────────────────────
+  {
+    id: 'tantan-ramen',
+    name: 'Tan Tan Ramen',
+    cuisine: 'Japanese',
+    time: '45 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['comfort', 'high-protein', 'spicy'],
+    makesLeftovers: false,
+    notes: 'Sesame-rich, gently spicy. The trick is building the chili oil and the sesame broth separately, then assembling at the bowl.',
+    steps: [
+      'Start by making the spicy pork topping. Heat 1 tablespoon vegetable oil in a wide pan over medium-high heat. Add 250g pork mince, breaking it up with a wooden spoon. Cook for 4-5 minutes until deeply browned and crispy in places — do not rush this stage.',
+      'Add 3 finely minced garlic cloves, a 2cm piece of ginger (grated), and 2 chopped spring onion whites. Cook 1 minute until fragrant. Stir in 2 tablespoons doubanjiang (Sichuan chili bean paste), 1 tablespoon miso, 1 tablespoon soy sauce, 1 teaspoon sugar, and 1 teaspoon ground Sichuan pepper. Cook for another 2 minutes until the mince is glossy and coated. Take off the heat and set aside.',
+      'For the chili oil drizzle: in a small heatproof bowl, combine 2 tablespoons Korean chili flakes (gochugaru), 1 tablespoon white sesame seeds, 1 sliced garlic clove, and a pinch of salt. Heat 4 tablespoons neutral oil in a small pan with a star anise until it shimmers and just begins to smoke. Carefully pour over the chili mixture — it should bubble dramatically. Stir, then let cool.',
+      'For the sesame broth base: in a small saucepan, whisk together 4 tablespoons tahini, 2 tablespoons soy sauce, 1 tablespoon rice vinegar, 1 teaspoon sugar, and 1 teaspoon sesame oil. This will be divided between the bowls — it does not need to be heated yet.',
+      'Bring a large pot of unsalted water to a rolling boil for the noodles. In a separate pot, bring 800ml chicken or vegetable stock to a simmer and keep hot.',
+      'Quickly blanch the bok choy in the noodle water for 90 seconds, then lift out with a slotted spoon and set aside.',
+      'Drop the ramen noodles into the boiling water. Fresh noodles cook in 2-3 minutes, dried ones follow the packet (usually 3-4 minutes). Stir to prevent sticking.',
+      'Now assemble: in each warmed bowl, place 2 tablespoons of the sesame broth base. Ladle 350ml of the hot stock over the top and whisk vigorously to combine.',
+      'Drain the noodles thoroughly (no excess starchy water) and divide between the bowls. Pile the spicy pork mince on top in a heap on one side. Add the bok choy alongside.',
+      'Top each bowl with a soft-boiled egg (halved), a sprinkle of toasted sesame seeds, chopped spring onion greens, and a generous spoonful of the chili oil drizzle. Serve immediately while everything is piping hot.',
+    ],
+    ingredients: [
+      { name: 'fresh ramen noodles', amount: 300, unit: 'g', aisle: 'pantry' },
+      { name: 'pork mince', amount: 250, unit: 'g', aisle: 'meat' },
+      { name: 'garlic', amount: 4, unit: 'cloves', aisle: 'produce' },
+      { name: 'fresh ginger', amount: 3, unit: 'cm piece', aisle: 'produce' },
+      { name: 'spring onion', amount: 4, unit: '', aisle: 'produce' },
+      { name: 'doubanjiang (sichuan chili bean paste)', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'white miso paste', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'soy sauce', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sugar', amount: 2, unit: 'tsp', aisle: 'pantry' },
+      { name: 'ground sichuan pepper', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'gochugaru (korean chili flakes)', amount: 2, unit: 'tbsp', aisle: 'spices' },
+      { name: 'star anise', amount: 1, unit: '', aisle: 'spices' },
+      { name: 'tahini', amount: 4, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'rice vinegar', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sesame oil', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'white sesame seeds', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'chicken or vegetable stock', amount: 800, unit: 'ml', aisle: 'pantry' },
+      { name: 'bok choy', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'egg', amount: 2, unit: '', aisle: 'dairy' },
+      { name: 'vegetable oil', amount: 5, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'tom-yum-soup',
+    name: 'Tom Yum Goong (Hot & Sour Prawn Soup)',
+    cuisine: 'Thai',
+    time: '30 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['quick', 'high-protein', 'spicy', 'low-carb'],
+    makesLeftovers: false,
+    notes: 'Sour from lime, hot from chili, salty from fish sauce, aromatic from lemongrass. The four pillars of Thai cooking in one bowl.',
+    steps: [
+      'Peel and devein the prawns, keeping the shells and heads — these go into the stock first to make it taste of the sea. Set the peeled prawns aside in the fridge.',
+      'Heat 1 tablespoon vegetable oil in a large saucepan over medium-high heat. Add the prawn shells and heads. Press them down with a wooden spoon and fry for 3-4 minutes, stirring, until they turn deep pink/orange and smell intensely shellfishy.',
+      'Pour in 1 litre of water or chicken stock. Smash the lemongrass stalks with the back of a knife to release the oils, then cut into 5cm pieces. Add to the pot with the kaffir lime leaves (torn slightly), and a 4cm piece of galangal (or ginger if you cannot find galangal), sliced. Simmer gently for 15 minutes.',
+      'Strain the broth through a fine sieve into a clean pot. Discard the solids. You should have around 800ml of fragrant clear broth — it will be a pale gold colour.',
+      'Bring the strained broth back to a gentle simmer. Add the halved chestnut mushrooms (or oyster mushrooms) and cook for 3 minutes until just tender.',
+      'Now build the flavour. Add 2-3 Thai bird eye chilies (lightly crushed with the back of a knife — do not chop or it will be too fiery), 2 tablespoons fish sauce, and 1 teaspoon palm sugar (or brown sugar). Stir in 2 tablespoons of nam prik pao (Thai chili paste) if using — this gives the broth a deeper, slightly smoky character.',
+      'Add the prawns and cook for just 2-3 minutes — they are done when they turn from grey to bright pink and curl up. Overcooked prawns are rubbery, so watch them.',
+      'Off the heat, stir in the juice of 2 limes and a handful of cherry tomatoes (halved). The lime must go in OFF the heat — boiling lime juice turns bitter.',
+      'Taste and balance: it should be salty (fish sauce), sour (lime), spicy (chili), with just a whisper of sweetness. Adjust accordingly — add more of any single element until it sings.',
+      'Ladle into deep bowls and scatter generously with torn coriander leaves and sliced spring onions. Serve immediately with steamed jasmine rice on the side if you like.',
+    ],
+    ingredients: [
+      { name: 'raw king prawns, shell on', amount: 300, unit: 'g', aisle: 'fish' },
+      { name: 'lemongrass', amount: 2, unit: 'stalks', aisle: 'produce' },
+      { name: 'kaffir lime leaves', amount: 4, unit: '', aisle: 'produce' },
+      { name: 'galangal or ginger', amount: 4, unit: 'cm piece', aisle: 'produce' },
+      { name: 'thai bird eye chili', amount: 3, unit: '', aisle: 'produce' },
+      { name: 'chestnut or oyster mushroom', amount: 150, unit: 'g', aisle: 'produce' },
+      { name: 'cherry tomato', amount: 8, unit: '', aisle: 'produce' },
+      { name: 'lime', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'fish sauce', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'palm sugar', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'nam prik pao (thai chili paste)', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'fresh coriander', amount: 1, unit: 'small bunch', aisle: 'produce' },
+      { name: 'spring onion', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'vegetable oil', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'chicken stock or water', amount: 1, unit: 'l', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'papaya-salad',
+    name: 'Som Tam (Green Papaya Salad)',
+    cuisine: 'Thai',
+    time: '15 min',
+    servings: 2,
+    mealType: 'lunch',
+    tags: ['quick', 'veggie', 'low-carb', 'spicy', 'fresh', 'no-cook'],
+    makesLeftovers: false,
+    notes: 'Lime-mouth-puckering, fish-sauce-savoury, chili-burning, crunchy. Traditionally pounded in a mortar — if you do not have one, a sturdy bowl and the end of a rolling pin works.',
+    steps: [
+      'Peel the green papaya with a vegetable peeler. Cut it in half and scoop out any seeds. Now julienne it — either by hand into matchstick strips, or by making vertical cuts with a knife all over the surface and then shaving downward with the peeler. You want 300g of long, crisp matchsticks. Set aside in iced water to keep them crisp.',
+      'If you have a mortar and pestle, this is the proper method. If not, use the largest bowl you have and a sturdy wooden spoon or pestle-like object.',
+      'In the mortar, pound 2 garlic cloves and 2-3 Thai bird eye chilies (start with 2 if you are cautious, this is genuinely spicy) into a rough paste — about 10 seconds of bashing.',
+      'Add the long beans (cut into 3cm pieces) and roughly bruise — you are cracking them, not pulverising. Another 5-6 firm pounds.',
+      'Add the cherry tomatoes (halved). Pound lightly 3-4 times — you want them split and bleeding their juice, not destroyed.',
+      'Add 2 tablespoons fish sauce, 1 tablespoon palm sugar (broken into the mortar), and the juice of 2 limes. Pound a couple more times to dissolve the sugar.',
+      'Drain the papaya and add to the mortar in handfuls along with 2 tablespoons of roasted peanuts. Use the pestle to gently bruise and the spoon to fold — alternating pound, fold, pound, fold. You are marrying the dressing with the papaya without turning it to mush. About 1 minute of this.',
+      'Taste and balance: it should be aggressively sour (lime), salty (fish sauce), sweet (just a little palm sugar), and spicy. If it is flat, add more lime. If it is harsh, add a touch more sugar.',
+      'Pile into a bowl. Top with extra peanuts, a generous handful of torn coriander, and a wedge of lime on the side. Eat immediately — papaya salad does not keep, it is a here-and-now dish.',
+    ],
+    ingredients: [
+      { name: 'green (unripe) papaya', amount: 300, unit: 'g', aisle: 'produce' },
+      { name: 'garlic', amount: 2, unit: 'cloves', aisle: 'produce' },
+      { name: 'thai bird eye chili', amount: 3, unit: '', aisle: 'produce' },
+      { name: 'yard-long beans or green beans', amount: 100, unit: 'g', aisle: 'produce' },
+      { name: 'cherry tomato', amount: 100, unit: 'g', aisle: 'produce' },
+      { name: 'lime', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'fish sauce', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'palm sugar', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'roasted peanuts', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'fresh coriander', amount: 1, unit: 'small bunch', aisle: 'produce' },
+    ],
+  },
+  {
+    id: 'aphrodisiac-mole-pork',
+    name: 'Aphrodisiac Mole — Chocolate-Chili Pork with Roasted Figs',
+    cuisine: 'Mexican-inspired',
+    time: '1 hr 30 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['date-night', 'high-protein', 'special'],
+    makesLeftovers: false,
+    notes: 'Built around traditional aphrodisiac ingredients: dark chocolate, chili, fig, honey, almonds. Rich and deeply savoury — serve with something cold and crisp to drink.',
+    steps: [
+      'First make the mole sauce, which can sit for 30 minutes while you do everything else. In a dry pan over medium heat, toast 1 ancho chili and 1 chipotle chili (both dried, stems removed and seeds shaken out) for 30 seconds per side until fragrant and slightly puffed. Do not let them burn or the sauce turns bitter. Tip into a bowl and cover with hot water for 15 minutes to rehydrate.',
+      'In the same dry pan, toast 30g whole almonds and 1 tablespoon sesame seeds for 2-3 minutes until lightly golden and aromatic. Tip onto a plate.',
+      'Reduce heat to medium-low. Add 1 tablespoon olive oil to the pan. Add 1 small chopped onion and cook for 5-6 minutes until soft and translucent. Add 3 minced garlic cloves and cook 1 minute more.',
+      'Add 1 teaspoon ground cumin, 1 teaspoon dried oregano, 1/2 teaspoon ground cinnamon, 1/4 teaspoon ground cloves, and a pinch of allspice. Cook for 30 seconds, stirring, until intensely fragrant.',
+      'Tip the toasted nuts/seeds into a blender or food processor with the rehydrated chilies (drain them but reserve the soaking water). Add the onion mixture, 100g chopped tomatoes, 1 tablespoon raisins, 1 tablespoon honey, 1 tablespoon apple cider vinegar, and 150ml of the chili soaking water. Blend until completely smooth — you may need to add more water to get it moving. The sauce should be the consistency of thick double cream.',
+      'Push the sauce through a fine sieve into a saucepan to make it silky. Add 30g dark chocolate (70%+ cacao) broken into pieces. Warm gently over low heat, stirring, until the chocolate melts and the sauce darkens. Season with salt to taste. Simmer 10 minutes to deepen the flavour. Keep warm.',
+      'For the pork: take the pork tenderloin out of the fridge 30 minutes before cooking. Pat dry. Heat the oven to 200°C. Season the pork generously with salt, pepper, and a pinch of smoked paprika.',
+      'Heat a tablespoon of oil in an ovenproof pan over high heat until shimmering. Sear the pork on all sides until deeply golden — about 2 minutes per side, 8 minutes total. Do not move it too soon, let the crust form.',
+      'Transfer the whole pan to the oven and roast for 12-15 minutes until the internal temperature is 63°C (it will rise to 68°C while resting). Take out and rest on a board, loosely tented with foil, for 8 minutes.',
+      'While the pork roasts, prepare the figs. Halve 6 ripe figs lengthwise. Heat 1 tablespoon butter and 1 teaspoon honey in a small ovenproof pan over medium heat. Add the figs cut-side down. Cook for 2 minutes until caramelising, then transfer to the oven for the last 5 minutes of pork cooking until soft and jammy.',
+      'Slice the pork against the grain into thick medallions. Pool the mole sauce onto warmed plates, lay the pork over the top, and arrange the roasted figs alongside. Drizzle with a little more honey, scatter pomegranate seeds and toasted almond flakes, and finish with a small handful of fresh coriander leaves.',
+    ],
+    ingredients: [
+      { name: 'pork tenderloin', amount: 400, unit: 'g', aisle: 'meat' },
+      { name: 'dark chocolate (70%+)', amount: 30, unit: 'g', aisle: 'pantry' },
+      { name: 'dried ancho chili', amount: 1, unit: '', aisle: 'spices' },
+      { name: 'dried chipotle chili', amount: 1, unit: '', aisle: 'spices' },
+      { name: 'whole almonds', amount: 30, unit: 'g', aisle: 'pantry' },
+      { name: 'sesame seeds', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'onion', amount: 1, unit: 'small', aisle: 'produce' },
+      { name: 'garlic', amount: 3, unit: 'cloves', aisle: 'produce' },
+      { name: 'ground cumin', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'dried oregano', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'ground cinnamon', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'ground cloves', amount: 0.25, unit: 'tsp', aisle: 'spices' },
+      { name: 'ground allspice', amount: 1, unit: 'pinch', aisle: 'spices' },
+      { name: 'smoked paprika', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'tinned tomatoes', amount: 100, unit: 'g', aisle: 'pantry' },
+      { name: 'raisins', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'honey', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'apple cider vinegar', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'ripe fig', amount: 6, unit: '', aisle: 'produce' },
+      { name: 'butter', amount: 1, unit: 'tbsp', aisle: 'dairy' },
+      { name: 'pomegranate seeds', amount: 30, unit: 'g', aisle: 'produce' },
+      { name: 'flaked almonds', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'fresh coriander', amount: 1, unit: 'small bunch', aisle: 'produce' },
+      { name: 'olive oil', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  // ────────────────────────────────────────────────────────────
+  // Show-stopper romantic date night
+  // ────────────────────────────────────────────────────────────
+  {
+    id: 'date-scallops-brown-butter',
+    name: 'Pan-Seared Scallops with Brown Butter & Capers (Starter)',
+    cuisine: 'French',
+    time: '15 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['date-night', 'special', 'low-carb', 'high-protein', 'quick'],
+    makesLeftovers: false,
+    notes: 'Six minutes of actual cooking, but every second matters. Pat the scallops absolutely dry — moisture is the enemy of sear.',
+    steps: [
+      'Take the scallops out of the fridge 20 minutes before cooking to let them come up in temperature. Pat them absolutely dry with kitchen paper — moisture creates steam, which prevents the golden crust you are after. Season generously with salt and a small pinch of black pepper only on one side, just before they hit the pan.',
+      'Heat a heavy-based frying pan (stainless steel or cast iron, NOT non-stick) over high heat for 2 full minutes until it is ferociously hot. Add 1 tablespoon neutral oil — it should shimmer and just begin to smoke.',
+      'Place the scallops in the pan seasoned-side down with 2cm of space between each. Press each one down lightly with the back of a spoon for the first 10 seconds to ensure full contact with the pan. DO NOT MOVE THEM. Cook for 90 seconds to 2 minutes — they are ready to flip when the edges are golden bronze and they release from the pan without sticking.',
+      'Flip the scallops with tongs (one at a time, in the order you placed them). Add 30g unsalted butter to the pan. Cook for just 60 more seconds on the second side, basting with the butter using a spoon. The scallops should still be slightly translucent in the centre — they will keep cooking on the plate.',
+      'Transfer the scallops immediately to warm plates. Keep them resting briefly.',
+      'Return the pan to the heat. The butter will begin to foam, then turn from gold to amber. Watch closely — this happens in 30-45 seconds. As soon as you smell hazelnuts and see brown bits forming at the bottom, take it off the heat.',
+      'Add 1 tablespoon of small capers (rinsed and drained), the juice of half a lemon, and 1 tablespoon finely chopped flat-leaf parsley. Swirl to combine.',
+      'Spoon the brown butter sauce over the scallops, making sure each one gets a little of the capers and parsley. Serve immediately — these wait for no one. A glass of crisp Sancerre or Albariño alongside.',
+    ],
+    ingredients: [
+      { name: 'fresh diver scallops (large)', amount: 6, unit: '', aisle: 'fish' },
+      { name: 'unsalted butter', amount: 30, unit: 'g', aisle: 'dairy' },
+      { name: 'small capers in brine', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'lemon', amount: 0.5, unit: '', aisle: 'produce' },
+      { name: 'flat-leaf parsley', amount: 1, unit: 'tbsp', aisle: 'produce' },
+      { name: 'neutral oil', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'flaky sea salt', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'black pepper', amount: 1, unit: 'pinch', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'date-beef-wellington',
+    name: 'Beef Wellington for Two (Main)',
+    cuisine: 'British',
+    time: '1 hr 45 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['date-night', 'special', 'high-protein'],
+    makesLeftovers: false,
+    notes: 'The ultimate show-off. Use the best beef fillet you can afford — there is nowhere to hide. Plan ahead: the assembled Wellington needs 30 minutes minimum in the fridge before baking.',
+    steps: [
+      'Take the beef fillet out of the fridge 1 hour before cooking. Tie it with butcher twine in 3 places to keep its shape during searing — this also gives a more uniform circle when sliced.',
+      'Pat the beef bone-dry. Season heavily with salt and pepper on all sides. Heat 1 tablespoon vegetable oil in a heavy-based pan over very high heat until smoking. Sear the beef for exactly 45 seconds per side — 4 sides total — until deeply browned. The interior should still be raw. Remove and brush all over with 1 tablespoon Dijon mustard while still hot. The mustard sticks and adds depth. Let cool completely.',
+      'Make the mushroom duxelles: finely chop 250g chestnut mushrooms (a food processor works — pulse, do not purée). Heat a dry frying pan over medium-high heat and add the mushrooms. They will release a lot of water — keep cooking and stirring for 10-15 minutes until the pan is dry and the mushrooms are a dark, intensely-flavoured paste. Off heat, stir in 1 tablespoon chopped thyme leaves, 1 minced garlic clove, and 1 tablespoon Madeira or dry sherry. Cook for another 2 minutes to drive off the alcohol. Season and cool completely.',
+      'Lay 4 slices of prosciutto on a piece of cling film, overlapping slightly, into a rectangle slightly longer than the beef. Spread the cooled mushroom duxelles evenly over the prosciutto. Untie the beef and place it along the long edge of the prosciutto.',
+      'Using the cling film as a guide, roll the prosciutto and mushrooms tightly around the beef. Twist the ends of the cling film like a sweet wrapper to make a tight cylinder. Refrigerate for at least 30 minutes (or up to 4 hours) — this is essential, it sets the shape.',
+      'Roll out 320g all-butter puff pastry to a rectangle 5mm thick, large enough to wrap the beef twice. Beat 1 egg with a splash of milk.',
+      'Unwrap the beef parcel from the cling film and place along one long edge of the pastry. Brush the exposed pastry with egg wash. Roll the beef up in the pastry tightly. Trim excess pastry, leaving a 2cm seam — press down to seal. Tuck the ends underneath, sealing with more egg wash. Place seam-side down on a baking tray lined with parchment.',
+      'Brush the entire Wellington with egg wash. Use a sharp knife to score the top in a criss-cross pattern, just into the surface of the pastry — do not cut through. Sprinkle with flaky salt. Chill 15 minutes while the oven heats.',
+      'Heat the oven to 200°C fan / 220°C conventional. Brush once more with egg wash. Bake for 25-30 minutes for medium-rare. For accuracy, push a meat thermometer into the centre — 52°C is medium-rare. The pastry should be deeply golden bronze.',
+      'Rest on a board for 10 minutes before slicing. Use a very sharp serrated knife and a sawing motion — do not press down or you will crush the pastry. Slice into 4 thick rounds. Serve with red wine jus, mashed potato, and steamed asparagus or tenderstem broccoli.',
+    ],
+    ingredients: [
+      { name: 'beef fillet, centre cut', amount: 400, unit: 'g', aisle: 'meat' },
+      { name: 'all-butter puff pastry', amount: 320, unit: 'g', aisle: 'frozen' },
+      { name: 'prosciutto', amount: 4, unit: 'slices', aisle: 'meat' },
+      { name: 'chestnut mushroom', amount: 250, unit: 'g', aisle: 'produce' },
+      { name: 'fresh thyme', amount: 1, unit: 'tbsp leaves', aisle: 'produce' },
+      { name: 'garlic', amount: 1, unit: 'clove', aisle: 'produce' },
+      { name: 'madeira or dry sherry', amount: 1, unit: 'tbsp', aisle: 'drinks' },
+      { name: 'dijon mustard', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'egg', amount: 1, unit: '', aisle: 'dairy' },
+      { name: 'milk', amount: 1, unit: 'tbsp', aisle: 'dairy' },
+      { name: 'vegetable oil', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'flaky sea salt', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'black pepper', amount: 1, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'date-lobster-thermidor',
+    name: 'Lobster Thermidor (Alternative Main)',
+    cuisine: 'French',
+    time: '40 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['date-night', 'special', 'high-protein'],
+    makesLeftovers: false,
+    notes: 'Buttery, brandy-laced, cheese-glazed lobster. Buy pre-cooked lobsters from a good fishmonger to make this less stressful.',
+    steps: [
+      'Heat the oven to grill setting (250°C / 480°F). If your lobsters are alive, this recipe assumes cooked — ask your fishmonger to cook them for you. Otherwise plunge live lobsters into a large pot of boiling salted water for 8 minutes per 500g, then chill.',
+      'Lay each cooked lobster on its back. Use a sharp heavy knife to split lengthwise from head to tail in one decisive cut. Remove the dark vein along the back of the tail and the small sandy sac near the head. Remove the meat from the tail and claws — keep the shells intact, they are your serving vessels. Wash the shells and dry them.',
+      'Cut the lobster meat into bite-sized chunks. Set aside.',
+      'Make the Thermidor sauce: melt 30g butter in a saucepan over medium heat. Add 2 finely chopped shallots and cook for 3-4 minutes until soft and translucent — no colour.',
+      'Add 2 tablespoons brandy or Cognac and bring to a simmer for 30 seconds to burn off the harsh alcohol. Add 100ml dry white wine and reduce by half, about 3 minutes.',
+      'Stir in 200ml double cream and 1 tablespoon English mustard. Simmer gently for 4-5 minutes until the sauce coats the back of a spoon. Off the heat, stir in 1 tablespoon chopped tarragon, the lobster chunks, and 50g grated Gruyère. Taste and season with salt, pepper, and a squeeze of lemon.',
+      'Fill the empty lobster shells with the mixture. Top with another 30g grated Gruyère and 2 tablespoons fresh breadcrumbs. Dot with a few cubes of butter.',
+      'Place the filled shells on a baking tray. Grill on the top shelf of the oven for 5-7 minutes until the tops are bubbling, deep golden and crisp — watch them constantly, the line between golden and burnt is 30 seconds.',
+      'Serve immediately with a green salad dressed in lemon and olive oil, a hunk of crusty baguette to mop up any sauce, and the best champagne you can afford.',
+    ],
+    ingredients: [
+      { name: 'cooked lobster', amount: 2, unit: 'whole', aisle: 'fish' },
+      { name: 'unsalted butter', amount: 50, unit: 'g', aisle: 'dairy' },
+      { name: 'shallot', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'brandy or cognac', amount: 2, unit: 'tbsp', aisle: 'drinks' },
+      { name: 'dry white wine', amount: 100, unit: 'ml', aisle: 'drinks' },
+      { name: 'double cream', amount: 200, unit: 'ml', aisle: 'dairy' },
+      { name: 'english mustard', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'gruyère cheese', amount: 80, unit: 'g', aisle: 'dairy' },
+      { name: 'fresh tarragon', amount: 1, unit: 'tbsp leaves', aisle: 'produce' },
+      { name: 'fresh breadcrumbs', amount: 2, unit: 'tbsp', aisle: 'bakery' },
+      { name: 'lemon', amount: 0.5, unit: '', aisle: 'produce' },
+    ],
+  },
+  {
+    id: 'date-chocolate-lava-cake',
+    name: 'Chocolate Lava Cakes (Dessert)',
+    cuisine: 'French',
+    time: '25 min',
+    servings: 2,
+    mealType: 'snack',
+    tags: ['date-night', 'special', 'veggie'],
+    makesLeftovers: false,
+    notes: 'The moment when you turn one out and the dark chocolate erupts onto the plate — that is the whole reason this dessert exists. 9 minutes of baking. Not 10. Not 8. Set a timer.',
+    steps: [
+      'Heat the oven to 200°C fan / 220°C conventional. Liberally butter 2 ramekins (8cm wide, about 200ml capacity each) using softened butter and a pastry brush. Dust the insides with 1 tablespoon cocoa powder, tilting and tapping out the excess. Place on a baking tray.',
+      'In a heatproof bowl set over a saucepan of barely simmering water (the bowl should not touch the water), melt 100g dark chocolate (70% cacao) with 100g unsalted butter, stirring occasionally until completely smooth and glossy. Take off the heat and let cool slightly — it should still be warm but not hot.',
+      'In a separate bowl, whisk together 2 whole eggs, 2 egg yolks, and 60g caster sugar for 2-3 minutes until pale, thick and the whisk leaves a clear trail in the mixture when lifted.',
+      'Gently fold the chocolate mixture into the egg mixture, using a spatula and figure-of-eight movements. Keep folding until uniformly dark with no streaks of pale yellow.',
+      'Sift in 30g plain flour and a pinch of salt. Fold in gently — overmixing develops the gluten and the cakes become tough. Stop as soon as the flour disappears.',
+      'Divide the batter evenly between the prepared ramekins. They should be about 80% full.',
+      'Bake for exactly 9 minutes — set a timer. The tops should be set with a slight wobble in the very centre, and the edges pulling away from the ramekin sides.',
+      'Let the cakes rest for 60 seconds (no longer). Run a thin knife around the edge of each ramekin to release. Place a serving plate on top of each ramekin, then in one quick movement, flip both together. Lift the ramekin away.',
+      'Dust with icing sugar through a fine sieve. Serve immediately with a quenelle of vanilla ice cream, a scattering of fresh raspberries, and a drizzle of raspberry coulis if you have it. Break the top open with the back of a spoon and watch the molten chocolate spill out.',
+    ],
+    ingredients: [
+      { name: 'dark chocolate (70%)', amount: 100, unit: 'g', aisle: 'pantry' },
+      { name: 'unsalted butter', amount: 100, unit: 'g', aisle: 'dairy' },
+      { name: 'extra butter for ramekins', amount: 10, unit: 'g', aisle: 'dairy' },
+      { name: 'cocoa powder', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'egg', amount: 2, unit: '', aisle: 'dairy' },
+      { name: 'egg yolk', amount: 2, unit: '', aisle: 'dairy' },
+      { name: 'caster sugar', amount: 60, unit: 'g', aisle: 'pantry' },
+      { name: 'plain flour', amount: 30, unit: 'g', aisle: 'pantry' },
+      { name: 'icing sugar (for dusting)', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'vanilla ice cream', amount: 2, unit: 'scoops', aisle: 'frozen' },
+      { name: 'fresh raspberries', amount: 100, unit: 'g', aisle: 'produce' },
+      { name: 'salt', amount: 1, unit: 'pinch', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'date-creme-brulee',
+    name: 'Vanilla Crème Brûlée (Dessert)',
+    cuisine: 'French',
+    time: '30 min + 4 hr chill',
+    servings: 2,
+    mealType: 'snack',
+    tags: ['date-night', 'special', 'veggie', 'make-ahead'],
+    makesLeftovers: false,
+    notes: 'Make the custards the day before — they need at least 4 hours to set, ideally overnight. Just brûlée before serving so the crack is fresh.',
+    steps: [
+      'Heat the oven to 150°C fan / 170°C conventional. Place 2 ramekins (about 150ml each) in a deep roasting tin.',
+      'Pour 300ml double cream into a saucepan. Split a vanilla pod lengthwise with the tip of a knife and scrape the seeds into the cream. Drop the pod in too. Heat gently over medium-low heat until just steaming — do NOT boil. Take off the heat, cover, and let infuse for 10 minutes.',
+      'Meanwhile, in a bowl whisk 4 egg yolks with 50g caster sugar until pale and slightly thickened — about 2 minutes by hand. The mixture should fall in ribbons.',
+      'Slowly pour the warm cream into the yolk mixture in a thin stream, whisking constantly to prevent the eggs from scrambling. Strain the custard through a fine sieve into a jug — this catches any cooked egg and removes the vanilla pod.',
+      'Pour the custard into the ramekins, dividing evenly. They should be filled almost to the top.',
+      'Boil a kettle. Carefully pour boiling water into the roasting tin around the ramekins, until the water reaches halfway up the sides — this is a bain marie, which protects the custards from direct heat. Pour the water in at the corner of the tin, not directly onto the ramekins.',
+      'Carefully transfer the tin to the oven. Bake for 25-30 minutes until the custards are set around the edges but the very centre still has a definite wobble when you nudge the ramekin — like a soft jelly.',
+      'Lift the ramekins out of the water bath with tongs onto a wire rack. Cool to room temperature, then cover with cling film and refrigerate for at least 4 hours, ideally overnight.',
+      'Just before serving, sprinkle 1 tablespoon of demerara sugar evenly over each custard. Tilt the ramekin gently to spread it into a thin, uniform layer — do not pile it up in one spot.',
+      'Caramelise the sugar using a kitchen blowtorch — hold the flame about 5cm from the surface, moving constantly in small circles until the sugar bubbles, melts, and turns deep amber. Do not linger or it will burn bitter. If no blowtorch: place the ramekins under a very hot grill on the top shelf for 1-2 minutes — watch constantly.',
+      'Let the caramelised sugar set for 2 minutes — it goes from molten to crackable in that window. Serve with a teaspoon for the satisfying first crack through the glassy top into the silken custard below.',
+    ],
+    ingredients: [
+      { name: 'double cream', amount: 300, unit: 'ml', aisle: 'dairy' },
+      { name: 'vanilla pod', amount: 1, unit: '', aisle: 'spices' },
+      { name: 'egg yolk', amount: 4, unit: '', aisle: 'dairy' },
+      { name: 'caster sugar', amount: 50, unit: 'g', aisle: 'pantry' },
+      { name: 'demerara sugar (for brulee)', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  // ────────────────────────────────────────────────────────────
+  // Healthy dinners / lunches
+  // ────────────────────────────────────────────────────────────
+  {
+    id: 'salmon-teriyaki-bowl',
+    name: 'Salmon Teriyaki Rice Bowl',
+    cuisine: 'Japanese',
+    time: '25 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['quick', 'high-protein', 'weeknight'],
+    makesLeftovers: false,
+    notes: 'The sauce reduces to a glossy lacquer on the salmon. Use the same sauce on chicken, tofu, or aubergine for variation.',
+    steps: [
+      'Cook 200g sushi rice (or jasmine rice). Rinse the rice 3-4 times in cold water until the water runs clear — this removes excess starch and stops the rice from being gluey. Place in a saucepan with 280ml cold water and a generous pinch of salt. Bring to the boil, then immediately reduce to the lowest possible heat and cover. Cook for 12 minutes without lifting the lid. Take off the heat and rest for 10 minutes, still covered.',
+      'Make the teriyaki sauce: in a small saucepan, combine 4 tablespoons soy sauce, 3 tablespoons mirin, 2 tablespoons sake (or substitute with extra mirin), 2 tablespoons brown sugar, and a 2cm piece of grated ginger. Bring to a gentle simmer and cook for 4-5 minutes until reduced by a third and slightly syrupy.',
+      'Pat the salmon fillets completely dry with kitchen paper. Season the skin side with a small pinch of salt only.',
+      'Heat 1 tablespoon vegetable oil in a non-stick frying pan over medium-high heat. Place the salmon skin-side down and cook for 4-5 minutes without moving — the skin will crisp and release easily when ready.',
+      'Flip the salmon. Cook the second side for 2 minutes for medium (still slightly translucent in the middle) or 3 minutes for well done.',
+      'Pour the teriyaki sauce into the pan around the salmon. Tilt the pan and spoon the bubbling sauce over the top of each fillet repeatedly for 30 seconds — this gives the lacquered finish. Take off heat immediately.',
+      'Meanwhile, prepare the toppings: thinly slice 2 spring onions, halve 1 ripe avocado and scoop into chunks, slice 1 cucumber into ribbons with a peeler, and grate a small carrot. Toast 1 tablespoon sesame seeds in a dry pan for 1-2 minutes until fragrant.',
+      'Fluff the rice with a fork. Divide between two warmed bowls. Lay a salmon fillet on top of each. Arrange the avocado, cucumber, and carrot in groups around the salmon. Drizzle with the remaining sauce from the pan.',
+      'Finish with toasted sesame seeds, spring onion greens, a small dollop of pickled ginger if you have it, and a sprinkle of furikake or shichimi togarashi if you have it.',
+    ],
+    ingredients: [
+      { name: 'salmon fillet (skin on)', amount: 2, unit: '', aisle: 'fish' },
+      { name: 'sushi or jasmine rice', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'soy sauce', amount: 4, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'mirin', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sake', amount: 2, unit: 'tbsp', aisle: 'drinks' },
+      { name: 'soft brown sugar', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'fresh ginger', amount: 2, unit: 'cm piece', aisle: 'produce' },
+      { name: 'avocado', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'cucumber', amount: 0.5, unit: '', aisle: 'produce' },
+      { name: 'carrot', amount: 1, unit: 'small', aisle: 'produce' },
+      { name: 'spring onion', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'sesame seeds', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'vegetable oil', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'chicken-caesar-proper',
+    name: 'Proper Chicken Caesar Salad',
+    cuisine: 'American',
+    time: '25 min',
+    servings: 2,
+    mealType: 'lunch',
+    tags: ['high-protein', 'quick'],
+    makesLeftovers: false,
+    notes: 'A real Caesar dressing with anchovies and raw egg yolk — no bottled stuff. The garlic croutons made fresh make all the difference.',
+    steps: [
+      'Take the chicken breasts out of the fridge 20 minutes before cooking. Butterfly them by slicing horizontally almost all the way through and opening like a book — this gives them a more even thickness so they cook through without drying out.',
+      'Heat the oven to 200°C fan. Tear 2 thick slices of stale sourdough (or fresh, lightly dried in the oven) into rough 2cm chunks. Spread on a baking tray. Drizzle with 2 tablespoons olive oil, scatter 1 minced garlic clove, salt and pepper, and toss with your hands. Bake for 8-10 minutes, tossing halfway, until deep golden and crunchy. Set aside.',
+      'Meanwhile, season the butterflied chicken with salt, pepper, and a pinch of garlic powder. Heat 1 tablespoon olive oil in a pan over medium-high heat. Cook the chicken for 3-4 minutes per side until deeply golden on the outside and just cooked through (65°C internal). Rest on a board for 5 minutes.',
+      'For the dressing: in a small bowl, mash 4 anchovy fillets and 1 garlic clove together with the side of a knife until you have a paste. Tip into a bowl. Whisk in 1 egg yolk (use a fresh egg from a reputable source), 1 tablespoon Dijon mustard, juice of half a lemon, and 2 teaspoons Worcestershire sauce.',
+      'Now make it into an emulsion. While whisking constantly, drizzle in 6 tablespoons extra virgin olive oil — start with the tiniest dribble, then increase. The dressing should thicken and become creamy.',
+      'Finish the dressing by stirring in 30g finely grated Parmesan, a pinch of black pepper, and a small pinch of salt (taste first — anchovies and Parmesan are already salty). It should be thick enough to coat the back of a spoon.',
+      'Trim the bases off 2 romaine lettuces. Separate the leaves, wash and dry thoroughly in a salad spinner — wet leaves dilute the dressing. Tear larger leaves into bite-sized pieces, leave smaller ones whole.',
+      'In a large bowl, toss the lettuce with about three-quarters of the dressing — get under each leaf so it is evenly coated but not soggy. Add the warm croutons and toss again.',
+      'Slice the rested chicken across the grain into thick strips.',
+      'Pile the dressed salad onto plates. Top with the sliced chicken. Shave more Parmesan over the top with a vegetable peeler — generously. Crack black pepper, drizzle with any remaining dressing. Eat immediately.',
+    ],
+    ingredients: [
+      { name: 'chicken breast', amount: 2, unit: '', aisle: 'meat' },
+      { name: 'romaine lettuce', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'sourdough bread', amount: 2, unit: 'thick slices', aisle: 'bakery' },
+      { name: 'anchovy fillets in oil', amount: 4, unit: '', aisle: 'pantry' },
+      { name: 'garlic', amount: 2, unit: 'cloves', aisle: 'produce' },
+      { name: 'egg yolk', amount: 1, unit: '', aisle: 'dairy' },
+      { name: 'dijon mustard', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'lemon', amount: 0.5, unit: '', aisle: 'produce' },
+      { name: 'worcestershire sauce', amount: 2, unit: 'tsp', aisle: 'pantry' },
+      { name: 'extra virgin olive oil', amount: 8, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'parmesan, finely grated', amount: 30, unit: 'g', aisle: 'dairy' },
+      { name: 'parmesan, for shaving', amount: 30, unit: 'g', aisle: 'dairy' },
+      { name: 'garlic powder', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'black pepper', amount: 1, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'greek-lemon-chicken-orzo',
+    name: 'Greek Lemon Chicken with Orzo',
+    cuisine: 'Greek',
+    time: '50 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['high-protein', 'comfort', 'one-pot'],
+    makesLeftovers: true,
+    notes: 'A one-pan wonder where the orzo cooks IN the chicken juices — picks up all the flavour. Spinach goes in at the end so it stays vivid.',
+    steps: [
+      'Heat the oven to 180°C fan / 200°C conventional. Take 4 chicken thighs (skin on, bone in) out of the fridge.',
+      'In a large bowl, mix 3 tablespoons olive oil, the juice and zest of 1 lemon, 4 minced garlic cloves, 2 teaspoons dried oregano, 1 teaspoon sweet paprika, salt and pepper. Whisk to combine. This is your marinade.',
+      'Add the chicken thighs to the marinade and toss to coat thoroughly, getting under the skin. Marinate for 15 minutes at room temperature (or up to 4 hours in the fridge).',
+      'Heat a large ovenproof pan or shallow casserole over medium-high heat with 1 tablespoon olive oil. Lift the chicken from the marinade (reserving any leftover marinade) and place skin-side down in the hot pan. Sear for 4-5 minutes without moving until the skin is deep golden and crisp.',
+      'Flip the chicken. Cook the second side for 2 minutes only — it will finish cooking in the oven. Transfer the chicken to a plate.',
+      'In the same pan, add 1 finely chopped onion. Sauté in the chicken fat over medium heat for 5-6 minutes until softening and just starting to colour.',
+      'Add 200g orzo pasta and any leftover marinade. Toast the orzo for 2 minutes, stirring, to add a nutty depth.',
+      'Pour in 500ml hot chicken stock, the juice of another half lemon, and a generous pinch of salt. Bring to a simmer.',
+      'Nestle the chicken thighs back into the pan, skin-side up. The stock should come halfway up the chicken — the skin needs to stay above the liquid to stay crispy.',
+      'Transfer to the oven for 20-25 minutes until the orzo has absorbed the liquid, the chicken is fully cooked (75°C internal), and the skin is crispy again.',
+      'Take the pan out. Remove the chicken to a plate. Stir 100g baby spinach and 50g crumbled feta into the orzo — the residual heat will wilt the spinach in 30 seconds. Taste and adjust seasoning.',
+      'Place the chicken back on top of the orzo. Scatter with chopped dill, more feta, lemon zest, and a drizzle of olive oil. Serve from the pan at the table.',
+    ],
+    ingredients: [
+      { name: 'chicken thigh (skin on, bone in)', amount: 4, unit: '', aisle: 'meat' },
+      { name: 'orzo pasta', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'onion', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'garlic', amount: 4, unit: 'cloves', aisle: 'produce' },
+      { name: 'lemon', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'dried oregano', amount: 2, unit: 'tsp', aisle: 'spices' },
+      { name: 'sweet paprika', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'chicken stock', amount: 500, unit: 'ml', aisle: 'pantry' },
+      { name: 'baby spinach', amount: 100, unit: 'g', aisle: 'produce' },
+      { name: 'feta cheese', amount: 100, unit: 'g', aisle: 'dairy' },
+      { name: 'fresh dill', amount: 1, unit: 'small bunch', aisle: 'produce' },
+      { name: 'olive oil', amount: 4, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'beef-bibimbap',
+    name: 'Beef Bibimbap',
+    cuisine: 'Korean',
+    time: '35 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['high-protein', 'high-iron'],
+    makesLeftovers: false,
+    notes: 'The fried egg yolk that mixes through the rice is the soul of bibimbap. Get the rice slightly crispy on the bottom of the pan — Korean dolsot style.',
+    steps: [
+      'Marinate the beef: slice 300g sirloin or rump steak into thin strips against the grain. In a bowl, mix 3 tablespoons soy sauce, 1 tablespoon sesame oil, 1 tablespoon brown sugar, 1 tablespoon mirin, 2 minced garlic cloves, and 1 teaspoon grated ginger. Add the beef and turn to coat. Leave for 15 minutes.',
+      'Cook 200g short-grain rice (rinsed first) according to packet instructions — usually 280ml water, simmer 12 minutes covered, rest 10 minutes covered.',
+      'Prepare each vegetable separately — this is essential for the look and texture, but each takes only 1-2 minutes.',
+      'For the spinach: blanch 200g spinach in salted boiling water for 30 seconds. Drain, refresh in cold water, and squeeze dry. Season with 1 teaspoon sesame oil, a pinch of salt, and 1 minced garlic clove.',
+      'For the bean sprouts: blanch 150g mung bean sprouts in salted boiling water for 90 seconds. Drain. Season with 1 teaspoon sesame oil, a pinch of salt, and 1 chopped spring onion.',
+      'For the carrots: julienne 1 carrot. Heat 1 teaspoon vegetable oil in a pan, stir-fry for 2 minutes until softening but still bright. Season with a pinch of salt.',
+      'For the mushrooms: slice 200g shiitake mushrooms. Heat 1 teaspoon sesame oil and 1 teaspoon vegetable oil in a pan. Stir-fry mushrooms for 3-4 minutes with 1 tablespoon soy sauce until deeply golden.',
+      'For the courgette: half-moon slice 1 small courgette. Stir-fry in 1 teaspoon oil for 2 minutes until just tender. Salt lightly.',
+      'Now cook the beef. Heat 1 tablespoon vegetable oil in a wide pan over high heat. Add the beef in a single layer (do it in two batches if needed). Stir-fry for 2-3 minutes until the beef is dark and the marinade has reduced to a sticky glaze.',
+      'Fry 2 eggs sunny-side up in a non-stick pan with a little oil — the whites should be set but yolks completely runny. Set aside.',
+      'For dolsot-style crispy rice: heat 1 tablespoon sesame oil in a wide heavy-based pan over medium heat. Press the cooked rice evenly into the pan and leave undisturbed for 3-4 minutes until you can hear it crackling and the bottom is golden and crisp. (Skip this step if pressed for time — just use the rice from the pot.)',
+      'Arrange: divide the rice between two warmed bowls. Place piles of each component around the rice in arcs of colour — green spinach, white bean sprouts, orange carrots, dark mushrooms, courgette. Pile the beef in the centre. Top with the fried egg.',
+      'Serve immediately with gochujang sauce (mix 2 tablespoons gochujang, 1 teaspoon sugar, 1 teaspoon sesame oil, 1 teaspoon water) on the side. Scatter sesame seeds and sliced spring onion. At the table, break the egg yolk and stir EVERYTHING together vigorously with gochujang to taste — that is how bibimbap is eaten.',
+    ],
+    ingredients: [
+      { name: 'sirloin or rump steak', amount: 300, unit: 'g', aisle: 'meat' },
+      { name: 'short-grain rice', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'baby spinach', amount: 200, unit: 'g', aisle: 'produce' },
+      { name: 'mung bean sprouts', amount: 150, unit: 'g', aisle: 'produce' },
+      { name: 'carrot', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'shiitake mushroom', amount: 200, unit: 'g', aisle: 'produce' },
+      { name: 'courgette', amount: 1, unit: 'small', aisle: 'produce' },
+      { name: 'egg', amount: 2, unit: '', aisle: 'dairy' },
+      { name: 'garlic', amount: 3, unit: 'cloves', aisle: 'produce' },
+      { name: 'fresh ginger', amount: 1, unit: 'tsp grated', aisle: 'produce' },
+      { name: 'soy sauce', amount: 4, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sesame oil', amount: 4, unit: 'tsp', aisle: 'pantry' },
+      { name: 'brown sugar', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'mirin', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'gochujang (korean chili paste)', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'spring onion', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'sesame seeds', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'vegetable oil', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+    ],
+  },
+  {
+    id: 'moroccan-lamb-tagine',
+    name: 'Moroccan Lamb & Apricot Tagine',
+    cuisine: 'Moroccan',
+    time: '2 hr 30 min',
+    servings: 4,
+    mealType: 'dinner',
+    tags: ['comfort', 'meal-prep', 'freezer-friendly', 'high-protein', 'high-iron'],
+    makesLeftovers: true,
+    notes: 'Long, slow cooking transforms cheap cuts into spoon-tender meat. Sweet apricots and honey balance the spice. Gets better the next day.',
+    steps: [
+      'Heat the oven to 160°C fan / 180°C conventional. Cut 800g lamb shoulder into 4cm chunks (or buy it pre-cut). Pat the lamb completely dry with kitchen paper — wet meat will not brown.',
+      'Season the lamb heavily with salt and pepper. Heat 2 tablespoons olive oil in a large heavy casserole over high heat until shimmering.',
+      'Brown the lamb in 2-3 batches — do not crowd the pan or it will steam instead of sear. Each batch needs 4-5 minutes until deep mahogany on at least two sides. Transfer to a plate. Do not skip this step — the brown crust is your flavour foundation.',
+      'Reduce heat to medium. Add 2 chopped onions to the pan. Cook for 8-10 minutes until soft and starting to caramelise, scraping up the dark sticky bits from the bottom.',
+      'Add 4 minced garlic cloves and 3cm grated ginger. Cook 1 minute until fragrant.',
+      'Add the spice mix: 2 teaspoons ground cumin, 2 teaspoons ground coriander, 1 teaspoon ground cinnamon, 1 teaspoon ground ginger, 1 teaspoon sweet paprika, 1/2 teaspoon ground turmeric, 1/2 teaspoon cayenne, and a pinch of saffron threads (if using). Cook for 1 minute, stirring constantly, until the spices smell intensely aromatic and start to stick to the pan.',
+      'Return the lamb to the pan with any juices. Add 200g chopped tinned tomatoes, 600ml hot lamb or chicken stock, 2 tablespoons honey, and 1 cinnamon stick. Bring to a simmer.',
+      'Cover with a tight-fitting lid. Transfer to the oven and braise for 1 hour 30 minutes. Test the meat — it should pull apart with light pressure from a fork.',
+      'Add 150g dried apricots (whole, no need to chop) and a 400g tin of drained chickpeas. Stir, cover, and return to the oven for another 30 minutes.',
+      'Meanwhile, prepare the couscous: place 200g couscous in a bowl, pour over 250ml boiling stock or water and 1 tablespoon olive oil. Cover with a plate and leave for 10 minutes. Fluff with a fork. Stir in chopped parsley and toasted flaked almonds.',
+      'When the tagine is done, the sauce should be glossy and the meat should fall apart at a glance. If it is too thin, simmer uncovered on the hob for 10 minutes to reduce. Taste — it might need more honey, more lemon, or salt.',
+      'Serve over the couscous, topped with a generous handful of chopped coriander, mint, toasted flaked almonds, and a dollop of cool greek yogurt to cut the richness. Wedge of lemon on the side.',
+    ],
+    ingredients: [
+      { name: 'lamb shoulder', amount: 800, unit: 'g', aisle: 'meat' },
+      { name: 'onion', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'garlic', amount: 4, unit: 'cloves', aisle: 'produce' },
+      { name: 'fresh ginger', amount: 3, unit: 'cm piece', aisle: 'produce' },
+      { name: 'tinned tomatoes', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'lamb or chicken stock', amount: 600, unit: 'ml', aisle: 'pantry' },
+      { name: 'dried apricots', amount: 150, unit: 'g', aisle: 'pantry' },
+      { name: 'tinned chickpeas, drained', amount: 240, unit: 'g', aisle: 'pantry' },
+      { name: 'honey', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'cinnamon stick', amount: 1, unit: '', aisle: 'spices' },
+      { name: 'ground cumin', amount: 2, unit: 'tsp', aisle: 'spices' },
+      { name: 'ground coriander', amount: 2, unit: 'tsp', aisle: 'spices' },
+      { name: 'ground cinnamon', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'ground ginger', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'sweet paprika', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'ground turmeric', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'cayenne pepper', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'saffron threads', amount: 1, unit: 'pinch', aisle: 'spices' },
+      { name: 'couscous', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'flaked almonds', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'fresh coriander', amount: 1, unit: 'small bunch', aisle: 'produce' },
+      { name: 'fresh mint', amount: 1, unit: 'small bunch', aisle: 'produce' },
+      { name: 'greek yogurt', amount: 200, unit: 'g', aisle: 'dairy' },
+      { name: 'olive oil', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'lemon', amount: 1, unit: '', aisle: 'produce' },
+    ],
+  },
+  {
+    id: 'pad-see-ew',
+    name: 'Pad See Ew (Thai Stir-Fried Noodles)',
+    cuisine: 'Thai',
+    time: '25 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['quick', 'comfort', 'high-protein'],
+    makesLeftovers: false,
+    notes: 'The smoky char on the noodles is called wok hei — the breath of the wok. You need very high heat and to leave the noodles alone for the first minute.',
+    steps: [
+      'Soak 200g flat rice noodles (wide, sen yai if available) in just-boiled water for 8-10 minutes until pliable but still slightly firm — they will finish cooking in the wok. Drain and rinse under cold water to stop the cooking. Toss with 1 teaspoon vegetable oil to stop them sticking.',
+      'Slice 250g chicken breast into thin strips against the grain. Marinate with 1 tablespoon soy sauce and 1 teaspoon sesame oil for 5 minutes.',
+      'Make the sauce in a small bowl: combine 3 tablespoons dark soy sauce, 2 tablespoons regular soy sauce, 1 tablespoon oyster sauce, 1 tablespoon fish sauce, and 1 tablespoon palm sugar (or brown sugar). Whisk until the sugar dissolves.',
+      'Prepare everything before you start cooking — pad see ew goes from start to finish in 5 minutes and there is no time to chop midway. Slice 4 garlic cloves, cut 300g Chinese broccoli (gai lan) — or use tenderstem broccoli — into 4cm pieces, separating stems from leaves, and crack 2 eggs into a small bowl.',
+      'Heat your largest pan or wok over the highest possible heat. When you cannot hold your hand above it, add 2 tablespoons vegetable oil. The oil should shimmer instantly and smoke slightly.',
+      'Add the garlic. Stir-fry for just 10 seconds until aromatic but not browned.',
+      'Add the chicken. Stir-fry for 90 seconds until the outside is golden and the meat is just cooked through. Push the chicken to one side of the pan.',
+      'Pour the eggs into the cleared space. Let them set for 30 seconds, then scramble them roughly. Once almost set, fold them into the chicken.',
+      'Add the broccoli stems. Stir-fry for 60 seconds. Then add the leaves and stir-fry another 30 seconds.',
+      'Add the drained noodles. Drizzle the sauce over the noodles, NOT the other ingredients — this is crucial. Now leave it for 60 seconds without stirring — this is when the wok hei char develops on the noodles.',
+      'Finally, toss EVERYTHING together with high lift-and-fold motions for 90 seconds until the noodles are coated in the dark glossy sauce and slightly charred in places. The noodles should be tender but still have some bite.',
+      'Plate immediately. Crack white pepper over the top, dust with crushed chili flakes for heat, and serve with a wedge of lime. The classic Thai accompaniment is a small dish of fish sauce with sliced bird eye chilies in it, for diners to add at the table.',
+    ],
+    ingredients: [
+      { name: 'flat rice noodles (sen yai)', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'chicken breast', amount: 250, unit: 'g', aisle: 'meat' },
+      { name: 'chinese broccoli (gai lan)', amount: 300, unit: 'g', aisle: 'produce' },
+      { name: 'garlic', amount: 4, unit: 'cloves', aisle: 'produce' },
+      { name: 'egg', amount: 2, unit: '', aisle: 'dairy' },
+      { name: 'dark soy sauce', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'soy sauce', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'oyster sauce', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'fish sauce', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'palm sugar', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sesame oil', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'vegetable oil', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'white pepper', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'chili flakes', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'lime', amount: 1, unit: '', aisle: 'produce' },
+    ],
+  },
+  {
+    id: 'miso-glazed-cod',
+    name: 'Miso-Glazed Cod with Sesame Greens',
+    cuisine: 'Japanese',
+    time: '20 min + marinate',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['high-protein', 'weeknight', 'low-carb'],
+    makesLeftovers: false,
+    notes: 'Marinate the cod overnight if you can — the miso transforms the flesh into something buttery and savoury. Inspired by the famous Nobu black cod recipe.',
+    steps: [
+      'Mix the marinade: in a small saucepan, combine 4 tablespoons white miso, 3 tablespoons mirin, 2 tablespoons sake (or extra mirin), and 2 tablespoons brown sugar. Bring to a simmer over medium heat, stirring constantly. Cook for 2-3 minutes until smooth and glossy. Cool completely.',
+      'Pat the cod fillets dry. Smear the cooled marinade generously over both sides of each fillet. Place in a container, cover, and refrigerate. Marinate for at least 1 hour, ideally overnight or up to 2 days.',
+      'When ready to cook, heat the oven to 220°C fan with the grill ready to use. Take the cod out of the fridge 20 minutes before cooking to take the chill off.',
+      'Wipe most of the marinade off the cod with kitchen paper — a thin layer is fine, but too much will burn. Place on a baking tray lined with parchment.',
+      'Cook the cod under the grill on the top shelf — close enough that you can keep an eye on it. Grill for 5-6 minutes until the top is deeply caramelised and just starting to char in spots. The fish should flake when tested with a fork.',
+      'Meanwhile, cook the rice — 200g jasmine or short-grain rice with 250ml water, simmer covered 12 minutes, rest 10 minutes.',
+      'For the greens: bring a pot of salted water to a boil. Blanch 200g tenderstem broccoli for 3 minutes, then drain. Heat 1 tablespoon sesame oil in a wide pan over medium-high heat. Add 2 sliced garlic cloves and a 1cm piece of grated ginger. Cook for 30 seconds, then add the broccoli, 1 tablespoon soy sauce, and 1 teaspoon toasted sesame seeds. Toss to coat for 1 minute.',
+      'Plate up: a mound of rice in each bowl. The cod laid on top, finishing it with a light dusting of shichimi togarashi (Japanese seven-spice) if you have it. The sesame broccoli alongside. Scatter sliced spring onions and an extra sprinkle of sesame seeds. A wedge of lime on the side.',
+    ],
+    ingredients: [
+      { name: 'cod fillet (or black cod / sablefish)', amount: 2, unit: '', aisle: 'fish' },
+      { name: 'white miso paste', amount: 4, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'mirin', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sake', amount: 2, unit: 'tbsp', aisle: 'drinks' },
+      { name: 'brown sugar', amount: 2, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'jasmine rice', amount: 200, unit: 'g', aisle: 'pantry' },
+      { name: 'tenderstem broccoli', amount: 200, unit: 'g', aisle: 'produce' },
+      { name: 'garlic', amount: 2, unit: 'cloves', aisle: 'produce' },
+      { name: 'fresh ginger', amount: 1, unit: 'cm piece', aisle: 'produce' },
+      { name: 'soy sauce', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sesame oil', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sesame seeds', amount: 2, unit: 'tsp', aisle: 'pantry' },
+      { name: 'spring onion', amount: 2, unit: '', aisle: 'produce' },
+      { name: 'lime', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'shichimi togarashi (optional)', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+    ],
+  },
+  {
+    id: 'shakshuka-feta',
+    name: 'Shakshuka with Feta & Crusty Bread',
+    cuisine: 'North African',
+    time: '30 min',
+    servings: 2,
+    mealType: 'dinner',
+    tags: ['veggie', 'one-pot', 'high-protein', 'quick'],
+    makesLeftovers: false,
+    notes: 'A weekend favourite — eggs poached in a spiced tomato pepper sauce. Bread for dipping is mandatory. Equally good for breakfast.',
+    steps: [
+      'Heat 2 tablespoons olive oil in a wide, shallow pan (one with a lid) over medium heat. Add 1 finely chopped onion and 1 thinly sliced red bell pepper. Cook for 8-10 minutes, stirring occasionally, until soft and starting to caramelise at the edges. Do not rush this — sweet onions are the foundation.',
+      'Add 4 minced garlic cloves and cook 1 minute until fragrant. Add 2 teaspoons ground cumin, 2 teaspoons sweet paprika, 1 teaspoon smoked paprika, 1/2 teaspoon ground caraway (if you have it), and 1/4 teaspoon cayenne (more if you like heat). Cook for 30 seconds, stirring constantly, until the spices smell intensely fragrant.',
+      'Tip in 800g tinned chopped tomatoes, 1 tablespoon tomato purée, 1 teaspoon sugar (balances the acidity), and a good pinch of salt. Stir well.',
+      'Bring to a simmer and cook uncovered for 12-15 minutes, stirring occasionally. The sauce should reduce, thicken, and turn a deeper red colour. Taste — it should be punchy and well seasoned. Adjust with more salt or chili if needed.',
+      'Use the back of a wooden spoon to create 4 small wells in the sauce. Crack 1 egg into each well — do this carefully so the yolks stay intact.',
+      'Cover the pan with a lid (or foil if you do not have one). Reduce heat to low. Cook for 5-7 minutes for runny yolks, 8-10 minutes for set yolks. Do not overcook — set whites with runny yolks is the goal.',
+      'While the eggs cook, slice 2 thick slices of sourdough or ciabatta and toast (or pan-fry in olive oil for added richness).',
+      'Once the eggs are set to your liking, scatter 100g crumbled feta over the top, then add a generous handful of chopped flat-leaf parsley and coriander. A drizzle of good olive oil. A pinch of za atar or chili flakes if you like.',
+      'Serve straight from the pan at the table with the toast on the side for dipping into the runny yolks and mopping up the sauce. A bowl of yogurt to dollop over each portion is the traditional finish.',
+    ],
+    ingredients: [
+      { name: 'egg', amount: 4, unit: '', aisle: 'dairy' },
+      { name: 'tinned chopped tomatoes', amount: 800, unit: 'g', aisle: 'pantry' },
+      { name: 'red bell pepper', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'onion', amount: 1, unit: '', aisle: 'produce' },
+      { name: 'garlic', amount: 4, unit: 'cloves', aisle: 'produce' },
+      { name: 'feta cheese', amount: 100, unit: 'g', aisle: 'dairy' },
+      { name: 'sourdough or ciabatta', amount: 4, unit: 'thick slices', aisle: 'bakery' },
+      { name: 'tomato purée', amount: 1, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'sugar', amount: 1, unit: 'tsp', aisle: 'pantry' },
+      { name: 'ground cumin', amount: 2, unit: 'tsp', aisle: 'spices' },
+      { name: 'sweet paprika', amount: 2, unit: 'tsp', aisle: 'spices' },
+      { name: 'smoked paprika', amount: 1, unit: 'tsp', aisle: 'spices' },
+      { name: 'ground caraway', amount: 0.5, unit: 'tsp', aisle: 'spices' },
+      { name: 'cayenne pepper', amount: 0.25, unit: 'tsp', aisle: 'spices' },
+      { name: 'olive oil', amount: 3, unit: 'tbsp', aisle: 'pantry' },
+      { name: 'fresh parsley', amount: 1, unit: 'small bunch', aisle: 'produce' },
+      { name: 'fresh coriander', amount: 1, unit: 'small bunch', aisle: 'produce' },
+      { name: 'greek yogurt', amount: 150, unit: 'g', aisle: 'dairy' },
+    ],
+  },
 ];
 
 // ============================================================
@@ -1568,6 +2401,11 @@ const DEFAULT_STATE = {
   aisleOrder: AISLES.map(a => a.id),
   customShoppingItems: [],
   defaultServings: 2,
+  theme: 'terracotta',
+  templates: [],      // [{id, name, week, createdAt}]
+  recurring: [],      // [{id, day, slot, recipeId, weeksRemaining}]
+  pantryQty: {},      // { 'olive oil': { amount: 500, unit: 'ml' } } — quantity-aware pantry
+  dismissedDiscovery: [], // recipeIds the user has swiped left on
 };
 
 // ============================================================
@@ -1829,6 +2667,11 @@ export default function App() {
   const [shuffleMenuOpen, setShuffleMenuOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [inventOpen, setInventOpen] = useState(false);
+  const [templatesOpen, setTemplatesOpen] = useState(false);
+  const [timelineOpen, setTimelineOpen] = useState(false);
+  const [discoveryOpen, setDiscoveryOpen] = useState(false);
+  const [cookHistoryOpen, setCookHistoryOpen] = useState(false);
+  const [fridgeOpen, setFridgeOpen] = useState(false);
   const [syncStatus, setSyncStatus] = useState('idle');
   const [lastSyncedAt, setLastSyncedAt] = useState(null);
   const [updateAvailable, setUpdateAvailable] = useState(null);
@@ -1847,6 +2690,12 @@ export default function App() {
   const saveAttempts = useRef(0);
 
   // ── Load ──────────────────────────────────────────────────
+  // Apply current theme to document root.
+  useEffect(() => {
+    const theme = data.theme || 'terracotta';
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [data.theme]);
+
   // Fetches state from Supabase on mount. Falls back to localStorage.
   useEffect(() => {
     (async () => {
@@ -2172,6 +3021,23 @@ export default function App() {
     },
   }));
 
+  // Swap two week slots — used by drag-and-drop. Source slot gets target's value, vice versa.
+  const swapSlots = (fromDay, fromSlot, toDay, toSlot) => {
+    if (fromDay === toDay && fromSlot === toSlot) return;
+    setData(d => {
+      const fromValue = d.week[fromDay]?.[fromSlot] || null;
+      const toValue = d.week[toDay]?.[toSlot] || null;
+      return {
+        ...d,
+        week: {
+          ...d.week,
+          [fromDay]: { ...(d.week[fromDay] || emptyDaySlots()), [fromSlot]: toValue },
+          [toDay]: { ...(d.week[toDay] || emptyDaySlots()), [toSlot]: fromValue },
+        },
+      };
+    });
+  };
+
   const togglePantry = (name) => setData(d => ({
     ...d,
     pantry: d.pantry.includes(name) ? d.pantry.filter(p => p !== name) : [...d.pantry, name],
@@ -2187,13 +3053,24 @@ export default function App() {
   const clearChecks = () => setData(d => ({ ...d, shoppingChecked: [] }));
   const clearWeek = () => setData(d => ({ ...d, week: Object.fromEntries(DAYS.map(day => [day, emptyDaySlots()])) }));
 
-  const logCook = (recipeId, entry) => setData(d => ({
-    ...d,
-    recipes: d.recipes.map(r => r.id === recipeId
-      ? { ...r, cookLog: [entry, ...(r.cookLog || [])].slice(0, 20) }
-      : r
-    ),
-  }));
+  const logCook = (recipeId, entry) => setData(d => {
+    const recipe = d.recipes.find(r => r.id === recipeId);
+    // Build pantry decrement: remove from pantry any items that match recipe ingredients
+    // (only items where the user has marked the ingredient as "in stock" via pantry toggle)
+    const usedInRecipe = recipe ? recipe.ingredients.map(i => canonicalIngredientName(i.name)) : [];
+    const newPantry = (d.pantry || []).filter(p => !usedInRecipe.includes(canonicalIngredientName(p)));
+    const removed = (d.pantry || []).length - newPantry.length;
+    return {
+      ...d,
+      recipes: d.recipes.map(r => r.id === recipeId
+        ? { ...r, cookLog: [entry, ...(r.cookLog || [])].slice(0, 20) }
+        : r
+      ),
+      pantry: newPantry,
+      // Stash a hint for the UI showing what got removed
+      lastDecrement: removed > 0 ? { recipeId, count: removed, when: Date.now() } : d.lastDecrement,
+    };
+  });
 
   const reorderAisles = (newOrder) => setData(d => ({ ...d, aisleOrder: newOrder }));
 
@@ -2203,6 +3080,41 @@ export default function App() {
   const setRecipeNutrition = (recipeId, nutrition) => setData(d => ({
     ...d,
     recipes: d.recipes.map(r => r.id === recipeId ? { ...r, nutrition } : r),
+  }));
+
+  // ── Templates ───────────────────────────────────────────────
+  const saveTemplate = (name) => {
+    if (!name?.trim()) return;
+    setData(d => ({
+      ...d,
+      templates: [...(d.templates || []), {
+        id: uid(),
+        name: name.trim(),
+        week: JSON.parse(JSON.stringify(d.week)),
+        createdAt: new Date().toISOString(),
+      }],
+    }));
+  };
+  const applyTemplate = (templateId) => {
+    setData(d => {
+      const t = (d.templates || []).find(t => t.id === templateId);
+      if (!t) return d;
+      return { ...d, week: JSON.parse(JSON.stringify(t.week)) };
+    });
+  };
+  const deleteTemplate = (templateId) => setData(d => ({
+    ...d,
+    templates: (d.templates || []).filter(t => t.id !== templateId),
+  }));
+  // Mark a recipeId as "dismissed from discovery" so it doesn't reappear
+  const dismissDiscovery = (recipeId) => setData(d => ({
+    ...d,
+    dismissedDiscovery: [...new Set([...(d.dismissedDiscovery || []), recipeId])],
+  }));
+  // Store AI-generated health score on a recipe
+  const setRecipeHealthScore = (recipeId, healthScore) => setData(d => ({
+    ...d,
+    recipes: d.recipes.map(r => r.id === recipeId ? { ...r, healthScore } : r),
   }));
 
   const addCustomItem = (item) => setData(d => ({
@@ -2305,6 +3217,7 @@ export default function App() {
       recipe={cookModeRecipe}
       onClose={() => setCookModeRecipe(null)}
       onLogCook={(entry) => logCook(cookModeRecipe.id, entry)}
+      onUpdateSteps={(newSteps) => upsertRecipe({ ...cookModeRecipe, steps: newSteps })}
     />;
   }
 
@@ -2385,10 +3298,10 @@ export default function App() {
       )}
 
       <main className="mp-main">
-        {tab === 'recipes' && <RecipesTab recipes={filteredRecipes} favourites={data.favourites} onOpen={setOpenRecipeId} onToggleFav={toggleFav} isEmpty={data.recipes.length === 0} />}
-        {tab === 'week' && <WeekTab week={data.week} recipes={data.recipes} onOpen={setOpenRecipeId} onUnassign={(day, mealSlot) => setDaySlot(day, mealSlot, null)} onMarkLeftover={markLeftover} onMarkSkipped={markSkipped} />}
+        {tab === 'recipes' && <RecipesTab recipes={filteredRecipes} favourites={data.favourites} onOpen={setOpenRecipeId} onToggleFav={toggleFav} isEmpty={data.recipes.length === 0} onOpenDiscover={() => setDiscoveryOpen(true)} />}
+        {tab === 'week' && <WeekTab week={data.week} recipes={data.recipes} onOpen={setOpenRecipeId} onUnassign={(day, mealSlot) => setDaySlot(day, mealSlot, null)} onMarkLeftover={markLeftover} onMarkSkipped={markSkipped} onOpenTemplates={() => setTemplatesOpen(true)} onOpenTimeline={() => setTimelineOpen(true)} onSwapSlots={swapSlots} />}
         {tab === 'shopping' && <ShoppingTab data={data} onToggleCheck={toggleCheck} onReorderAisles={reorderAisles} onAddCustom={addCustomItem} onDeleteCustom={deleteCustomItem} />}
-        {tab === 'pantry' && <PantryTab recipes={data.recipes} pantry={data.pantry} onToggle={togglePantry} onOpenRecipe={setOpenRecipeId} onInventOpen={() => setInventOpen(true)} />}
+        {tab === 'pantry' && <PantryTab recipes={data.recipes} pantry={data.pantry} onToggle={togglePantry} onOpenRecipe={setOpenRecipeId} onInventOpen={() => setInventOpen(true)} onFridgeOpen={() => setFridgeOpen(true)} />}
       </main>
 
       <nav className="mp-bottom-nav">
@@ -2409,6 +3322,8 @@ export default function App() {
           onUnassignDay={(day, mealSlot) => setDaySlot(day, mealSlot, null)}
           onStartCook={() => { setOpenRecipeId(null); setCookModeRecipe(openRecipe); }}
           onNutritionUpdate={setRecipeNutrition}
+          onHealthScoreUpdate={setRecipeHealthScore}
+          onSaveSwapped={(r) => upsertRecipe(applyRecipeDefaults(r))}
         />
       )}
 
@@ -2438,6 +3353,9 @@ export default function App() {
           onForceSync={forceSync}
           onTestWrite={testWrite}
           onHardResync={hardResyncFromServer}
+          theme={data.theme || 'terracotta'}
+          onSetTheme={(t) => setData(d => ({ ...d, theme: t }))}
+          onOpenCookHistory={() => { setSettingsOpen(false); setCookHistoryOpen(true); }}
         />
       )}
 
@@ -2447,6 +3365,56 @@ export default function App() {
           defaultServings={data.defaultServings || 2}
           onClose={() => setInventOpen(false)}
           onSaveRecipe={(r) => { upsertRecipe({ ...applyRecipeDefaults(r), id: uid() }); }}
+        />
+      )}
+
+      {templatesOpen && (
+        <TemplatesSheet
+          templates={data.templates || []}
+          week={data.week}
+          recipes={data.recipes}
+          onClose={() => setTemplatesOpen(false)}
+          onSave={saveTemplate}
+          onApply={applyTemplate}
+          onDelete={deleteTemplate}
+        />
+      )}
+
+      {timelineOpen && (
+        <TimelineSheet
+          week={data.week}
+          recipes={data.recipes}
+          onClose={() => setTimelineOpen(false)}
+        />
+      )}
+
+      {discoveryOpen && (
+        <DiscoverySheet
+          recipes={data.recipes}
+          favourites={data.favourites}
+          dismissed={data.dismissedDiscovery || []}
+          defaultServings={data.defaultServings || 2}
+          onClose={() => setDiscoveryOpen(false)}
+          onSave={(r) => upsertRecipe({ ...applyRecipeDefaults(r), id: uid() })}
+          onDismiss={dismissDiscovery}
+        />
+      )}
+
+      {cookHistoryOpen && (
+        <CookHistorySheet
+          recipes={data.recipes}
+          onClose={() => setCookHistoryOpen(false)}
+          onOpenRecipe={setOpenRecipeId}
+        />
+      )}
+
+      {fridgeOpen && (
+        <FridgePhotoSheet
+          onClose={() => setFridgeOpen(false)}
+          onAddPantryItems={(items) => setData(d => ({
+            ...d,
+            pantry: [...new Set([...d.pantry, ...items])],
+          }))}
         />
       )}
     </div>
@@ -2518,18 +3486,49 @@ function NavBtn({ icon, label, active, onClick, badge }) {
   );
 }
 
-function RecipesTab({ recipes, favourites, onOpen, onToggleFav, isEmpty }) {
+function RecipesTab({ recipes, favourites, onOpen, onToggleFav, isEmpty, onOpenDiscover }) {
   if (isEmpty) return <div className="mp-empty"><div className="mp-display mp-empty-title">An empty kitchen.</div><p className="mp-empty-text">Tap + to add your first recipe.</p></div>;
-  if (recipes.length === 0) return <div className="mp-empty"><div className="mp-display mp-empty-title">Nothing matches.</div><p className="mp-empty-text">Try clearing your search or filters.</p></div>;
   return (
-    <div className="mp-recipe-list">
-      {recipes.map(r => <RecipeCard key={r.id} recipe={r} isFav={favourites.includes(r.id)} onOpen={() => onOpen(r.id)} onToggleFav={() => onToggleFav(r.id)} />)}
-    </div>
+    <>
+      <div style={{padding:'0 16px 12px'}}>
+        <button className="mp-invent-btn" style={{marginBottom:0}} onClick={onOpenDiscover}>
+          <Sparkles size={16} />
+          <div style={{flex:1, textAlign:'left'}}>
+            <div style={{fontWeight:500, fontSize:14}}>Discover new recipes</div>
+            <div style={{fontSize:11, opacity:0.7, marginTop:2}}>5 personalised ideas based on your collection</div>
+          </div>
+          <ChevronRight size={16} />
+        </button>
+      </div>
+      {recipes.length === 0 ? (
+        <div className="mp-empty"><div className="mp-display mp-empty-title">Nothing matches.</div><p className="mp-empty-text">Try clearing your search or filters.</p></div>
+      ) : (
+        <div className="mp-recipe-list">
+          {recipes.map(r => <RecipeCard key={r.id} recipe={r} isFav={favourites.includes(r.id)} onOpen={() => onOpen(r.id)} onToggleFav={() => onToggleFav(r.id)} />)}
+        </div>
+      )}
+    </>
   );
 }
 
 function RecipeCard({ recipe, isFav, onOpen, onToggleFav }) {
   const mealTypeLabel = MEAL_TYPES.find(m => m.id === recipe.mealType);
+
+  // Smart suggestion badge — show if the recipe hasn't been cooked recently
+  // but has been cooked at least once before (we know they like it).
+  const cookLog = recipe.cookLog || [];
+  const lastCook = cookLog[0];
+  let staleBadge = null;
+  if (lastCook && cookLog.length >= 1) {
+    const daysSince = Math.floor((Date.now() - new Date(lastCook.date).getTime()) / 86400000);
+    const avgRating = cookLog.reduce((s, e) => s + (e.rating || 0), 0) / cookLog.length;
+    if (daysSince >= 28 && avgRating >= 3.5) {
+      staleBadge = { text: `${Math.floor(daysSince / 7)}w ago`, hot: avgRating >= 4.5 };
+    } else if (daysSince <= 3) {
+      staleBadge = { text: 'just cooked', recent: true };
+    }
+  }
+
   return (
     <article className="mp-card" onClick={onOpen} role="button">
       {recipe.photo ? (
@@ -2541,6 +3540,11 @@ function RecipeCard({ recipe, isFav, onOpen, onToggleFav }) {
           >
             <Star size={16} fill={isFav ? 'currentColor' : 'none'} />
           </button>
+          {staleBadge && (
+            <div className={`mp-stale-badge ${staleBadge.hot ? 'mp-stale-hot' : ''} ${staleBadge.recent ? 'mp-stale-recent' : ''}`}>
+              {staleBadge.hot ? '★ ' : staleBadge.recent ? '✓ ' : '↻ '}{staleBadge.text}
+            </div>
+          )}
         </div>
       ) : (
         <div className="mp-card-stripe" style={{ background: getCardColor(recipe.id) }} />
@@ -2575,10 +3579,35 @@ function RecipeCard({ recipe, isFav, onOpen, onToggleFav }) {
   );
 }
 
-function WeekTab({ week, recipes, onOpen, onUnassign, onMarkLeftover, onMarkSkipped }) {
+function WeekTab({ week, recipes, onOpen, onUnassign, onMarkLeftover, onMarkSkipped, onOpenTemplates, onOpenTimeline, onSwapSlots }) {
   const todayIdx = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
   const [viewMode, setViewMode] = useState(() => localStorage.getItem('week-view-mode') || 'expanded');
   const [expandedDays, setExpandedDays] = useState(() => new Set([DAYS[todayIdx]]));
+  const [reviewLoading, setReviewLoading] = useState(false);
+  const [reviewResult, setReviewResult] = useState(null);
+  const [reviewError, setReviewError] = useState('');
+  const [dragSource, setDragSource] = useState(null); // {day, slot}
+  const [dragOver, setDragOver] = useState(null);
+
+  const handleDragStart = (day, slot) => (e) => {
+    setDragSource({ day, slot });
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', `${day}|${slot}`); // some browsers need data
+  };
+  const handleDragEnd = () => { setDragSource(null); setDragOver(null); };
+  const handleDragOver = (day, slot) => (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOver({ day, slot });
+  };
+  const handleDrop = (day, slot) => (e) => {
+    e.preventDefault();
+    if (dragSource) {
+      onSwapSlots?.(dragSource.day, dragSource.slot, day, slot);
+    }
+    setDragSource(null);
+    setDragOver(null);
+  };
 
   const setMode = (mode) => {
     setViewMode(mode);
@@ -2593,12 +3622,109 @@ function WeekTab({ week, recipes, onOpen, onUnassign, onMarkLeftover, onMarkSkip
     });
   };
 
+  const fetchReview = async () => {
+    setReviewLoading(true);
+    setReviewError('');
+    setReviewResult(null);
+    try {
+      // Build a summary of the week
+      const summary = DAYS.map(day => {
+        const slots = week[day] || {};
+        const meals = MEAL_SLOTS.map(slot => {
+          const s = slots[slot];
+          if (!s) return null;
+          if (s.isSkipped) return `${slot}: eating out`;
+          if (s.isLeftover) return `${slot}: leftovers`;
+          const r = recipes.find(r => r.id === s.recipeId);
+          return r ? `${slot}: ${r.name}${r.tags ? ' [' + r.tags.join(', ') + ']' : ''}` : null;
+        }).filter(Boolean);
+        return meals.length === 0 ? `${day}: nothing planned` : `${day}: ${meals.join(' | ')}`;
+      }).join('\n');
+
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 600,
+          system: 'You review weekly meal plans helpfully. Be warm and conversational, not preachy. Flag genuine balance issues, repetition, missing protein/veg, but always supportive. No moralising. Return ONLY JSON.',
+          messages: [{
+            role: 'user',
+            content: `Review this week's meal plan and give friendly, concrete feedback:
+
+${summary}
+
+Look for: repetition (same dish or cuisine too often), nutritional gaps (no veg, no fish all week, all heavy dinners), pacing issues (3 elaborate weekend dinners back to back), opportunities (a slot that could use a quick win). Be specific — name dishes.
+
+Return ONLY JSON:
+{
+  "overall": "1-sentence vibe check",
+  "observations": ["short specific note", "short specific note", "short specific note"],
+  "suggestions": ["actionable swap or addition", "actionable swap or addition"]
+}
+
+Keep observations and suggestions to 2-4 items each. Be kind. If everything looks great, say so.`
+          }],
+        }),
+      });
+      const d = await res.json();
+      if (d.error) throw new Error(d.error.message);
+      const text = (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      const match = text.match(/\{[\s\S]*\}/);
+      if (!match) throw new Error('parse error');
+      setReviewResult(JSON.parse(match[0]));
+    } catch (e) {
+      setReviewError(`Couldn't review: ${e.message}`);
+    } finally {
+      setReviewLoading(false);
+    }
+  };
+
   return (
     <div className="mp-week">
       <div className="mp-week-mode-toggle">
         <button className={`mp-week-mode-btn ${viewMode === 'expanded' ? 'mp-week-mode-on' : ''}`} onClick={() => setMode('expanded')}>Expanded</button>
         <button className={`mp-week-mode-btn ${viewMode === 'compact' ? 'mp-week-mode-on' : ''}`} onClick={() => setMode('compact')}>Compact</button>
       </div>
+
+      <div className="mp-week-actions">
+        <button className="mp-week-action-btn" onClick={onOpenTemplates}>
+          <Bookmark size={13} /> Templates
+        </button>
+        <button className="mp-week-action-btn" onClick={onOpenTimeline}>
+          <Clock size={13} /> Timeline
+        </button>
+        <button className="mp-week-action-btn" onClick={fetchReview} disabled={reviewLoading}>
+          {reviewLoading ? <><RefreshCw size={13} className="mp-sync-spin" /> reviewing</> : <><Sparkles size={13} /> AI review</>}
+        </button>
+      </div>
+
+      {reviewResult && (
+        <div className="mp-week-review">
+          <div className="mp-week-review-head">
+            <h3 className="mp-aisle-label">Week review</h3>
+            <button className="mp-back" style={{padding:6}} onClick={() => setReviewResult(null)}><X size={16} /></button>
+          </div>
+          <p style={{fontSize:14, color:'var(--ink)', margin:'8px 0', lineHeight:1.5}}>{reviewResult.overall}</p>
+          {reviewResult.observations?.length > 0 && (
+            <>
+              <div className="mp-tiny" style={{textTransform:'uppercase', letterSpacing:'0.06em', marginTop:10, color:'var(--ink-3)'}}>Observations</div>
+              <ul className="mp-health-factors">
+                {reviewResult.observations.map((o, i) => <li key={i}>{o}</li>)}
+              </ul>
+            </>
+          )}
+          {reviewResult.suggestions?.length > 0 && (
+            <>
+              <div className="mp-tiny" style={{textTransform:'uppercase', letterSpacing:'0.06em', marginTop:10, color:'var(--ink-3)'}}>Suggestions</div>
+              <ul className="mp-health-factors">
+                {reviewResult.suggestions.map((s, i) => <li key={i}>{s}</li>)}
+              </ul>
+            </>
+          )}
+        </div>
+      )}
+      {reviewError && <div className="mp-tiny" style={{color:'#B91C1C', padding:'8px 16px'}}>{reviewError}</div>}
 
       {DAYS.map((day, dayIdx) => {
         const daySlots = week[day] || emptyDaySlots();
@@ -2652,7 +3778,15 @@ function WeekTab({ week, recipes, onOpen, onUnassign, onMarkLeftover, onMarkSkip
                   const isSkipped = slot?.isSkipped;
                   const canLeftover = recipe?.makesLeftovers && dayIdx < 6 && !daySlots[mt.id]?.isLeftover && !week[DAYS[dayIdx + 1]]?.[mt.id];
                   return (
-                    <div key={mt.id} className={`mp-meal-slot ${recipe ? 'mp-meal-slot-filled' : isLeftover ? 'mp-meal-slot-leftover' : isSkipped ? 'mp-meal-slot-skipped' : 'mp-meal-slot-empty'}`}>
+                    <div key={mt.id}
+                      className={`mp-meal-slot ${recipe ? 'mp-meal-slot-filled' : isLeftover ? 'mp-meal-slot-leftover' : isSkipped ? 'mp-meal-slot-skipped' : 'mp-meal-slot-empty'} ${dragOver?.day === day && dragOver?.slot === mt.id ? 'mp-meal-slot-dragover' : ''} ${dragSource?.day === day && dragSource?.slot === mt.id ? 'mp-meal-slot-dragging' : ''}`}
+                      draggable={!!(recipe || isLeftover || isSkipped)}
+                      onDragStart={handleDragStart(day, mt.id)}
+                      onDragEnd={handleDragEnd}
+                      onDragOver={handleDragOver(day, mt.id)}
+                      onDragLeave={() => setDragOver(null)}
+                      onDrop={handleDrop(day, mt.id)}
+                    >
                       <div className="mp-meal-slot-label">
                         <span className="mp-meal-slot-emoji">{mt.emoji}</span>
                         <span className="mp-meal-slot-type">{mt.label}</span>
@@ -2714,6 +3848,11 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDele
   const [reordering, setReordering] = useState(false);
   const [addingItem, setAddingItem] = useState(false);
   const [newItem, setNewItem] = useState({ name: '', amount: '', unit: '', aisle: 'other' });
+  const [aisleSuggesting, setAisleSuggesting] = useState(false);
+  const [aisleManuallySet, setAisleManuallySet] = useState(false);
+  const [voiceListening, setVoiceListening] = useState(false);
+  const [voiceParsing, setVoiceParsing] = useState(false);
+  const [voiceError, setVoiceError] = useState('');
   const [showCompleted, setShowCompleted] = useState(false);
   const aisleOrder = data.aisleOrder || AISLES.map(a => a.id);
   const customItems = data.customShoppingItems || [];
@@ -2771,12 +3910,139 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDele
     onReorderAisles(next);
   };
 
+  // Voice entry — uses Web Speech API to transcribe, then AI parses items.
+  const startVoiceEntry = () => {
+    setVoiceError('');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setVoiceError("Voice isn't supported on this device. Try Chrome on desktop, or Safari on iOS.");
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-GB';
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => setVoiceListening(true);
+    recognition.onerror = (e) => {
+      setVoiceListening(false);
+      setVoiceError(e.error === 'no-speech' ? "Didn't catch that — try again?" : `Voice error: ${e.error}`);
+    };
+    recognition.onend = () => setVoiceListening(false);
+    recognition.onresult = async (event) => {
+      const transcript = event.results[0][0].transcript;
+      setVoiceListening(false);
+      if (!transcript?.trim()) return;
+      await parseVoiceTranscript(transcript);
+    };
+    try {
+      recognition.start();
+    } catch (e) {
+      setVoiceListening(false);
+      setVoiceError(`Couldn't start: ${e.message}`);
+    }
+  };
+
+  const parseVoiceTranscript = async (transcript) => {
+    setVoiceParsing(true);
+    setVoiceError('');
+    try {
+      const aisleList = AISLES.map(a => a.id).join(', ');
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 500,
+          system: `You parse spoken shopping lists into structured items. Each item gets: name (singular, lowercased, no quantifiers), amount (number or null), unit (g/kg/ml/l/pints/loaves/etc or empty), aisle (one of: ${aisleList}). Return ONLY a JSON array.`,
+          messages: [{
+            role: 'user',
+            content: `Parse this spoken shopping list into items: "${transcript}"
+
+Examples:
+"two pints of milk, sourdough, dishwasher tablets" →
+[
+  {"name":"milk","amount":2,"unit":"pints","aisle":"dairy"},
+  {"name":"sourdough","amount":1,"unit":"loaf","aisle":"bakery"},
+  {"name":"dishwasher tablets","amount":1,"unit":"","aisle":"household"}
+]
+
+Return ONLY the JSON array.`
+          }],
+        }),
+      });
+      const d = await res.json();
+      if (d.error) throw new Error(d.error.message);
+      const text = (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      const match = text.match(/\[[\s\S]*\]/);
+      if (!match) throw new Error('Could not parse');
+      const items = JSON.parse(match[0]);
+      if (!Array.isArray(items) || items.length === 0) throw new Error('No items detected');
+      items.forEach(item => {
+        if (item.name) {
+          onAddCustom({
+            name: item.name,
+            amount: item.amount || '',
+            unit: item.unit || '',
+            aisle: item.aisle || 'other',
+          });
+        }
+      });
+      setVoiceError(`✓ Added ${items.length} item${items.length === 1 ? '' : 's'} from "${transcript}"`);
+      // Clear success message after 4 seconds
+      setTimeout(() => setVoiceError(''), 4000);
+    } catch (e) {
+      setVoiceError(`Couldn't parse: ${e.message}`);
+    } finally {
+      setVoiceParsing(false);
+    }
+  };
+
   const handleAddItem = () => {
     if (!newItem.name.trim()) return;
     onAddCustom({ name: newItem.name.trim(), amount: newItem.amount, unit: newItem.unit, aisle: newItem.aisle });
     setNewItem({ name: '', amount: '', unit: '', aisle: 'other' });
+    setAisleManuallySet(false);
     setAddingItem(false);
   };
+
+  // AI: ask Claude which aisle a typed item belongs in. Called after typing pause.
+  const suggestAisle = async (itemName) => {
+    if (!itemName || itemName.trim().length < 2) return;
+    if (aisleManuallySet) return; // don't override user choice
+    setAisleSuggesting(true);
+    try {
+      const aisleList = AISLES.map(a => `${a.id} (${a.label})`).join(', ');
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 30,
+          system: `You categorise grocery list items. Reply with ONLY the aisle id from this list (one word, nothing else): ${aisleList}. If unclear, reply: other`,
+          messages: [{ role: 'user', content: itemName.trim() }],
+        }),
+      });
+      const data = await res.json();
+      if (data.error) return;
+      const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim().toLowerCase();
+      // Match the response to a valid aisle id
+      const validId = AISLES.find(a => a.id === text)?.id;
+      if (validId && !aisleManuallySet) {
+        setNewItem(i => ({ ...i, aisle: validId }));
+      }
+    } catch (_) { /* fail silent */ }
+    finally { setAisleSuggesting(false); }
+  };
+
+  // Debounce aisle suggestion when user types
+  useEffect(() => {
+    if (!addingItem || aisleManuallySet) return;
+    if (!newItem.name.trim() || newItem.name.trim().length < 3) return;
+    const timer = setTimeout(() => suggestAisle(newItem.name), 700);
+    return () => clearTimeout(timer);
+  }, [newItem.name, addingItem, aisleManuallySet]);
 
   // Toggle all units in a group at once
   const toggleGroup = (group) => {
@@ -2830,6 +4096,9 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDele
           {totalItems === 0 ? 'Empty list' : `${totalPending} to get${totalCompleted > 0 ? ` · ${totalCompleted} done` : ''}`}
         </div>
         <div style={{display:'flex', gap:6}}>
+          <button className={`mp-icon-btn ${voiceListening ? 'mp-voice-active' : ''}`} style={{width:32, height:32}} onClick={startVoiceEntry} disabled={voiceParsing} title="Voice add">
+            {voiceParsing ? <RefreshCw size={16} className="mp-sync-spin" /> : <Mic size={16} />}
+          </button>
           <button className="mp-icon-btn" style={{width:32, height:32}} onClick={() => setAddingItem(true)} title="Add custom item">
             <Plus size={16} />
           </button>
@@ -2838,6 +4107,12 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDele
           </button>
         </div>
       </div>
+
+      {(voiceListening || voiceError) && (
+        <div className={`mp-voice-status ${voiceError.startsWith('✓') ? 'mp-voice-ok' : ''}`}>
+          {voiceListening ? <><Mic size={14} /> Listening… speak your items</> : voiceError}
+        </div>
+      )}
 
       {addingItem && (
         <div className="mp-custom-add">
@@ -2851,10 +4126,16 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDele
           <div className="mp-custom-add-row">
             <input className="mp-input mp-input-amount" type="number" step="0.1" placeholder="qty" value={newItem.amount} onChange={e => setNewItem(i => ({ ...i, amount: e.target.value }))} />
             <input className="mp-input mp-input-unit" placeholder="unit" value={newItem.unit} onChange={e => setNewItem(i => ({ ...i, unit: e.target.value }))} />
-            <select className="mp-input mp-input-aisle" value={newItem.aisle} onChange={e => setNewItem(i => ({ ...i, aisle: e.target.value }))}>
+            <select className="mp-input mp-input-aisle" value={newItem.aisle} onChange={e => { setNewItem(i => ({ ...i, aisle: e.target.value })); setAisleManuallySet(true); }}>
               {AISLES.map(a => <option key={a.id} value={a.id}>{a.label}</option>)}
             </select>
           </div>
+          {aisleSuggesting && <div className="mp-tiny" style={{marginTop:4, color:'var(--ink-3)'}}><Sparkles size={10} /> Claude is figuring out where this goes…</div>}
+          {!aisleSuggesting && newItem.name.trim().length >= 3 && !aisleManuallySet && newItem.aisle !== 'other' && (
+            <div className="mp-tiny" style={{marginTop:4, color:'var(--ink-3)'}}>
+              <Sparkles size={10} style={{verticalAlign:'-1px'}} /> Auto-categorised — change the dropdown if wrong
+            </div>
+          )}
           <div style={{display:'flex', gap:8, marginTop:8}}>
             <button className="mp-btn mp-btn-ghost" onClick={() => { setAddingItem(false); setNewItem({ name: '', amount: '', unit: '', aisle: 'other' }); }}>Cancel</button>
             <button className={`mp-btn mp-btn-primary ${newItem.name.trim() ? '' : 'mp-btn-disabled'}`} disabled={!newItem.name.trim()} onClick={handleAddItem}>Add</button>
@@ -2946,7 +4227,7 @@ function ShoppingTab({ data, onToggleCheck, onReorderAisles, onAddCustom, onDele
   );
 }
 
-function PantryTab({ recipes, pantry, onToggle, onOpenRecipe, onInventOpen }) {
+function PantryTab({ recipes, pantry, onToggle, onOpenRecipe, onInventOpen, onFridgeOpen }) {
   const known = useMemo(() => allIngredientNames(recipes), [recipes]);
   const [showAll, setShowAll] = useState(false);
 
@@ -2976,6 +4257,17 @@ function PantryTab({ recipes, pantry, onToggle, onOpenRecipe, onInventOpen }) {
           <div style={{fontWeight:500, fontSize:14}}>Invent a recipe with what I have</div>
           <div style={{fontSize:11, opacity:0.7, marginTop:2}}>
             {pantry.length === 0 ? 'Add some pantry items first' : `Claude will suggest dishes using your ${pantry.length} items`}
+          </div>
+        </div>
+        <ChevronRight size={16} />
+      </button>
+
+      <button className="mp-invent-btn" onClick={onFridgeOpen}>
+        <Camera size={16} />
+        <div style={{flex:1, textAlign:'left'}}>
+          <div style={{fontWeight:500, fontSize:14}}>Snap your fridge</div>
+          <div style={{fontSize:11, opacity:0.7, marginTop:2}}>
+            Take a photo — Claude will identify what's in it and add to your pantry
           </div>
         </div>
         <ChevronRight size={16} />
@@ -3038,11 +4330,109 @@ function PantryTab({ recipes, pantry, onToggle, onOpenRecipe, onInventOpen }) {
   );
 }
 
-function RecipeDetailSheet({ recipe, week, isFav, defaultServings, onClose, onToggleFav, onEdit, onDelete, onAssignDay, onUnassignDay, onStartCook, onNutritionUpdate }) {
+function RecipeDetailSheet({ recipe, week, isFav, defaultServings, onClose, onToggleFav, onEdit, onDelete, onAssignDay, onUnassignDay, onStartCook, onNutritionUpdate, onHealthScoreUpdate, onSaveSwapped }) {
   const [servings, setServings] = useState(defaultServings || recipe.servings);
   const [mealSlot, setMealSlot] = useState(recipe.mealType || 'dinner');
   const [nutritionLoading, setNutritionLoading] = useState(false);
   const [nutritionError, setNutritionError] = useState('');
+  const [healthLoading, setHealthLoading] = useState(false);
+  const [healthError, setHealthError] = useState('');
+  const [swapOpen, setSwapOpen] = useState(false);
+  const [swapDiet, setSwapDiet] = useState('low-carb');
+  const [swapLoading, setSwapLoading] = useState(false);
+  const [swapResult, setSwapResult] = useState(null);
+  const [swapError, setSwapError] = useState('');
+
+  const fetchHealthScore = async () => {
+    setHealthLoading(true);
+    setHealthError('');
+    try {
+      const ingredientList = recipe.ingredients.map(i => `${i.amount}${i.unit ? ' ' + i.unit : ''} ${i.name}`).join('\n');
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 250,
+          system: 'You score recipes for nutritional balance. Be neutral and informational — never moralising or shaming. Return ONLY JSON.',
+          messages: [{
+            role: 'user',
+            content: `Rate this recipe 1-10 for nutritional balance (10 = exceptionally well-balanced; 1 = highly processed or imbalanced). Consider: macro balance, fibre, vegetables, processing level, micronutrient diversity. Return JSON only:
+{"score": 7, "factors": ["high in fibre", "good vegetable content", "balanced macros"]}
+
+Recipe: ${recipe.name}
+Serves ${recipe.servings}
+
+Ingredients:
+${ingredientList}
+
+Notes: ${recipe.notes || 'none'}
+
+Be factual, not judgmental. List 3 strongest positive AND/OR notable factors. No "should" or "shouldn't" language.`
+          }],
+        }),
+      });
+      const d = await res.json();
+      if (d.error) throw new Error(d.error.message);
+      const text = (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      const match = text.match(/\{[\s\S]*\}/);
+      if (!match) throw new Error('parse error');
+      const result = JSON.parse(match[0]);
+      onHealthScoreUpdate(recipe.id, result);
+    } catch (e) {
+      setHealthError(`Couldn't score: ${e.message}`);
+    } finally {
+      setHealthLoading(false);
+    }
+  };
+
+  const fetchSwap = async () => {
+    setSwapLoading(true);
+    setSwapError('');
+    setSwapResult(null);
+    try {
+      const ingredientList = recipe.ingredients.map(i => `${i.amount}${i.unit ? ' ' + i.unit : ''} ${i.name}${i.aisle ? ' (' + i.aisle + ')' : ''}`).join('\n');
+      const stepsList = (recipe.steps || []).map((s, i) => `${i + 1}. ${s}`).join('\n');
+      const prompt = `Rewrite this recipe to be ${swapDiet}. Keep the dish identity and cooking method. Swap ingredients minimally — only what's needed to achieve the diet. Adjust steps if cooking technique changes. Keep the result delicious — don't water it down.
+
+Original: ${recipe.name}
+Serves ${recipe.servings}, ${recipe.time || 'unknown time'}
+
+Ingredients:
+${ingredientList}
+
+Steps:
+${stepsList}
+
+Return ONLY a JSON object with the modified recipe. No markdown, no preamble:
+{
+  "name": "Modified Recipe Name (${swapDiet})",
+  "notes": "explain what changed and why",
+  "ingredients": [{"name": "...", "amount": 0, "unit": "...", "aisle": "..."}],
+  "steps": ["...", "..."]
+}`;
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 3500,
+          system: `You adapt recipes for dietary requirements while preserving deliciousness. Return ONLY valid JSON.`,
+          messages: [{ role: 'user', content: prompt }],
+        }),
+      });
+      const d = await res.json();
+      if (d.error) throw new Error(d.error.message);
+      const text = (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      const match = text.match(/\{[\s\S]*\}/);
+      if (!match) throw new Error('parse error');
+      setSwapResult(JSON.parse(match[0]));
+    } catch (e) {
+      setSwapError(`Couldn't swap: ${e.message}`);
+    } finally {
+      setSwapLoading(false);
+    }
+  };
 
   const fetchNutrition = async () => {
     setNutritionLoading(true);
@@ -3255,6 +4645,122 @@ All values per ONE serving. Numbers only, no units, rounded to whole numbers. Be
             )}
           </section>
 
+          <section className="mp-sheet-section">
+            <div className="mp-pantry-section-head">
+              <h3 className="mp-aisle-label">Health Score <span style={{fontWeight:400, fontSize:11, color:'var(--ink-3)'}}>informational</span></h3>
+              {!recipe.healthScore && !healthLoading && (
+                <button className="mp-ai-btn" onClick={fetchHealthScore}>
+                  <Sparkles size={11} /> score it
+                </button>
+              )}
+              {recipe.healthScore && !healthLoading && (
+                <button className="mp-link" onClick={fetchHealthScore}>re-score</button>
+              )}
+            </div>
+            {healthLoading ? (
+              <div className="mp-nutrition-loading">
+                <RefreshCw size={14} className="mp-sync-spin" /> Scoring nutrition balance…
+              </div>
+            ) : recipe.healthScore ? (
+              <div className="mp-health-score">
+                <div className="mp-health-score-big">
+                  <span className="mp-health-score-num">{recipe.healthScore.score}</span>
+                  <span className="mp-health-score-out">/10</span>
+                </div>
+                {recipe.healthScore.factors?.length > 0 && (
+                  <ul className="mp-health-factors">
+                    {recipe.healthScore.factors.map((f, i) => <li key={i}>{f}</li>)}
+                  </ul>
+                )}
+                <div className="mp-tiny" style={{marginTop:8, fontStyle:'italic'}}>Just a guide — eat what makes you happy.</div>
+              </div>
+            ) : healthError ? (
+              <div className="mp-tiny" style={{color:'#B91C1C'}}>{healthError}</div>
+            ) : (
+              <p style={{fontSize:13, color:'var(--ink-3)', fontStyle:'italic', margin:'4px 0 0'}}>
+                A 1-10 rating of nutritional balance with notes on what's good or worth knowing. Neutral, not preachy.
+              </p>
+            )}
+          </section>
+
+          <section className="mp-sheet-section">
+            <div className="mp-pantry-section-head">
+              <h3 className="mp-aisle-label">Adapt for diet</h3>
+              <button className="mp-ai-btn" onClick={() => setSwapOpen(o => !o)}>
+                <Sparkles size={11} /> swap it
+              </button>
+            </div>
+            {swapOpen && !swapResult && (
+              <>
+                <p style={{fontSize:13, color:'var(--ink-2)', margin:'4px 0 8px'}}>
+                  Claude will rewrite this recipe to match a different diet, keeping the spirit of the dish.
+                </p>
+                <div className="mp-tag-row" style={{marginBottom:10}}>
+                  {[
+                    ['low-carb', 'Low-carb'],
+                    ['veggie', 'Veggie'],
+                    ['vegan', 'Vegan'],
+                    ['gluten-free', 'Gluten-free'],
+                    ['dairy-free', 'Dairy-free'],
+                    ['high-protein', 'Higher protein'],
+                  ].map(([id, label]) => (
+                    <button key={id} className={`mp-tag mp-tag-btn ${swapDiet === id ? 'mp-tag-on' : ''}`} onClick={() => setSwapDiet(id)}>
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                <button className={`mp-btn mp-btn-primary ${swapLoading ? 'mp-btn-disabled' : ''}`} disabled={swapLoading} onClick={fetchSwap}>
+                  {swapLoading ? <><RefreshCw size={14} className="mp-sync-spin" /> Adapting…</> : <>Adapt to {swapDiet}</>}
+                </button>
+                {swapError && <div className="mp-tiny" style={{color:'#B91C1C', marginTop:8}}>{swapError}</div>}
+              </>
+            )}
+            {swapResult && (
+              <>
+                <div className="mp-invent-result">
+                  <div className="mp-invent-result-name">{swapResult.name}</div>
+                  {swapResult.notes && <p style={{fontSize:12, color:'var(--ink-2)', fontStyle:'italic', margin:'6px 0 8px'}}>{swapResult.notes}</p>}
+                  <details>
+                    <summary style={{fontSize:12, color:'var(--ink-3)', cursor:'pointer', padding:'4px 0'}}>
+                      {swapResult.ingredients?.length || 0} ingredients · {swapResult.steps?.length || 0} steps
+                    </summary>
+                    <div style={{padding:'8px 0', fontSize:13}}>
+                      <strong style={{fontSize:11, textTransform:'uppercase', letterSpacing:'0.06em', color:'var(--ink-3)'}}>Ingredients</strong>
+                      <ul style={{margin:'4px 0 10px', paddingLeft:18, color:'var(--ink-2)'}}>
+                        {swapResult.ingredients?.map((ing, i) => (
+                          <li key={i}>{ing.amount}{ing.unit ? ' ' + ing.unit : ''} {ing.name}</li>
+                        ))}
+                      </ul>
+                      <strong style={{fontSize:11, textTransform:'uppercase', letterSpacing:'0.06em', color:'var(--ink-3)'}}>Steps</strong>
+                      <ol style={{margin:'4px 0 0', paddingLeft:18, color:'var(--ink-2)', lineHeight:1.5}}>
+                        {swapResult.steps?.map((step, i) => <li key={i} style={{marginBottom:4}}>{step}</li>)}
+                      </ol>
+                    </div>
+                  </details>
+                </div>
+                <div style={{display:'flex', gap:8, marginTop:10}}>
+                  <button className="mp-btn mp-btn-ghost" onClick={() => { setSwapResult(null); setSwapDiet('low-carb'); }}>Try another</button>
+                  <button className="mp-btn mp-btn-primary" onClick={() => {
+                    onSaveSwapped({
+                      ...recipe,
+                      id: uid(),
+                      name: swapResult.name,
+                      notes: swapResult.notes || recipe.notes,
+                      ingredients: swapResult.ingredients || recipe.ingredients,
+                      steps: swapResult.steps || recipe.steps,
+                      nutrition: undefined,
+                      healthScore: undefined,
+                      cookLog: [],
+                      tags: [...(recipe.tags || []), swapDiet],
+                    });
+                    setSwapResult(null);
+                    setSwapOpen(false);
+                  }}>Save as new recipe</button>
+                </div>
+              </>
+            )}
+          </section>
+
           {recipe.cookLog?.length > 0 && (
             <section className="mp-sheet-section">
               <h3 className="mp-aisle-label">Cook history</h3>
@@ -3294,7 +4800,7 @@ All values per ONE serving. Numbers only, no units, rounded to whole numbers. Be
   );
 }
 
-function CookModeView({ recipe, onClose, onLogCook }) {
+function CookModeView({ recipe, onClose, onLogCook, onUpdateSteps }) {
   const [step, setStep] = useState(0);
   const [showIngredients, setShowIngredients] = useState(false);
   const [activeIng, setActiveIng] = useState(null);
@@ -3304,7 +4810,61 @@ function CookModeView({ recipe, onClose, onLogCook }) {
   const [logNote, setLogNote] = useState('');
   const [subResult, setSubResult] = useState(null);
   const [subLoading, setSubLoading] = useState(false);
+  const [expandLoading, setExpandLoading] = useState(false);
+  const [expandError, setExpandError] = useState('');
   const steps = recipe.steps || [];
+
+  const expandSteps = async () => {
+    if (!window.confirm('Use AI to rewrite the steps with more detail (temperatures, timings, sensory cues)? Your originals will be replaced.')) return;
+    setExpandLoading(true);
+    setExpandError('');
+    try {
+      const ingredientList = recipe.ingredients.map(i => `${i.amount}${i.unit ? ' ' + i.unit : ''} ${i.name}`).join('\n');
+      const stepsList = steps.map((s, i) => `${i + 1}. ${s}`).join('\n');
+      const prompt = `Rewrite these cooking steps to be much more thorough and detailed. Each step should include where helpful:
+- Specific temperatures (oven temp, hob heat level)
+- Specific timings ("3-4 minutes" not "a while")
+- Sensory cues ("until golden brown and crisp at the edges")
+- Why a step matters when non-obvious ("this lets the gluten relax")
+- What to do while waiting ("meanwhile, prepare the dressing")
+Keep the order the same. Keep step count roughly the same — don't split steps unless the original combined two distinct phases. Use plain narrative sentences, not bullet points or sub-steps.
+
+Recipe: ${recipe.name}
+Serves ${recipe.servings}, ${recipe.time || 'unknown time'}
+
+Ingredients:
+${ingredientList}
+
+Original steps:
+${stepsList}
+
+Return ONLY a JSON array of strings, one per step. No markdown, no preamble. Example:
+["First step text here.", "Second step text here.", ...]`;
+
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 3000,
+          system: 'You rewrite recipe steps with more cooking detail. Return ONLY a JSON array of strings.',
+          messages: [{ role: 'user', content: prompt }],
+        }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error.message);
+      const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      const match = text.match(/\[[\s\S]*\]/);
+      if (!match) throw new Error('Could not parse response');
+      const newSteps = JSON.parse(match[0]);
+      if (!Array.isArray(newSteps) || newSteps.length === 0) throw new Error('Response was not an array of steps');
+      onUpdateSteps(newSteps);
+    } catch (e) {
+      setExpandError(`Couldn't expand: ${e.message}`);
+    } finally {
+      setExpandLoading(false);
+    }
+  };
 
   const fetchSubstitute = async (ingredient) => {
     setSubLoading(true);
@@ -3412,8 +4972,23 @@ function CookModeView({ recipe, onClose, onLogCook }) {
             {steps.length > 0 ? `Step ${step + 1} of ${steps.length}` : 'No steps'}
           </div>
         </div>
-        <button className="mp-cookmode-close" onClick={onClose}><X size={22} /></button>
+        <div style={{display:'flex', gap:8, alignItems:'center'}}>
+          {steps.length > 0 && (
+            <button
+              className="mp-ai-btn"
+              onClick={expandSteps}
+              disabled={expandLoading}
+              title="Use AI to make these steps more thorough"
+            >
+              {expandLoading ? <><RefreshCw size={11} className="mp-sync-spin" /> expanding…</> : <><Sparkles size={11} /> detail++</>}
+            </button>
+          )}
+          <button className="mp-cookmode-close" onClick={onClose}><X size={22} /></button>
+        </div>
       </div>
+      {expandError && (
+        <div className="mp-diag-error" style={{margin:'0 16px 8px'}}>{expandError}</div>
+      )}
 
       {steps.length > 0 && (
         <div className="mp-cookmode-bar">
@@ -3744,7 +5319,7 @@ function FilterSheet({ filters, setFilters, favourites, onClose }) {
 }
 
 // ── AI Recipe Import ──────────────────────────────────────────
-function SettingsSheet({ defaultServings, onSetServings, onClose, diagnostics, householdId, hasSupabase, onTestWrite, onHardResync, onForceSync }) {
+function SettingsSheet({ defaultServings, onSetServings, onClose, diagnostics, householdId, hasSupabase, onTestWrite, onHardResync, onForceSync, theme, onSetTheme, onOpenCookHistory }) {
   const [servings, setServings] = useState(defaultServings);
   const [showDiagnostics, setShowDiagnostics] = useState(false);
 
@@ -3779,6 +5354,35 @@ function SettingsSheet({ defaultServings, onSetServings, onClose, diagnostics, h
             <div style={{display:'flex', gap:8, marginTop:14}}>
               <button className="mp-btn mp-btn-ghost" onClick={onClose}>Cancel</button>
               <button className="mp-btn mp-btn-primary" onClick={() => { onSetServings(servings); onClose(); }}>Save</button>
+            </div>
+          </section>
+
+          <section className="mp-sheet-section">
+            <label className="mp-label">Cook history</label>
+            <p style={{fontSize:12, color:'var(--ink-2)', margin:'4px 0 8px', lineHeight:1.5}}>
+              See a calendar of everything you've actually cooked.
+            </p>
+            <button className="mp-btn mp-btn-ghost" onClick={onOpenCookHistory}>
+              <Calendar size={14} /> View cook history
+            </button>
+          </section>
+
+          <section className="mp-sheet-section">
+            <label className="mp-label">Theme</label>
+            <p style={{fontSize:12, color:'var(--ink-2)', margin:'4px 0 4px', lineHeight:1.5}}>
+              Change the app's colour scheme. Syncs across all your devices.
+            </p>
+            <div className="mp-theme-grid">
+              {THEMES.map(t => (
+                <button
+                  key={t.id}
+                  className={`mp-theme-card ${theme === t.id ? 'mp-theme-card-on' : ''}`}
+                  onClick={() => onSetTheme(t.id)}
+                >
+                  <div className="mp-theme-swatch" style={{background: t.preview}} />
+                  <div className="mp-theme-label">{t.emoji} {t.label}</div>
+                </button>
+              ))}
             </div>
           </section>
 
@@ -4292,6 +5896,744 @@ For tags: quick|veggie|high-iron|high-protein|comfort|freezer-friendly|one-tray|
             <div style={{textAlign:'center',padding:'1rem',color:'var(--ink-2)',display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
               <RefreshCw size={16} style={{animation:'mp-spin 1s linear infinite'}} /> Reading photo…
             </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// TEMPLATES SHEET (#2)
+// ============================================================
+function TemplatesSheet({ templates, week, recipes, onClose, onSave, onApply, onDelete }) {
+  const [newName, setNewName] = useState('');
+  const [showSaveForm, setShowSaveForm] = useState(false);
+  const [appliedId, setAppliedId] = useState(null);
+
+  const handleSave = () => {
+    if (!newName.trim()) return;
+    onSave(newName);
+    setNewName('');
+    setShowSaveForm(false);
+  };
+
+  // Count meals in current week for the save preview
+  const currentWeekCount = Object.values(week).reduce((sum, day) => {
+    if (!day) return sum;
+    return sum + Object.values(day).filter(s => s && !s.isLeftover && !s.isSkipped).length;
+  }, 0);
+
+  return (
+    <div className="mp-sheet mp-sheet-bottom" onClick={onClose}>
+      <div className="mp-sheet-content mp-sheet-content-bottom" onClick={e => e.stopPropagation()}>
+        <header className="mp-sheet-header">
+          <h3 className="mp-display mp-filter-title">Week templates</h3>
+          <button className="mp-back" onClick={onClose}><X size={20} /></button>
+        </header>
+        <div className="mp-sheet-body">
+          <p style={{fontSize:13, color:'var(--ink-2)', marginBottom:14}}>
+            Save your current week as a reusable template, or apply a saved template to overwrite this week.
+          </p>
+
+          {!showSaveForm && (
+            <button className="mp-btn mp-btn-primary" onClick={() => setShowSaveForm(true)} disabled={currentWeekCount === 0}>
+              <Bookmark size={14} /> Save current week as template
+            </button>
+          )}
+          {currentWeekCount === 0 && !showSaveForm && (
+            <p className="mp-tiny" style={{marginTop:6, color:'var(--ink-3)'}}>Plan some meals before saving a template.</p>
+          )}
+
+          {showSaveForm && (
+            <div className="mp-custom-add">
+              <input
+                className="mp-input mp-input-name" autoFocus
+                placeholder="e.g. Standard week, Low-carb, Date week…"
+                value={newName}
+                onChange={e => setNewName(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleSave()}
+              />
+              <p className="mp-tiny" style={{marginTop:6, color:'var(--ink-3)'}}>Saving {currentWeekCount} planned meals.</p>
+              <div style={{display:'flex', gap:8, marginTop:8}}>
+                <button className="mp-btn mp-btn-ghost" onClick={() => { setShowSaveForm(false); setNewName(''); }}>Cancel</button>
+                <button className={`mp-btn mp-btn-primary ${!newName.trim() ? 'mp-btn-disabled' : ''}`} disabled={!newName.trim()} onClick={handleSave}>Save</button>
+              </div>
+            </div>
+          )}
+
+          <section className="mp-sheet-section" style={{marginTop:24}}>
+            <h3 className="mp-aisle-label">Saved templates ({templates.length})</h3>
+            {templates.length === 0 ? (
+              <p style={{fontSize:13, color:'var(--ink-3)', fontStyle:'italic', margin:'8px 0 0'}}>
+                No templates yet. Plan a great week, then come back here to save it.
+              </p>
+            ) : (
+              <ul style={{listStyle:'none', margin:'8px 0 0', padding:0}}>
+                {templates.map(t => {
+                  const mealCount = Object.values(t.week).reduce((sum, day) => {
+                    if (!day) return sum;
+                    return sum + Object.values(day).filter(s => s && !s.isLeftover && !s.isSkipped).length;
+                  }, 0);
+                  const dateStr = new Date(t.createdAt).toLocaleDateString();
+                  return (
+                    <li key={t.id} className="mp-template-row">
+                      <div style={{flex:1}}>
+                        <div style={{fontFamily:'Fraunces, serif', fontSize:16, fontWeight:500}}>{t.name}</div>
+                        <div className="mp-tiny" style={{marginTop:2, color:'var(--ink-3)'}}>{mealCount} meals · saved {dateStr}</div>
+                      </div>
+                      <button className="mp-btn mp-btn-ghost" style={{flex:0, padding:'6px 12px', fontSize:12}}
+                        onClick={() => { if (window.confirm(`Apply "${t.name}" to this week? This overwrites your current plan.`)) { onApply(t.id); setAppliedId(t.id); setTimeout(() => onClose(), 800); } }}>
+                        {appliedId === t.id ? <><Check size={14} /> applied</> : 'Apply'}
+                      </button>
+                      <button className="mp-shopping-del" onClick={() => { if (window.confirm(`Delete template "${t.name}"?`)) onDelete(t.id); }}><Trash size={13} /></button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </section>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// COOKING TIMELINE SHEET (#7)
+// ============================================================
+function TimelineSheet({ week, recipes, onClose }) {
+  const [day, setDay] = useState(DAYS[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1]);
+  const [mealTime, setMealTime] = useState('19:00');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [timeline, setTimeline] = useState(null);
+
+  // Get the recipes planned for the selected day
+  const slots = week[day] || {};
+  const dishes = MEAL_SLOTS.map(slot => {
+    const s = slots[slot];
+    if (!s || s.isLeftover || s.isSkipped) return null;
+    const r = recipes.find(r => r.id === s.recipeId);
+    return r ? { slot, recipe: r } : null;
+  }).filter(Boolean);
+
+  // Use only dinner for timeline generation (or whichever is selected)
+  const [selectedSlot, setSelectedSlot] = useState('dinner');
+  const selected = dishes.find(d => d.slot === selectedSlot);
+
+  const buildTimeline = async () => {
+    if (!selected) return;
+    setLoading(true);
+    setError('');
+    setTimeline(null);
+    try {
+      const r = selected.recipe;
+      const stepsList = (r.steps || []).map((s, i) => `${i + 1}. ${s}`).join('\n');
+
+      const prompt = `Build a working-backwards cooking timeline for this recipe so dinner is on the table at ${mealTime}.
+
+Recipe: ${r.name}
+Stated time: ${r.time || 'unknown'}
+Serves ${r.servings}
+
+Steps:
+${stepsList}
+
+Working from the eat-time (${mealTime}), schedule each major task. Group passive steps (oven roasting, marinating) so the cook isn't standing around. Account for resting time. Include pre-prep ("chop everything") as one block.
+
+Return ONLY a JSON array. Each item is a single scheduled task. Use 24-hour times. No markdown:
+[
+  {"time": "17:45", "task": "Take chicken out of fridge to come to room temp", "duration": "1 hr passive"},
+  {"time": "18:00", "task": "Preheat oven, peel and chop potatoes", "duration": "10 min"},
+  ...
+  {"time": "19:00", "task": "Serve", "duration": ""}
+]
+
+Be specific. Include preheat, prep, active cook, rest, plate-up. 6-12 entries.`;
+
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1500,
+          system: 'You schedule cooking tasks working backwards from a meal time. Return ONLY JSON.',
+          messages: [{ role: 'user', content: prompt }],
+        }),
+      });
+      const d = await res.json();
+      if (d.error) throw new Error(d.error.message);
+      const text = (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      const match = text.match(/\[[\s\S]*\]/);
+      if (!match) throw new Error('parse error');
+      setTimeline(JSON.parse(match[0]));
+    } catch (e) {
+      setError(`Couldn't build timeline: ${e.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mp-sheet mp-sheet-bottom" onClick={onClose}>
+      <div className="mp-sheet-content mp-sheet-content-bottom" onClick={e => e.stopPropagation()}>
+        <header className="mp-sheet-header">
+          <h3 className="mp-display mp-filter-title">Cooking timeline</h3>
+          <button className="mp-back" onClick={onClose}><X size={20} /></button>
+        </header>
+        <div className="mp-sheet-body">
+          <p style={{fontSize:13, color:'var(--ink-2)', marginBottom:14}}>
+            Claude works backwards from your meal time to schedule each cooking task. Great for Sunday roasts and date nights.
+          </p>
+
+          <section className="mp-sheet-section">
+            <h3 className="mp-aisle-label">Day</h3>
+            <div className="mp-tag-row">
+              {DAYS.map(d => (
+                <button key={d} className={`mp-tag mp-tag-btn ${day === d ? 'mp-tag-on' : ''}`} onClick={() => setDay(d)}>
+                  {d.slice(0, 3)}
+                </button>
+              ))}
+            </div>
+          </section>
+
+          {dishes.length === 0 ? (
+            <p style={{fontSize:13, color:'var(--ink-3)', fontStyle:'italic'}}>
+              No meals planned for {day}. Plan something first.
+            </p>
+          ) : (
+            <>
+              <section className="mp-sheet-section">
+                <h3 className="mp-aisle-label">Which meal</h3>
+                <div className="mp-tag-row">
+                  {dishes.map(d => (
+                    <button key={d.slot} className={`mp-tag mp-tag-btn ${selectedSlot === d.slot ? 'mp-tag-on' : ''}`} onClick={() => setSelectedSlot(d.slot)}>
+                      {d.slot} · {d.recipe.name}
+                    </button>
+                  ))}
+                </div>
+              </section>
+
+              <section className="mp-sheet-section">
+                <h3 className="mp-aisle-label">Eat at</h3>
+                <input className="mp-input" type="time" value={mealTime} onChange={e => setMealTime(e.target.value)} style={{maxWidth:160}} />
+              </section>
+
+              <button className={`mp-btn mp-btn-primary ${loading || !selected ? 'mp-btn-disabled' : ''}`} disabled={loading || !selected} onClick={buildTimeline}>
+                {loading ? <><RefreshCw size={14} className="mp-sync-spin" /> Building schedule…</> : <><Sparkles size={14} /> Build my timeline</>}
+              </button>
+              {error && <div className="mp-tiny" style={{color:'#B91C1C', marginTop:8}}>{error}</div>}
+
+              {timeline && (
+                <section className="mp-sheet-section" style={{marginTop:18}}>
+                  <h3 className="mp-aisle-label">Schedule</h3>
+                  <ol className="mp-timeline-list">
+                    {timeline.map((item, i) => (
+                      <li key={i} className="mp-timeline-item">
+                        <div className="mp-timeline-time">{item.time}</div>
+                        <div className="mp-timeline-task">
+                          <div>{item.task}</div>
+                          {item.duration && <div className="mp-tiny" style={{color:'var(--ink-3)', marginTop:2}}>{item.duration}</div>}
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// DISCOVERY SHEET (#18) — Tinder-style swipe through suggested recipes
+// ============================================================
+function DiscoverySheet({ recipes, favourites, dismissed, defaultServings, onClose, onSave, onDismiss }) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [idx, setIdx] = useState(0);
+  const [generated, setGenerated] = useState(false);
+
+  // Build profile from existing recipes
+  const generate = async () => {
+    setLoading(true);
+    setError('');
+    setSuggestions([]);
+    setIdx(0);
+    try {
+      // Gather signals: top tags, favourite cuisines, recent cooks
+      const favRecipes = recipes.filter(r => favourites.includes(r.id));
+      const allTags = recipes.flatMap(r => r.tags || []);
+      const tagCount = {};
+      allTags.forEach(t => tagCount[t] = (tagCount[t] || 0) + 1);
+      const topTags = Object.entries(tagCount).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([t]) => t);
+      const cuisines = [...new Set(recipes.map(r => r.cuisine).filter(Boolean))].slice(0, 10);
+      const favSample = favRecipes.slice(0, 6).map(r => `${r.name} (${r.cuisine || 'unknown'})`);
+      const allRecipeNames = recipes.map(r => r.name);
+
+      const prompt = `Based on this person's recipe collection, suggest 5 NEW recipes they likely haven't tried but would enjoy.
+
+Their favourites:
+${favSample.length > 0 ? favSample.join('\n') : '(no favourites yet)'}
+
+Common tags in their collection: ${topTags.join(', ')}
+Cuisines they cook: ${cuisines.join(', ')}
+
+Recipes they already have (don't repeat these):
+${allRecipeNames.join(', ')}
+
+Recipes they previously dismissed (don't suggest):
+${dismissed.length > 0 ? dismissed.join(', ') : '(none)'}
+
+Suggest 5 recipes that:
+- Match the style/skill level of what they cook
+- Add variety (different cuisine or technique they haven't explored)
+- Are genuinely new to their collection
+- Include a mix: 2-3 weeknight friendly, 1-2 more ambitious
+
+Return ONLY a JSON array. No markdown, no preamble:
+[
+  {
+    "name": "Recipe name",
+    "cuisine": "short descriptor",
+    "time": "e.g. '30 min'",
+    "servings": ${defaultServings},
+    "mealType": "breakfast|lunch|dinner|snack",
+    "tags": ["..."],
+    "notes": "one-line reason they'd enjoy this based on their collection",
+    "ingredients": [{"name": "...", "amount": 0, "unit": "...", "aisle": "..."}],
+    "steps": ["full sentence", "..."]
+  }
+]`;
+
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 5000,
+          system: 'You suggest recipes tailored to someone\'s taste based on their collection. Return ONLY valid JSON.',
+          messages: [{ role: 'user', content: prompt }],
+        }),
+      });
+      const d = await res.json();
+      if (d.error) throw new Error(d.error.message);
+      const text = (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      const match = text.match(/\[[\s\S]*\]/);
+      if (!match) throw new Error('parse error');
+      const list = JSON.parse(match[0]);
+      if (!Array.isArray(list)) throw new Error('not an array');
+      // Add a synthetic id to each so we can dismiss
+      setSuggestions(list.map(r => ({ ...r, _suggestId: uid() })));
+      setGenerated(true);
+    } catch (e) {
+      setError(`Couldn't generate: ${e.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const current = suggestions[idx];
+
+  const handleSave = () => {
+    if (!current) return;
+    onSave(current);
+    setIdx(i => i + 1);
+  };
+  const handleDismiss = () => {
+    if (!current) return;
+    onDismiss(current.name); // dismiss by name since synthetic
+    setIdx(i => i + 1);
+  };
+
+  return (
+    <div className="mp-sheet mp-sheet-bottom" onClick={onClose}>
+      <div className="mp-sheet-content mp-sheet-content-bottom" onClick={e => e.stopPropagation()} style={{maxHeight:'90vh'}}>
+        <header className="mp-sheet-header">
+          <h3 className="mp-display mp-filter-title">Discover</h3>
+          <button className="mp-back" onClick={onClose}><X size={20} /></button>
+        </header>
+        <div className="mp-sheet-body">
+          {!generated && !loading && (
+            <>
+              <p style={{fontSize:14, color:'var(--ink-2)', marginBottom:14, lineHeight:1.5}}>
+                Claude reads your favourites, tags, and cuisines, then suggests 5 new recipes that match your taste — but expand your repertoire.
+              </p>
+              <button className="mp-btn mp-btn-primary" onClick={generate}>
+                <Sparkles size={14} /> Show me 5 ideas
+              </button>
+              {error && <div className="mp-tiny" style={{color:'#B91C1C', marginTop:8}}>{error}</div>}
+            </>
+          )}
+
+          {loading && (
+            <div style={{padding:'3rem 1rem', textAlign:'center'}}>
+              <RefreshCw size={28} className="mp-sync-spin" style={{color: 'var(--accent)', marginBottom: 12}} />
+              <div style={{fontSize:14, color:'var(--ink-2)'}}>Claude is thinking…</div>
+              <div style={{fontSize:11, color:'var(--ink-3)', marginTop:6}}>~30 seconds</div>
+            </div>
+          )}
+
+          {generated && !current && (
+            <div style={{padding:'2rem 1rem', textAlign:'center'}}>
+              <div className="mp-display" style={{fontSize:24, marginBottom:8}}>That's all 5 ✨</div>
+              <p style={{fontSize:13, color:'var(--ink-2)', marginBottom:14}}>Want some more ideas?</p>
+              <div style={{display:'flex', gap:8, justifyContent:'center'}}>
+                <button className="mp-btn mp-btn-ghost" onClick={onClose}>Done</button>
+                <button className="mp-btn mp-btn-primary" onClick={() => { setGenerated(false); setSuggestions([]); }}>Generate 5 more</button>
+              </div>
+            </div>
+          )}
+
+          {current && (
+            <>
+              <div className="mp-discovery-counter">{idx + 1} of {suggestions.length}</div>
+              <div className="mp-discovery-card">
+                <div className="mp-discovery-name">{current.name}</div>
+                <div className="mp-discovery-meta">
+                  {current.cuisine || 'Recipe'} · {current.time || ''} · serves {current.servings || defaultServings}
+                </div>
+                {current.tags?.length > 0 && (
+                  <div className="mp-tag-row" style={{margin:'10px 0'}}>
+                    {current.tags.map(t => <span key={t} className="mp-tag">{t}</span>)}
+                  </div>
+                )}
+                {current.notes && (
+                  <p style={{fontSize:13, color:'var(--ink-2)', fontStyle:'italic', margin:'8px 0', padding:'10px', background:'var(--cream)', borderRadius:8}}>
+                    {current.notes}
+                  </p>
+                )}
+                <details>
+                  <summary style={{fontSize:12, color:'var(--ink-3)', cursor:'pointer', padding:'8px 0'}}>
+                    See ingredients & steps
+                  </summary>
+                  <div style={{padding:'8px 0', fontSize:13}}>
+                    <strong style={{fontSize:11, textTransform:'uppercase', letterSpacing:'0.06em', color:'var(--ink-3)'}}>Ingredients</strong>
+                    <ul style={{margin:'4px 0 10px', paddingLeft:18, color:'var(--ink-2)'}}>
+                      {current.ingredients?.map((ing, i) => (
+                        <li key={i}>{ing.amount}{ing.unit ? ' ' + ing.unit : ''} {ing.name}</li>
+                      ))}
+                    </ul>
+                    <strong style={{fontSize:11, textTransform:'uppercase', letterSpacing:'0.06em', color:'var(--ink-3)'}}>Steps</strong>
+                    <ol style={{margin:'4px 0 0', paddingLeft:18, color:'var(--ink-2)', lineHeight:1.5}}>
+                      {current.steps?.map((step, i) => <li key={i} style={{marginBottom:4}}>{step}</li>)}
+                    </ol>
+                  </div>
+                </details>
+              </div>
+              <div className="mp-discovery-actions">
+                <button className="mp-discovery-btn mp-discovery-dismiss" onClick={handleDismiss}>
+                  <X size={28} /> Pass
+                </button>
+                <button className="mp-discovery-btn mp-discovery-save" onClick={handleSave}>
+                  <Heart size={28} /> Save it
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// COOK HISTORY CALENDAR SHEET (#4)
+// ============================================================
+function CookHistorySheet({ recipes, onClose, onOpenRecipe }) {
+  const [monthOffset, setMonthOffset] = useState(0); // 0 = current month, -1 = last month
+  const now = new Date();
+  const viewDate = new Date(now.getFullYear(), now.getMonth() + monthOffset, 1);
+  const year = viewDate.getFullYear();
+  const month = viewDate.getMonth();
+  const monthName = viewDate.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+
+  // Build flat list of all cooks: [{date, recipe}]
+  const allCooks = [];
+  recipes.forEach(r => {
+    (r.cookLog || []).forEach(entry => {
+      allCooks.push({
+        date: new Date(entry.date),
+        recipe: r,
+        rating: entry.rating,
+        note: entry.note,
+      });
+    });
+  });
+
+  // Group by date (YYYY-MM-DD)
+  const cooksByDay = {};
+  allCooks.forEach(c => {
+    const key = c.date.toISOString().slice(0, 10);
+    if (!cooksByDay[key]) cooksByDay[key] = [];
+    cooksByDay[key].push(c);
+  });
+
+  // Build calendar grid for the month
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const firstWeekday = (firstDay.getDay() + 6) % 7; // Make Monday = 0
+  const daysInMonth = lastDay.getDate();
+
+  // Build cells: leading blanks + days
+  const cells = [];
+  for (let i = 0; i < firstWeekday; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(year, month, d);
+    const key = date.toISOString().slice(0, 10);
+    cells.push({ day: d, date, key, cooks: cooksByDay[key] || [] });
+  }
+
+  // Stats for the month
+  const monthCooks = Object.entries(cooksByDay).filter(([k]) => k.startsWith(`${year}-${String(month + 1).padStart(2, '0')}`));
+  const totalCooks = monthCooks.reduce((sum, [, arr]) => sum + arr.length, 0);
+  const daysCooked = monthCooks.length;
+  const mostCookedRecipe = (() => {
+    const counts = {};
+    monthCooks.forEach(([, arr]) => arr.forEach(c => {
+      counts[c.recipe.id] = (counts[c.recipe.id] || 0) + 1;
+    }));
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+    if (!top) return null;
+    return { recipe: recipes.find(r => r.id === top[0]), count: top[1] };
+  })();
+
+  // Tap a day to show details
+  const [selectedKey, setSelectedKey] = useState(null);
+  const selectedCooks = selectedKey ? (cooksByDay[selectedKey] || []) : null;
+
+  return (
+    <div className="mp-sheet mp-sheet-bottom" onClick={onClose}>
+      <div className="mp-sheet-content mp-sheet-content-bottom" onClick={e => e.stopPropagation()} style={{maxHeight:'90vh'}}>
+        <header className="mp-sheet-header">
+          <h3 className="mp-display mp-filter-title">Cook history</h3>
+          <button className="mp-back" onClick={onClose}><X size={20} /></button>
+        </header>
+        <div className="mp-sheet-body">
+          <div className="mp-cal-nav">
+            <button className="mp-icon-btn" onClick={() => setMonthOffset(m => m - 1)}><ChevronLeft size={18} /></button>
+            <div className="mp-cal-month">{monthName}</div>
+            <button className="mp-icon-btn" disabled={monthOffset === 0} onClick={() => setMonthOffset(m => Math.min(0, m + 1))}><ChevronRight size={18} /></button>
+          </div>
+
+          <div className="mp-cal-stats">
+            <div className="mp-cal-stat">
+              <div className="mp-cal-stat-num">{totalCooks}</div>
+              <div className="mp-cal-stat-label">meals cooked</div>
+            </div>
+            <div className="mp-cal-stat">
+              <div className="mp-cal-stat-num">{daysCooked}</div>
+              <div className="mp-cal-stat-label">days active</div>
+            </div>
+            {mostCookedRecipe && (
+              <div className="mp-cal-stat" style={{flex:1.5}}>
+                <div className="mp-cal-stat-num" style={{fontSize:14}}>{mostCookedRecipe.recipe?.name}</div>
+                <div className="mp-cal-stat-label">most cooked ({mostCookedRecipe.count}x)</div>
+              </div>
+            )}
+          </div>
+
+          <div className="mp-cal-grid">
+            {['M','T','W','T','F','S','S'].map((d, i) => (
+              <div key={i} className="mp-cal-weekday">{d}</div>
+            ))}
+            {cells.map((cell, i) => {
+              if (!cell) return <div key={`b${i}`} className="mp-cal-cell mp-cal-blank" />;
+              const hasOver = cell.cooks.length > 0;
+              const isToday = cell.key === now.toISOString().slice(0, 10);
+              return (
+                <button key={cell.key}
+                  className={`mp-cal-cell ${hasOver ? 'mp-cal-cell-active' : ''} ${isToday ? 'mp-cal-cell-today' : ''} ${selectedKey === cell.key ? 'mp-cal-cell-selected' : ''}`}
+                  onClick={() => hasOver && setSelectedKey(cell.key === selectedKey ? null : cell.key)}
+                  disabled={!hasOver}
+                >
+                  <div className="mp-cal-day-num">{cell.day}</div>
+                  {hasOver && <div className="mp-cal-dot-row">
+                    {cell.cooks.slice(0, 3).map((_, ci) => <span key={ci} className="mp-cal-dot" />)}
+                    {cell.cooks.length > 3 && <span className="mp-tiny" style={{fontSize:9}}>+{cell.cooks.length - 3}</span>}
+                  </div>}
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedCooks && selectedCooks.length > 0 && (
+            <div className="mp-cal-detail">
+              <h3 className="mp-aisle-label" style={{marginTop:0}}>{new Date(selectedKey).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}</h3>
+              {selectedCooks.map((c, i) => (
+                <div key={i} className="mp-log-entry" onClick={() => { onOpenRecipe(c.recipe.id); onClose(); }} style={{cursor:'pointer'}}>
+                  <div className="mp-log-header">
+                    <div style={{fontFamily:'Fraunces, serif', fontWeight:500}}>{c.recipe.name}</div>
+                    <div className="mp-log-stars">
+                      {[1,2,3,4,5].map(n => (
+                        <Star key={n} size={11} fill={n <= c.rating ? 'currentColor' : 'none'} style={{color: n <= c.rating ? 'var(--accent)' : 'var(--line)'}} />
+                      ))}
+                    </div>
+                  </div>
+                  {c.note && <p style={{fontSize:13, color:'var(--ink-2)', margin:'4px 0 0', fontStyle:'italic'}}>{c.note}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {totalCooks === 0 && (
+            <p style={{fontSize:13, color:'var(--ink-3)', fontStyle:'italic', textAlign:'center', marginTop:20}}>
+              Nothing cooked yet this month. Hit Cook Mode on a recipe and log it when you're done.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// FRIDGE PHOTO SHEET (#22) — snap a photo, AI identifies items
+// ============================================================
+function FridgePhotoSheet({ onClose, onAddPantryItems }) {
+  const [photo, setPhoto] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [items, setItems] = useState(null);
+  const [selectedItems, setSelectedItems] = useState(new Set());
+
+  const handlePhoto = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setError('');
+    setItems(null);
+    const reader = new FileReader();
+    reader.onload = () => setPhoto(reader.result);
+    reader.readAsDataURL(file);
+  };
+
+  const analyse = async () => {
+    if (!photo) return;
+    setLoading(true);
+    setError('');
+    try {
+      // Strip the data URL prefix
+      const base64 = photo.split(',')[1];
+      const mediaType = photo.match(/data:(image\/[^;]+);/)?.[1] || 'image/jpeg';
+
+      const res = await fetch('/api/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 700,
+          system: 'You identify food ingredients in fridge/pantry photos. Return only what you can clearly see. Use simple ingredient names that match how a home cook would write a shopping list.',
+          messages: [{
+            role: 'user',
+            content: [
+              {
+                type: 'image',
+                source: { type: 'base64', media_type: mediaType, data: base64 },
+              },
+              {
+                type: 'text',
+                text: `List the food ingredients visible in this photo. Use simple ingredient names (e.g. "milk", "eggs", "cheddar", "spinach"). Skip ambiguous items.
+
+Return ONLY a JSON array of lowercase ingredient names, sorted by approximate quantity (most plentiful first):
+["milk", "eggs", "cheddar", "spinach", "butter", "carrots"]
+
+No markdown, no preamble. Maximum 20 items.`,
+              },
+            ],
+          }],
+        }),
+      });
+      const d = await res.json();
+      if (d.error) throw new Error(d.error.message);
+      const text = (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      const match = text.match(/\[[\s\S]*\]/);
+      if (!match) throw new Error('parse error');
+      const list = JSON.parse(match[0]);
+      if (!Array.isArray(list)) throw new Error('not an array');
+      setItems(list);
+      setSelectedItems(new Set(list)); // all selected by default
+    } catch (e) {
+      setError(`Couldn't analyse: ${e.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleItem = (item) => {
+    setSelectedItems(prev => {
+      const next = new Set(prev);
+      if (next.has(item)) next.delete(item); else next.add(item);
+      return next;
+    });
+  };
+
+  const handleAdd = () => {
+    onAddPantryItems([...selectedItems]);
+    onClose();
+  };
+
+  return (
+    <div className="mp-sheet mp-sheet-bottom" onClick={onClose}>
+      <div className="mp-sheet-content mp-sheet-content-bottom" onClick={e => e.stopPropagation()} style={{maxHeight:'90vh'}}>
+        <header className="mp-sheet-header">
+          <h3 className="mp-display mp-filter-title">Snap your fridge</h3>
+          <button className="mp-back" onClick={onClose}><X size={20} /></button>
+        </header>
+        <div className="mp-sheet-body">
+          <p style={{fontSize:13, color:'var(--ink-2)', marginBottom:14}}>
+            Take a photo of your open fridge. Claude will identify what's inside and let you add the items to your pantry in one go.
+          </p>
+
+          {!photo && (
+            <label className="mp-photo-upload">
+              <input type="file" accept="image/*" capture="environment" onChange={handlePhoto} style={{display:'none'}} />
+              <Camera size={32} style={{color:'var(--accent)', marginBottom:8}} />
+              <div style={{fontWeight:500, fontSize:14}}>Take or upload a photo</div>
+              <div className="mp-tiny" style={{marginTop:4, color:'var(--ink-3)'}}>Open your fridge, step back, snap</div>
+            </label>
+          )}
+
+          {photo && (
+            <>
+              <img src={photo} alt="Fridge" className="mp-photo-preview" />
+              <div style={{display:'flex', gap:8, marginTop:12}}>
+                <label className="mp-btn mp-btn-ghost" style={{cursor:'pointer'}}>
+                  <input type="file" accept="image/*" capture="environment" onChange={handlePhoto} style={{display:'none'}} />
+                  Retake
+                </label>
+                {!items && (
+                  <button className={`mp-btn mp-btn-primary ${loading ? 'mp-btn-disabled' : ''}`} disabled={loading} onClick={analyse}>
+                    {loading ? <><RefreshCw size={14} className="mp-sync-spin" /> Analysing…</> : <><Sparkles size={14} /> Identify items</>}
+                  </button>
+                )}
+              </div>
+              {error && <div className="mp-tiny" style={{color:'#B91C1C', marginTop:8}}>{error}</div>}
+            </>
+          )}
+
+          {items && items.length > 0 && (
+            <section className="mp-sheet-section" style={{marginTop:18}}>
+              <h3 className="mp-aisle-label">Found {items.length} items · {selectedItems.size} selected</h3>
+              <p className="mp-tiny" style={{marginTop:4, color:'var(--ink-3)'}}>Tap to deselect anything that's wrong, then add to pantry.</p>
+              <div className="mp-tag-row" style={{marginTop:10}}>
+                {items.map(item => (
+                  <button key={item} className={`mp-pantry-pill ${selectedItems.has(item) ? 'mp-pantry-pill-on' : ''}`} onClick={() => toggleItem(item)}>
+                    {item}
+                  </button>
+                ))}
+              </div>
+              <div style={{display:'flex', gap:8, marginTop:14}}>
+                <button className="mp-btn mp-btn-ghost" onClick={() => { setItems(null); setPhoto(null); }}>Start over</button>
+                <button className={`mp-btn mp-btn-primary ${selectedItems.size === 0 ? 'mp-btn-disabled' : ''}`} disabled={selectedItems.size === 0} onClick={handleAdd}>
+                  Add {selectedItems.size} to pantry
+                </button>
+              </div>
+            </section>
           )}
         </div>
       </div>
