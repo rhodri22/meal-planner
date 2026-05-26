@@ -2692,9 +2692,10 @@ export default function App() {
   // ── Load ──────────────────────────────────────────────────
   // Apply current theme to document root.
   useEffect(() => {
+    if (!data) return;
     const theme = data.theme || 'terracotta';
     document.documentElement.setAttribute('data-theme', theme);
-  }, [data.theme]);
+  }, [data?.theme]);
 
   // Fetches state from Supabase on mount. Falls back to localStorage.
   useEffect(() => {
